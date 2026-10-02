@@ -75,7 +75,7 @@
 }
 
 .keys kbd + kbd {
-  margin-left: 3px;
+  margin-inline-start: 3px;
 }
 
 .guide h3 {
@@ -88,7 +88,7 @@
 
 .guide ul {
   margin: 0 0 18px;
-  padding-left: 22px;
+  padding-inline-start: 22px;
 }
 
 .guide li {
@@ -148,8 +148,8 @@
 .quote {
   max-width: 46ch;
   margin: 0;
-  padding-left: 18px;
-  border-left: 2px solid var(--accent);
+  padding-inline-start: 18px;
+  border-inline-start: 2px solid var(--accent);
   color: var(--muted);
   font-size: 15.5px;
   line-height: 1.6;
@@ -241,7 +241,7 @@
   position: absolute;
   top: 10px;
   bottom: 10px;
-  left: 9px;
+  inset-inline-start: 9px;
   width: 2px;
   border-radius: 1px;
   background: var(--border);
@@ -256,7 +256,8 @@
   display: flex;
   align-items: baseline;
   gap: 12px;
-  padding: 5px 8px 5px 0;
+  padding: 5px 0;
+  padding-inline-end: 8px;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.4;
@@ -370,7 +371,7 @@
 .guide .steps > li {
   position: relative;
   margin-bottom: 14px;
-  padding-left: 40px;
+  padding-inline-start: 40px;
   counter-increment: step;
 }
 
@@ -378,7 +379,7 @@
   content: counter(step);
   position: absolute;
   top: 1px;
-  left: 0;
+  inset-inline-start: 0;
   display: grid;
   place-items: center;
   width: 26px;
@@ -408,7 +409,7 @@
 .guide td {
   padding: 10px 14px;
   border-bottom: 1px solid var(--border);
-  text-align: left;
+  text-align: start;
   vertical-align: top;
 }
 
@@ -439,7 +440,7 @@
   margin: 0 0 22px;
   padding: 14px 16px;
   border: 1px solid var(--border);
-  border-left: 3px solid var(--muted);
+  border-inline-start: 3px solid var(--muted);
   border-radius: 10px;
   background: var(--surface);
   font-size: 15.5px;
@@ -467,12 +468,12 @@
 }
 
 .calloutLabel {
-  margin-right: 4px;
+  margin-inline-end: 4px;
   font-weight: 600;
 }
 
 .tip {
-  border-left-color: var(--accent);
+  border-inline-start-color: var(--accent);
 }
 
 .tip .calloutIcon {
@@ -484,7 +485,7 @@
 }
 
 .important {
-  border-left-color: var(--kind-script);
+  border-inline-start-color: var(--kind-script);
 }
 
 .important .calloutIcon {
@@ -582,7 +583,8 @@
   flex-shrink: 0;
   width: 8px;
   height: 8px;
-  margin-left: auto;
+  margin-inline-start: auto;
+  /* Physical on purpose: the chevron is a rotated border corner, which mirroring would break. */
   border-right: 2px solid var(--muted);
   border-bottom: 2px solid var(--muted);
   transform: rotate(45deg) translateY(-2px);
@@ -611,7 +613,7 @@
 }
 
 .troubleBody ul {
-  padding-left: 20px;
+  padding-inline-start: 20px;
 }
 
 /* What's coming next */

@@ -33,7 +33,7 @@
 .table th,
 .table td {
   padding: 18px 20px;
-  text-align: left;
+  text-align: start;
   vertical-align: middle;
 }
 
@@ -49,11 +49,11 @@
 .table th:first-child,
 .table td:first-child {
   width: 40%;
-  padding-right: 6px;
+  padding-inline-end: 6px;
 }
 
 .table td:last-child {
-  padding-left: 6px;
+  padding-inline-start: 6px;
 }
 
 .table tbody tr + tr td {
@@ -72,11 +72,11 @@
 
   .table th:first-child,
   .table td:first-child {
-    padding-right: 6px;
+    padding-inline-end: 6px;
   }
 
   .table td:last-child {
-    padding-left: 6px;
+    padding-inline-start: 6px;
   }
 }
 

@@ -51,13 +51,33 @@
   }
 }
 
-.cta {
-  margin-left: auto;
+/* The language switch (or, on phones, the button) takes the free space, pushing what follows to the end. */
+.languages {
+  margin-inline-start: auto;
+  margin-inline-end: -12px;
 }
 
-@media (max-width: 700px) {
+/* The nav collapses before it can crowd the header: measured, English needs ~900px, French ~1000px. */
+@media (max-width: 900px) {
   .nav {
     display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  :global(html[lang="fr"]) .nav {
+    display: none;
+  }
+}
+
+/* Phones: logo and one button only (the language switch is in the footer). */
+@media (max-width: 700px) {
+  .languages {
+    display: none;
+  }
+
+  .cta {
+    margin-inline-start: auto;
   }
 }
 

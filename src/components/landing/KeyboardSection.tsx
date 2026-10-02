@@ -1,3 +1,4 @@
+import type { Dictionary } from "@/content/i18n";
 import { actions } from "@/content/actions";
 import { demoEntries } from "@/content/demoEntries";
 import { Reveal } from "@/components/ui/Reveal";
@@ -5,12 +6,13 @@ import styles from "./KeyboardSection.module.css";
 
 const panelEntry = demoEntries[0];
 
-export function KeyboardSection() {
+export function KeyboardSection({ t }: { t: Dictionary }) {
   return (
     <section className={`section ${styles.section}`} aria-labelledby="keyboard-title">
       <Reveal className={`container ${styles.grid}`}>
         <div className={styles.text}>
-          <div className={styles.keys}>
+          {/* Key names stay English, like the app's shortcuts. */}
+          <div className={styles.keys} lang="en">
             {/* Each keycap is a static base (the visible bottom edge) and a cap that moves down to press. */}
             <kbd className={`${styles.keycap} ${styles.alt}`}>
               <span className={styles.cap}>Alt</span>
@@ -21,17 +23,14 @@ export function KeyboardSection() {
             </kbd>
           </div>
           <h2 id="keyboard-title" className="section-title">
-            Never leave the keyboard.
+            {t.keyboard.title}
           </h2>
-          <p className={`lead ${styles.lead}`}>
-            Open Cairn from anywhere, type, and press Enter to copy. Ctrl Enter pastes straight into the window you
-            came from. Ctrl K shows every action, with its shortcut, so you learn as you go.
-          </p>
+          <p className={`lead ${styles.lead}`}>{t.keyboard.lead}</p>
         </div>
 
-        {/* A static picture of the action panel: nothing here is interactive. */}
+        {/* A static picture of the action panel: nothing here is interactive. Its labels are the app's (English). */}
         <figure className={styles.figure}>
-          <div className={styles.panel}>
+          <div className={styles.panel} lang="en">
             <p className={styles.entry}>{panelEntry.title}</p>
             <ul className={styles.actions}>
               {actions.map((action, index) => (
@@ -50,9 +49,7 @@ export function KeyboardSection() {
               Search actions…
             </div>
           </div>
-          <figcaption className="visually-hidden">
-            Cairn&apos;s action panel for the selected entry, opened with Ctrl K.
-          </figcaption>
+          <figcaption className="visually-hidden">{t.keyboard.figcaption}</figcaption>
         </figure>
       </Reveal>
     </section>

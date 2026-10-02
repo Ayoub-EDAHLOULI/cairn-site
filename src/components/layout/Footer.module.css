@@ -41,6 +41,11 @@
   color: var(--muted);
 }
 
+/* "(en anglais)" after the guide link on translated pages. */
+.note {
+  opacity: 0.75;
+}
+
 @media (hover: hover) {
   .nav a:hover {
     color: var(--text);

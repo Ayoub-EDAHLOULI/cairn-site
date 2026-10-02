@@ -18,8 +18,9 @@
 
 .stop {
   position: relative;
-  padding: 0 0 36px 40px;
-  border-left: 2px dashed var(--stone);
+  padding: 0 0 36px;
+  padding-inline-start: 40px;
+  border-inline-start: 2px dashed var(--stone);
 }
 
 .stop:last-child {
@@ -28,7 +29,7 @@
 
 /* Version 0.1's solid line is a separate element (not the border), so it can fill in with a transform. */
 .available {
-  border-left-color: transparent;
+  border-inline-start-color: transparent;
 }
 
 .available::before {
@@ -36,7 +37,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -2px;
+  inset-inline-start: -2px;
   width: 2px;
   background: var(--accent);
   transform-origin: top;
@@ -46,7 +47,7 @@
 .stone {
   position: absolute;
   top: 2px;
-  left: -12px;
+  inset-inline-start: -12px;
   width: 22px;
   height: 14px;
   border-radius: 50%;
@@ -68,13 +69,14 @@
 
   .stop,
   .stop:last-child {
-    padding: 36px 24px 0 0;
-    border-left: 0;
+    padding: 36px 0 0;
+    padding-inline-end: 24px;
+    border-inline-start: 0;
     border-top: 2px dashed var(--stone);
   }
 
   .stop:last-child {
-    padding-right: 0;
+    padding-inline-end: 0;
   }
 
   .available {
@@ -83,17 +85,18 @@
 
   .available::before {
     top: -2px;
-    right: 0;
+    inset-inline-end: 0;
     bottom: auto;
-    left: 0;
+    inset-inline-start: 0;
     width: auto;
     height: 2px;
+    /* Physical on purpose: transform-origin has no logical keyword (use "right" for RTL later). */
     transform-origin: left;
   }
 
   .stone {
     top: -8px;
-    left: 0;
+    inset-inline-start: 0;
   }
 }
 

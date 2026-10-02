@@ -48,6 +48,13 @@
   }
 }
 
+/* The French pill text is longer and wraps from about 480px down. */
+@media (max-width: 480px) {
+  :global(html[lang="fr"]) .pill {
+    border-radius: 14px;
+  }
+}
+
 @media (hover: hover) {
   .pill:hover {
     color: var(--text);

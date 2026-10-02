@@ -33,3 +33,9 @@
   gap: 12px;
   margin-top: 32px;
 }
+
+.other {
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 14px;
+}

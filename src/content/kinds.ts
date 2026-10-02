@@ -1,4 +1,5 @@
 // The five kinds of entries in Cairn. Colors are CSS custom properties from tokens.css.
+// Names stay English in every language (they are what the app shows); descriptions are per language.
 
 export type KindId = "command" | "script" | "code" | "note" | "idea";
 
@@ -11,7 +12,6 @@ export type Kind = {
   glyph: string;
   /** CSS color, e.g. `var(--kind-command)`. */
   color: string;
-  description: string;
   /** Command and script titles are code, so they render in the mono font. */
   monoTitle: boolean;
 };
@@ -23,7 +23,6 @@ export const kinds: Record<KindId, Kind> = {
     plural: "Commands",
     glyph: ">_",
     color: "var(--kind-command)",
-    description: "The one-liners you look up every few weeks.",
     monoTitle: true,
   },
   script: {
@@ -32,7 +31,6 @@ export const kinds: Record<KindId, Kind> = {
     plural: "Scripts",
     glyph: "#!",
     color: "var(--kind-script)",
-    description: "Multi-line PowerShell or cmd you run as a whole.",
     monoTitle: true,
   },
   code: {
@@ -41,7 +39,6 @@ export const kinds: Record<KindId, Kind> = {
     plural: "Code",
     glyph: "</>",
     color: "var(--kind-code)",
-    description: "The hook or query you always end up rewriting.",
     monoTitle: false,
   },
   note: {
@@ -50,7 +47,6 @@ export const kinds: Record<KindId, Kind> = {
     plural: "Notes",
     glyph: "¶",
     color: "var(--kind-note)",
-    description: "The fix you found after an hour of searching.",
     monoTitle: false,
   },
   idea: {
@@ -59,7 +55,6 @@ export const kinds: Record<KindId, Kind> = {
     plural: "Ideas",
     glyph: "✦",
     color: "var(--kind-idea)",
-    description: "Half-formed thoughts, saved before they're gone.",
     monoTitle: false,
   },
 };

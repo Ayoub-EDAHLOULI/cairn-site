@@ -37,7 +37,7 @@
   content: "+";
   flex-shrink: 0;
   width: 20px;
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--muted);
   font-size: 22px;
   font-weight: 400;
@@ -49,7 +49,8 @@
 }
 
 .answer {
-  padding: 0 40px 22px 0;
+  padding: 0 0 22px;
+  padding-inline-end: 40px;
   color: var(--text-2);
   font-size: 16px;
 }
@@ -60,7 +61,7 @@
   }
 
   .answer {
-    padding-right: 0;
+    padding-inline-end: 0;
   }
 }
 

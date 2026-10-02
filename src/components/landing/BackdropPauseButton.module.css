@@ -3,7 +3,7 @@
 .button {
   position: absolute;
   bottom: 24px;
-  left: 24px;
+  inset-inline-start: 24px;
   z-index: 2;
   display: none;
   align-items: center;

@@ -1,35 +1,31 @@
 import type { CSSProperties } from "react";
+import type { Dictionary } from "@/content/i18n";
 import { intentExamples } from "@/content/intentExamples";
 import { Reveal } from "@/components/ui/Reveal";
 import { TypedText } from "@/components/ui/TypedText";
 import styles from "./IntentSection.module.css";
 
-export function IntentSection() {
+export function IntentSection({ t }: { t: Dictionary }) {
   return (
     <section id="features" className={`section ${styles.section}`}>
       <div className={`container ${styles.grid}`}>
         <div>
-          <h2 className="section-title">Search by what you remember, not what you typed.</h2>
-          <p className={`lead ${styles.copy}`}>
-            Every entry carries one sentence: why you saved it. Cairn searches that sentence as seriously as the
-            command itself, so the words you remember months later are enough.
-          </p>
-          <p className={`lead ${styles.copy} ${styles.second}`}>
-            Typing partial words works, accents don&apos;t matter, and if no entry has every word, Cairn shows the
-            closest ones instead of nothing.
-          </p>
+          <h2 className="section-title">{t.intent.title}</h2>
+          <p className={`lead ${styles.copy}`}>{t.intent.paragraph1}</p>
+          <p className={`lead ${styles.copy} ${styles.second}`}>{t.intent.paragraph2}</p>
         </div>
 
         <Reveal className={styles.tableWrap}>
           <table className={styles.table}>
-            <caption className="visually-hidden">Example searches and what Cairn finds</caption>
+            <caption className="visually-hidden">{t.intent.tableCaption}</caption>
             <thead>
               <tr>
-                <th scope="col">You type</th>
-                <th scope="col">Cairn finds</th>
+                <th scope="col">{t.intent.youType}</th>
+                <th scope="col">{t.intent.cairnFinds}</th>
               </tr>
             </thead>
-            <tbody>
+            {/* The rows run the real (English) demo search, so they stay English in every language. */}
+            <tbody lang="en">
               {intentExamples.map((example, row) => (
                 <tr key={example.query} style={{ "--row": row, "--len": example.query.length } as CSSProperties}>
                   <td className={styles.query}>

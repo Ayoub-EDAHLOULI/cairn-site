@@ -46,7 +46,7 @@
 
   .kind + .kind {
     border-top: 0;
-    border-left: 1px solid var(--divider);
+    border-inline-start: 1px solid var(--divider);
   }
 }
 

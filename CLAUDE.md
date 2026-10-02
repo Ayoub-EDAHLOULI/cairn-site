@@ -6,9 +6,10 @@ This file is read at the start of every session. Keep it accurate: when a decisi
 
 The public website for **Cairn**, an open-source, offline, Raycast-style desktop launcher for Windows that keeps commands, scripts, code, notes and ideas with **the reason each was saved**, and finds them by what you remember.
 
-The site has two pages:
+The site has three pages:
 - `/` — the landing page. Its job: show Cairn working within five seconds, then get a download or a GitHub visit.
-- `/guide` — the Cairn Field Guide (user manual).
+- `/fr/` — the same landing page in French.
+- `/guide/` — the Cairn Field Guide (user manual), English only for now.
 
 Links:
 - Repo: `https://github.com/Ayoub-EDAHLOULI/cairn`
@@ -47,25 +48,31 @@ The owner prefers **incremental, step-confirmed work** and **honest critical fee
 ```
 src/
   app/
-    layout.tsx          # html, fonts, metadata, skip link, Header, Footer, ScrollTopButton
-    page.tsx            # landing page: composes the sections in order
-    guide/page.tsx      # the Field Guide
+    (en)/layout.tsx     # English root layout (<html lang="en">) → RootDocument
+    (en)/page.tsx       # "/": LandingPage locale="en"
+    (en)/guide/page.tsx # "/guide/": the Field Guide (English only)
+    (fr)/layout.tsx     # French root layout (<html lang="fr">) → RootDocument
+    (fr)/fr/page.tsx    # "/fr/": LandingPage locale="fr"
+    global-not-found.tsx # the 404 for every URL (two root layouts; experimental.globalNotFound)
     sitemap.ts, robots.ts
     icon.svg            # favicon (small-size mark; static copy of lib/brand.ts)
-    og.png/route.tsx, guide/og.png/route.tsx, apple-touch-icon.png/route.tsx
+    og.png/route.tsx, (fr)/fr/og.png/route.tsx, (en)/guide/og.png/route.tsx, apple-touch-icon.png/route.tsx
                         # build-time PNGs via next/og (route handlers keep the .png extension)
   assets/fonts/         # Geist-Bold.ttf + OFL.txt: build-time only, for next/og; never served
   components/
-    layout/             # Header, Footer, SkipLink, MotionReady, ScrollTopButton
-    landing/            # Hero, TrailBackdrop, DemoLauncher, IntentSection, KindsSection,
+    layout/             # RootDocument (html/body shell), Header, Footer, LanguageSwitch, SkipLink,
+                        # MotionReady, ScrollTopButton
+    landing/            # LandingPage, Hero, TrailBackdrop, DemoLauncher, IntentSection, KindsSection,
                         # KeyboardSection, OfflineSection, RoadmapSection, FaqSection, FinalCta
     guide/              # GuideHero, GuideTrail, Chapter, Callout, Keys, figures, SavePdfButton,
                         # chapters/ (the 13 chapters as TSX); guide.module.css + figures.module.css
     ui/                 # Button, Kbd, CairnMark, KindGlyph, icons
-  content/              # typed data: demoEntries.ts, intentExamples.ts, actions.ts, faq.ts, roadmap.ts, kinds.ts,
-                        # links.ts (links, RELEASE/VERSION), guideChapters.ts
+  content/              # typed data: demoEntries.ts, intentExamples.ts, actions.ts, roadmap.ts (statuses),
+                        # kinds.ts, links.ts (links, RELEASE/VERSION), guideChapters.ts, meta.ts (guide)
+    i18n/               # types.ts (Dictionary, locales), en.ts, fr.ts (all landing copy), index.ts (paths)
   lib/
     search.ts           # demo search (pure function, unit-tested)
+    siteMetadata.ts     # baseMetadata(locale), landingMetadata(locale) (hreflang), viewport
     brand.ts            # the mark: TILE_RADIUS, STONES (small sizes), STONES_DETAILED (large)
     ogImage.tsx         # the link-preview image (shared by both pages)
   hooks/
@@ -74,12 +81,24 @@ src/
   lib/backdrop/         # cursor-reactive hero backdrop: contours (shared ring data), math + comets
                         # (pure, tested), geometry, runner, topoField (the scene)
   styles/
-    tokens.css, globals.css
+    tokens.css, globals.css, fonts.ts (Geist + JetBrains Mono, shared by both root layouts)
 design/                 # design reference (see design/README.md); not shipped. Also logo-source.png
                         # (the original logo) and cairn-app-icon-1024.png (export for the app repo)
 ```
 
-Copy that may change (FAQ, roadmap, links, demo entries) lives in `src/content/`, never hardcoded inside components.
+Copy that may change lives in `src/content/`, never hardcoded inside components: landing copy in `src/content/i18n/{en,fr}.ts`; links, demo entries and data elsewhere in `src/content/`.
+
+## Languages (how it's built)
+
+- **English at `/`, French at `/fr/`.** Two route groups, each with its own root layout, so each page has the right `<html lang>`; both render `RootDocument`. Switching language is a full page load. Only the landing page is translated; French links to the guide add "(en anglais)" and `hreflang="en"`.
+- **Copy** lives in typed dictionaries (`src/content/i18n/en.ts`, `fr.ts`, type `Dictionary`): a missing French key fails the build. Components take `t` (the dictionary) as a prop; no i18n library, no client JS.
+- **Stays English in every language** (marked `lang="en"` so screen readers pronounce it right): the demo launcher, the "You type → Cairn finds" rows, kind names, the action panel, key names, commands and paths.
+- **French typography:** a narrow no-break space (U+202F) before `? ! : ;`, typographic apostrophes.
+- **Switcher:** `LanguageSwitch` ("EN · FR", static links to each landing page), in the header on desktop and in the footer everywhere.
+- **SEO:** each landing page has `alternates.languages` (`en`, `fr`, `x-default`), its own title/description, `og:locale` + alternate, and its own preview image (`/og.png`, `/fr/og.png`); the sitemap lists both with alternates.
+- **Header:** the nav collapses below 900px in English and 1000px in French (longer labels), via `html[lang="fr"]`.
+- **Review:** `design/review-fr.md` is the EN | FR table generated from the dictionaries for the owner's review. No French ships unreviewed.
+- **CSS uses logical properties** (`margin-inline-start`, `inset-inline-end`, `border-inline-start`, `text-align: start`…), so a right-to-left language is possible later. Kept physical on purpose, with a comment: the troubleshooting chevron (a rotated border) and `transform-origin: left` on the roadmap fill.
 
 ## Design reference
 
@@ -163,7 +182,7 @@ Converted from `design/field-guide.html` (its content is the reference for what 
 
 ## Motion
 
-Deliberate moments that show the product working or echo the cairn metaphor. Every one plays **once**; there is no ambient or looping motion (WCAG 2.2.2 would require a pause control for anything moving longer than 5s).
+Deliberate moments that show the product working or echo the cairn metaphor. Each of the moments below plays **once**. The only recurring motion is the hero's ambient comets (see "Cursor-reactive backdrop"), which have a pause control as WCAG 2.2.2 requires.
 
 1. **Hero autoplay:** the H1, subtitle and buttons are visible in the initial HTML (never hidden waiting for JS). When at least 15% of the launcher is in view (low on purpose: on short laptop screens it starts near the bottom edge and is invisible until it plays) **and** `document.visibilityState === "visible"`, and only if `<html>` has `motion-ok` at that moment: it rises in (opacity + translateY, 600ms), then "start database" types itself (60ms per character) and results update live, ending with `Start-Service postgresql-x64-18` on top. The live region stays silent during autoplay. **Any focus, click or keypress in the demo stops it immediately**, leaving the partial query; if the interruption is focus on the input, the query is selected so the first keystroke replaces it. A module-level flag limits it to once per visit.
 2. **Trail draws itself:** the dotted trail is shown through a `<mask>` holding a solid copy of the path (`pathLength="1"`), whose `stroke-dashoffset` animates 1 → 0 (1.6s). Pure CSS.
@@ -203,8 +222,8 @@ Rules:
 
 ## Quality budgets
 
-- Lighthouse (mobile): **≥ 95** in Performance, Accessibility, Best Practices and SEO.
-- LCP < 2.0s, CLS < 0.05, total JS for `/` kept small (no libraries beyond Next/React without approval).
+- Lighthouse (mobile): **Performance ≥ 90** (simulated slow 4G; ~124 KB of the JS is React + the Next.js runtime, a fixed cost), **Accessibility, Best Practices and SEO 100**. Confirm on the live URL with PageSpeed Insights.
+- Real-browser first paint of the H1 < 1s, CLS < 0.05, our own JS kept small (no libraries beyond Next/React without approval).
 - WCAG 2.2 AA: contrast ≥ 4.5:1 for text, visible focus rings, skip link, logical heading order (one H1 per page), every interactive element a real `<button>` or `<a>` (sole exception: the demo launcher's listbox options), touch targets ≥ 44px.
 
 ## SEO and metadata
@@ -214,7 +233,7 @@ Rules:
 - **Icons:** `icon.svg` (favicon, all modern browsers; no `favicon.ico`), `apple-touch-icon.png` (180×180, full-bleed tile, detailed stones).
 - **Open Graph images** (1200×630, built at build time by `next/og` with Geist Bold from `src/assets/fonts`): `/og.png` and `/guide/og.png`: dark background, faint rings, mark + "Cairn", headline, subline. They're route handlers named `*.png` because `opengraph-image.tsx` exports files without an extension, which static hosts serve as `application/octet-stream`.
 - **`sitemap.ts` / `robots.ts`** (`force-static`).
-- **Domain:** `SITE_URL` in `src/content/links.ts` is still the placeholder (candidate: `cairn.ayoubedahlouli.com`, decided in step 10). `next.config.ts` warns on local builds and **fails CI builds** (`CI` is set on GitHub Actions and Vercel) while it contains "example", so the placeholder can't ship.
+- **Domain:** `SITE_URL` in `src/content/links.ts` is `https://cairn.ayoubedahlouli.com`. As a guard, `next.config.ts` warns on local builds and **fails CI builds** (`CI` is set on GitHub Actions) if it ever contains "example" again.
 - **App icon:** `design/cairn-app-icon-1024.png` is the site's favicon mark (small-size stones, transparent corners) at 1024×1024, for `npm run tauri icon` in the app repo, so the app and the site share one logo.
 
 ## Hosting and deploy
@@ -238,8 +257,8 @@ Rules:
 - [x] **7** Motion (the five moments + transitions + reduced motion).
 - [x] **8** `/guide` from `design/field-guide.html`, using the site's header and footer.
 - [x] **9** SEO: metadata, icons, OG image, sitemap, robots.
-- [ ] **10** Deploy + audit: hosting choice (GitHub Pages or Vercel), domain, Lighthouse run, fixes. Decide `basePath` and `trailingSlash` together with hosting.
-- [ ] **11** i18n infrastructure + French landing page: English stays at `/`, French at `/fr` (static routes, `lang` per page); typed dictionaries per language (no i18n library); a language switcher in the header and footer; `hreflang` alternates and both languages in the sitemap. During the refactor, convert the CSS to logical properties (`inline-start`/`inline-end`, `margin-inline`, `inset-inline`…) so a right-to-left language is possible later.
+- [ ] **10** Deploy + audit (moved after 11: the owner deploys once the French landing page is reviewed): hosting choice (GitHub Pages or Vercel), domain, Lighthouse run, fixes. Decide `basePath` and `trailingSlash` together with hosting.
+- [x] **11** i18n infrastructure + French landing page (built; French copy awaits the owner's review in `design/review-fr.md`): English stays at `/`, French at `/fr` (static routes, `lang` per page); typed dictionaries per language (no i18n library); a language switcher in the header and footer; `hreflang` alternates and both languages in the sitemap. During the refactor, convert the CSS to logical properties (`inline-start`/`inline-end`, `margin-inline`, `inset-inline`…) so a right-to-left language is possible later.
 - [ ] **12** French Field Guide, only once the guide content is stable (run the text check per language).
 
 ## Out of scope (unless the owner changes this)

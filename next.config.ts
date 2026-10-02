@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
   // Every page is exported as <path>/index.html and linked as "<path>/". Static hosts (GitHub Pages)
   // then serve /guide/ correctly; without it, /guide can hit the exported guide/ data folder instead.
   trailingSlash: true,
+  experimental: {
+    // Two root layouts (English, French) leave no single layout for the 404 page:
+    // app/global-not-found.tsx renders it, including <html> (experimental since Next 15.4).
+    globalNotFound: true,
+  },
   images: {
     // The image optimizer needs a server; a static export has none.
     unoptimized: true,

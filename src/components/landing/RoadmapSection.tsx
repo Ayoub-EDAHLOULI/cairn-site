@@ -1,22 +1,22 @@
-import { VERSION } from "@/content/links";
-import { roadmap } from "@/content/roadmap";
+import type { Dictionary } from "@/content/i18n";
+import { roadmapStatuses } from "@/content/roadmap";
 import { Reveal } from "@/components/ui/Reveal";
 import styles from "./RoadmapSection.module.css";
 
-export function RoadmapSection() {
+export function RoadmapSection({ t }: { t: Dictionary }) {
   return (
     <section id="roadmap" className={`section ${styles.section}`} aria-labelledby="roadmap-title">
       <div className="container">
         <h2 id="roadmap-title" className="section-title">
-          On the trail ahead.
+          {t.roadmap.title}
         </h2>
-        <p className={`lead ${styles.lead}`}>Version {VERSION} is the foundation. Here&apos;s what comes next, in order.</p>
+        <p className={`lead ${styles.lead}`}>{t.roadmap.lead}</p>
         <Reveal>
           <ol className={styles.trail}>
-            {roadmap.map((stop) => (
+            {t.roadmap.stops.map((stop, index) => (
               <li
                 key={stop.title}
-                className={`${styles.stop} ${stop.status === "available" ? styles.available : styles.upcoming}`}
+                className={`${styles.stop} ${roadmapStatuses[index] === "available" ? styles.available : styles.upcoming}`}
               >
                 <span className={styles.stone} aria-hidden="true" />
                 <p className={styles.label}>{stop.label}</p>

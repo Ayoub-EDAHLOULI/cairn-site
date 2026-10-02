@@ -55,7 +55,7 @@
 .dots {
   display: flex;
   gap: 6px;
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 .dot {
@@ -108,7 +108,7 @@
   width: 46%;
   margin: 0;
   padding: 8px;
-  border-right: 1px solid var(--border);
+  border-inline-end: 1px solid var(--border);
   list-style: none;
 }
 
@@ -215,14 +215,14 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--muted);
 }
 
 @media (max-width: 640px) {
   .list {
     width: 100%;
-    border-right: 0;
+    border-inline-end: 0;
   }
 
   .detail {
@@ -379,7 +379,7 @@
 }
 
 .twice {
-  margin-left: 4px;
+  margin-inline-start: 4px;
   color: var(--muted);
   font-size: 12px;
 }

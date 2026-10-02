@@ -1,0 +1,45 @@
+.switch {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13.5px;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.dot {
+  padding-inline: 4px;
+  color: var(--faint);
+}
+
+.current,
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch);
+  min-height: var(--touch);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.current {
+  color: var(--text);
+}
+
+.current abbr {
+  text-decoration: none;
+}
+
+.link {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .link:hover {
+    color: var(--text);
+  }
+}

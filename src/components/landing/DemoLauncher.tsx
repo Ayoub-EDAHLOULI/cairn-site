@@ -202,6 +202,8 @@ export function DemoLauncher({ autoplay: autoplayEnabled = true }: { autoplay?: 
   return (
     <div
       ref={rootRef}
+      // A miniature of the (English) app: English in every language.
+      lang="en"
       className={styles.launcher}
       data-autoplay={autoplay ?? undefined}
       onPointerDownCapture={stopAutoplay}

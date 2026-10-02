@@ -34,6 +34,12 @@
   margin-top: 32px;
 }
 
+/* "(en anglais)" after the guide link on translated pages: the guide is English-only for now. */
+.note {
+  font-weight: 400;
+  opacity: 0.75;
+}
+
 /* Phones: Field Guide first. Styles swap via Button's phoneVariant. */
 .download {
   order: 0;

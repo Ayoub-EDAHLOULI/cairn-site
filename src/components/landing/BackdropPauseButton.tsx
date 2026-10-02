@@ -9,7 +9,7 @@ import styles from "./BackdropPauseButton.module.css";
  * than 5 seconds needs a pause). Shown only while the canvas runs (CSS: `data-canvas="on"` on the hero);
  * cursor comets keep responding, since the visitor starts those. The choice lasts for the visit.
  */
-export function BackdropPauseButton() {
+export function BackdropPauseButton({ pauseLabel, resumeLabel }: { pauseLabel: string; resumeLabel: string }) {
   const paused = useSyncExternalStore(backdropControl.subscribe, backdropControl.isPaused, () => false);
 
   return (
@@ -17,8 +17,9 @@ export function BackdropPauseButton() {
       type="button"
       className={styles.button}
       aria-pressed={paused}
-      aria-label="Pause background animation"
-      title={paused ? "Resume background animation" : "Pause background animation"}
+      // The name stays "Pause…" and aria-pressed carries the state; the tooltip says what a click does.
+      aria-label={pauseLabel}
+      title={paused ? resumeLabel : pauseLabel}
       onClick={() => backdropControl.setPaused(!paused)}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">

@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 900px;
   overflow: hidden;
-  text-align: left;
+  text-align: start;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-launcher);
@@ -68,7 +68,7 @@
   position: relative;
   flex: 1 1 380px;
   min-width: 0;
-  border-right: 1px solid var(--border);
+  border-inline-end: 1px solid var(--border);
 }
 
 .list {
@@ -230,7 +230,7 @@
   }
 
   .listWrap {
-    border-right: 0;
+    border-inline-end: 0;
   }
 
   .detail {
@@ -255,6 +255,6 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--text-2);
 }
