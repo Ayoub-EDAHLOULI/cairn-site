@@ -217,7 +217,7 @@ Rules:
 - [x] **5** Roadmap, FAQ, final CTA, content files.
 - [x] **6** Mobile pass (≤ 700px), including the mobile download behavior. Hero and final CTA buttons have class hooks (`.download`/`.github`, `.download`/`.guide`); decide whether the final CTA's Field Guide becomes primary on phones.
 - [x] **7** Motion (the five moments + transitions + reduced motion).
-- [ ] **8** `/guide` from `design/field-guide.html`, using the site's header and footer.
+- [x] **8** `/guide` from `design/field-guide.html`, using the site's header and footer.
 - [ ] **9** SEO: metadata, icons, OG image, sitemap, robots.
 - [ ] **10** Deploy + audit: hosting choice (GitHub Pages or Vercel), domain, Lighthouse run, fixes. Decide `basePath` and `trailingSlash` together with hosting.
 

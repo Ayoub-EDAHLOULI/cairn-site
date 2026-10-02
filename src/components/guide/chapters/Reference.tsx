@@ -38,8 +38,7 @@ export function Settings() {
               <td>
                 <b>Accent color</b>
               </td>
-              {/* HOLD: the owner is confirming whether 0.1 offers Saffron. The source's "Try them on this page
-                  with the swatches at the top" is dropped: the site has no swatches. */}
+              {/* The source's "Try them on this page with the swatches at the top" is dropped: the site has no swatches. */}
               <td className={s.wrap}>
                 <b>Majorelle</b> (violet, the default), <b>Zellige teal</b>, <b>Terracotta</b> or <b>Saffron</b>. It
                 colors the selection, the active chip, buttons and the Cairn mark.
