@@ -158,7 +158,7 @@ Rules:
 
 ## Roadmap
 
-- [ ] **0** Scaffold check: confirm the create-next-app setup, set `output: 'export'`, strict TS, remove template content, folder structure above.
+- [x] **0** Scaffold check: confirm the create-next-app setup, set `output: 'export'`, strict TS, remove template content, folder structure above. (Next 16.3.8; folders are created by the step that first needs them; no `start` script since `next start` doesn't work with a static export: preview with `npx serve out`.)
 - [ ] **1** Tokens, fonts, global styles, layout: Header, Footer, skip link, `CairnMark`, `Button`, `Kbd`.
 - [ ] **2** Hero (static): copy, buttons, `TrailBackdrop`, launcher markup with static content.
 - [ ] **3** Demo launcher: `lib/search.ts` + tests, keyboard, copy, accessibility.
