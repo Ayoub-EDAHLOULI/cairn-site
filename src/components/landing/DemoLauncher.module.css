@@ -9,6 +9,15 @@
   box-shadow:
     0 40px 100px rgb(0 0 0 / 0.55),
     0 0 0 1px rgb(255 255 255 / 0.02);
+  transition:
+    opacity 600ms var(--ease),
+    transform 600ms var(--ease);
+}
+
+/* Before the autoplay starts (only when motion is allowed): hidden, ready to rise in. */
+:global(.motion-ok) .launcher[data-autoplay="wait"] {
+  opacity: 0;
+  transform: translateY(16px);
 }
 
 /* Search bar */
@@ -83,6 +92,7 @@
   padding: 9px 10px;
   border-radius: var(--radius-row);
   cursor: pointer;
+  transition: background-color 120ms var(--ease);
 }
 
 .empty {

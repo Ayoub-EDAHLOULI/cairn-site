@@ -39,7 +39,7 @@ The owner prefers **incremental, step-confirmed work** and **honest critical fee
 - **Styling:** CSS Modules + global CSS variables in `src/styles/tokens.css`. No Tailwind, no UI kit, no CSS-in-JS.
 - **Fonts:** `next/font/google` for **Geist** (UI) and **JetBrains Mono** (code). It downloads them at build time and serves them from the site, so visitors never contact Google.
 - **Images:** `next/image` with `unoptimized: true` (required for static export), or inline SVG for icons and illustrations.
-- **Animation:** CSS + a small `IntersectionObserver` hook. **No animation library** (see Motion).
+- **Animation:** CSS + a small `IntersectionObserver` hook (`useInView`) and the `Reveal` wrapper. **No animation library** (see Motion).
 - **Tests:** Node's built-in `node:test` (`npm test` runs `src/**/*.test.ts`), using Node's native type stripping: no test dependency. Requires Node ≥ 22.18 (`engines`), `"type": "module"`, `erasableSyntaxOnly` and `allowImportingTsExtensions`. Tests import with the `.ts` extension, and any file a test imports may only use `import type` for extension-less imports (no `@/` runtime imports).
 
 ## Folder structure
@@ -62,7 +62,7 @@ src/
     search.ts           # demo search (pure function, unit-tested)
   hooks/
     useInView.ts        # IntersectionObserver, fires once
-    usePrefersReducedMotion.ts
+  lib/motion.ts         # motion-ok head script, motionAllowed(), whenPageVisible()
   styles/
     tokens.css, globals.css
 design/                 # design reference (see design/README.md); not shipped
@@ -143,11 +143,11 @@ How it's built:
 
 Few, deliberate moments that show the product working. Every one plays **once**.
 
-1. **Hero autoplay:** the H1, subtitle and buttons are visible in the initial HTML (never hidden waiting for JS). The launcher rises in (opacity + translateY, ~600ms). Then "start database" types itself (~60ms per character) and results update live, ending with `Start-Service postgresql-x64-18` on top. **Any focus, click or keypress in the demo stops the autoplay immediately** and hands control to the visitor.
-2. **Trail draws itself:** the dotted trail path traces in once via `stroke-dashoffset` (~1.6s), subtle.
-3. **You type → Cairn finds:** on entering view, each row's query types out and its result fades in, rows staggered ~250ms.
-4. **Keyboard section:** the Alt then Space keycaps press down (translateY + border change), then the action panel opens with a quick scale (0.96 → 1) + fade, like in the app.
-5. **Roadmap:** the solid line fills up to the "Available now" stone on entering view.
+1. **Hero autoplay:** the H1, subtitle and buttons are visible in the initial HTML (never hidden waiting for JS). When the launcher is half in view **and** `document.visibilityState === "visible"`, and only if `<html>` has `motion-ok` at that moment: it rises in (opacity + translateY, 600ms), then "start database" types itself (60ms per character) and results update live, ending with `Start-Service postgresql-x64-18` on top. The live region stays silent during autoplay. **Any focus, click or keypress in the demo stops it immediately**, leaving the partial query; if the interruption is focus on the input, the query is selected so the first keystroke replaces it. A module-level flag limits it to once per visit.
+2. **Trail draws itself:** the dotted trail is shown through a `<mask>` holding a solid copy of the path (`pathLength="1"`), whose `stroke-dashoffset` animates 1 → 0 (1.6s). Pure CSS.
+3. **You type → Cairn finds:** on entering view, each query types out and its result fades in, rows staggered 250ms. Every character is its own span that only fades in (opacity), so rows never change size; screen readers get a visually hidden plain copy (not selectable, so copying doesn't double it) and the character spans are `aria-hidden`.
+4. **Keyboard section:** the Alt then Space keycaps press down, then the action panel opens with a quick scale (0.96 → 1) + fade, like in the app. Each keycap is a static base (the visible bottom edge, filled only in its lower half) and a cap that moves down with `translateY` and changes border **color** (no border-width change, no layout).
+5. **Roadmap:** version 0.1's solid line is a pseudo-element that fills with `scaleX` (horizontal trail) or `scaleY` (vertical trail) on entering view.
 
 Hover styles (links, buttons, demo rows) live inside `@media (hover: hover)`, so taps on touchscreens never leave a stuck highlight.
 
@@ -158,8 +158,10 @@ Rules:
 - Durations: UI 150–250ms, reveals 400–700ms. One shared easing: `cubic-bezier(0.2, 0.8, 0.2, 1)` as `--ease`.
 - **`prefers-reduced-motion: reduce`** → no autoplay typing, no reveals; everything is shown in its final state.
 - No parallax, no scroll-jacking, no loops, no generic fade-up on every section.
-- Content is never invisible without JavaScript: reveal states are applied by JS only after hydration.
-- **No load flash:** the static HTML shows every animated component in its final state. An inline `<head>` script adds `motion-ok` to `<html>` before first paint when `prefers-reduced-motion` is not `reduce`; pre-animation states (e.g. the empty launcher before the autoplay types) are styled only under `.motion-ok`. Without JS or with reduced motion, the final state shows as-is.
+- **`motion-ok` is the single source of truth** (`src/lib/motion.ts`). An inline `<head>` script adds it to `<html>` before first paint unless `prefers-reduced-motion: reduce`. Pre-animation states are styled **only** under `.motion-ok`, so there is no load flash and content is never invisible without JavaScript or with reduced motion.
+- **Safety net:** if the app hasn't hydrated within 4s (`window.__cairnReady`, set by `MotionReady`), the head script removes `motion-ok` and everything snaps to its final state.
+- **Once per visit:** `MotionReady` removes `motion-ok` when the visitor leaves `/`, so returning via `next/link` shows final states (the hero autoplay also has its own module-level flag).
+- **Reveals:** `Reveal` (client) sets `data-reveal="wait"` → `"play"` when the element's top passes 75% of the viewport (rootMargin, not a visibility threshold, so tall elements on short screens still fire). Section CSS keys pre-states and animations on `:global(.motion-ok) [data-reveal…]`, so sections stay server components.
 
 ## Quality budgets
 
@@ -183,7 +185,7 @@ Rules:
 - [x] **4** Sections: search by intent, five kinds, keyboard, offline.
 - [x] **5** Roadmap, FAQ, final CTA, content files.
 - [x] **6** Mobile pass (≤ 700px), including the mobile download behavior. Hero and final CTA buttons have class hooks (`.download`/`.github`, `.download`/`.guide`); decide whether the final CTA's Field Guide becomes primary on phones.
-- [ ] **7** Motion (the five moments + transitions + reduced motion).
+- [x] **7** Motion (the five moments + transitions + reduced motion).
 - [ ] **8** `/guide` from `design/field-guide.html`, using the site's header and footer.
 - [ ] **9** SEO: metadata, icons, OG image, sitemap, robots.
 - [ ] **10** Deploy + audit: hosting choice (GitHub Pages or Vercel), domain, Lighthouse run, fixes. Decide `basePath` and `trailingSlash` together with hosting.

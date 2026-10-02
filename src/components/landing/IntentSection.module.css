@@ -85,3 +85,31 @@
   font-size: 13px;
   overflow-wrap: anywhere;
 }
+
+/* The screen-reader copy of each query; excluded from text selection so copying doesn't double it. */
+.spoken {
+  user-select: none;
+}
+
+/* Motion: rows 250ms apart; each query types out (40ms per character), then its result fades in. */
+:global(.motion-ok) [data-reveal] .char,
+:global(.motion-ok) [data-reveal] .found {
+  opacity: 0;
+}
+
+:global(.motion-ok) [data-reveal="play"] .char {
+  animation: appear 60ms linear both;
+  animation-delay: calc(var(--row) * 250ms + var(--i) * 40ms);
+}
+
+:global(.motion-ok) [data-reveal="play"] .found {
+  animation: appear 400ms var(--ease) both;
+  animation-delay: calc(var(--row) * 250ms + var(--len) * 40ms + 120ms);
+}
+
+@keyframes appear {
+  to {
+    opacity: 1;
+  }
+}
+

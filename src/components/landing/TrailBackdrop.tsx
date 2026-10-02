@@ -55,7 +55,11 @@ export function TrailBackdrop() {
           />
         ))}
       </g>
-      <path className={styles.trail} d={TRAIL} />
+      {/* The dotted trail shows through a solid copy of itself, which draws in once (CSS, under .motion-ok). */}
+      <mask id="trail-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="1400" height="900">
+        <path className={styles.trailMask} d={TRAIL} pathLength={1} />
+      </mask>
+      <path className={styles.trail} d={TRAIL} mask="url(#trail-reveal)" />
       <Cairn x={470} y={596} />
       <Cairn x={1080} y={412} />
     </svg>

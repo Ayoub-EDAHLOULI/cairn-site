@@ -26,9 +26,20 @@
   padding-bottom: 0;
 }
 
+/* Version 0.1's solid line is a separate element (not the border), so it can fill in with a transform. */
 .available {
-  border-left-style: solid;
-  border-left-color: var(--accent);
+  border-left-color: transparent;
+}
+
+.available::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -2px;
+  width: 2px;
+  background: var(--accent);
+  transform-origin: top;
 }
 
 /* The stones: a flat ellipse on the line, like the backdrop's cairns. */
@@ -67,8 +78,17 @@
   }
 
   .available {
-    border-top-style: solid;
-    border-top-color: var(--accent);
+    border-top-color: transparent;
+  }
+
+  .available::before {
+    top: -2px;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: auto;
+    height: 2px;
+    transform-origin: left;
   }
 
   .stone {
@@ -99,4 +119,43 @@
   margin-top: 6px;
   color: var(--muted);
   font-size: 14.5px;
+}
+
+/* Motion: the solid line fills along version 0.1 (down on phones, across from 900px). */
+:global(.motion-ok) [data-reveal] .available::before {
+  transform: scaleY(0);
+}
+
+:global(.motion-ok) [data-reveal="play"] .available::before {
+  animation: fill-down 700ms var(--ease) 150ms both;
+}
+
+@media (min-width: 900px) {
+  :global(.motion-ok) [data-reveal] .available::before {
+    transform: scaleX(0);
+  }
+
+  :global(.motion-ok) [data-reveal="play"] .available::before {
+    animation-name: fill-across;
+  }
+}
+
+@keyframes fill-down {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fill-across {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: none;
+  }
 }

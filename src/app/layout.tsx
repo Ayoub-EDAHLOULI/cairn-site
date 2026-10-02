@@ -3,6 +3,8 @@ import { Geist, JetBrains_Mono } from "next/font/google";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { MotionReady } from "@/components/layout/MotionReady";
+import { motionHeadScript } from "@/lib/motion";
 import "@/styles/globals.css";
 
 // Downloaded at build time and served from this site: visitors never contact Google.
@@ -24,8 +26,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geist.variable} ${jetbrainsMono.variable}`}>
+    // suppressHydrationWarning: the head script adds `motion-ok` to <html> before React hydrates.
+    <html lang="en" className={`${geist.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: motionHeadScript }} />
+      </head>
       <body>
+        <MotionReady />
         <SkipLink />
         <Header />
         <main id="main" tabIndex={-1}>

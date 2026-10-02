@@ -1,5 +1,6 @@
 import { actions } from "@/content/actions";
 import { demoEntries } from "@/content/demoEntries";
+import { Reveal } from "@/components/ui/Reveal";
 import styles from "./KeyboardSection.module.css";
 
 const panelEntry = demoEntries[0];
@@ -7,12 +8,17 @@ const panelEntry = demoEntries[0];
 export function KeyboardSection() {
   return (
     <section className={`section ${styles.section}`} aria-labelledby="keyboard-title">
-      <div className={`container ${styles.grid}`}>
+      <Reveal className={`container ${styles.grid}`}>
         <div className={styles.text}>
           <div className={styles.keys}>
-            <kbd className={styles.keycap}>Alt</kbd>
+            {/* Each keycap is a static base (the visible bottom edge) and a cap that moves down to press. */}
+            <kbd className={`${styles.keycap} ${styles.alt}`}>
+              <span className={styles.cap}>Alt</span>
+            </kbd>
             <span className={styles.plus}>+</span>
-            <kbd className={`${styles.keycap} ${styles.space}`}>Space</kbd>
+            <kbd className={`${styles.keycap} ${styles.space}`}>
+              <span className={styles.cap}>Space</span>
+            </kbd>
           </div>
           <h2 id="keyboard-title" className="section-title">
             Never leave the keyboard.
@@ -48,7 +54,7 @@ export function KeyboardSection() {
             Cairn&apos;s action panel for the selected entry, opened with Ctrl K.
           </figcaption>
         </figure>
-      </div>
+      </Reveal>
     </section>
   );
 }

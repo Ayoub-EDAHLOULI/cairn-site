@@ -12,6 +12,8 @@ import {
 } from "react";
 import { demoEntries, type DemoEntry } from "@/content/demoEntries";
 import { kinds } from "@/content/kinds";
+import { useInView } from "@/hooks/useInView";
+import { motionAllowed, whenPageVisible } from "@/lib/motion";
 import { search } from "@/lib/search";
 import { CairnMark } from "@/components/ui/CairnMark";
 import { Kbd } from "@/components/ui/Kbd";
@@ -23,6 +25,15 @@ import styles from "./DemoLauncher.module.css";
 const INITIAL_QUERY = "start database";
 /** Wait for typing to pause before announcing the result count. */
 const ANNOUNCE_DELAY_MS = 400;
+/** Autoplay: the launcher rises in, then the initial query types itself. */
+const RISE_MS = 600;
+const TYPE_MS = 60;
+
+/** Module-level: the autoplay runs at most once per visit, even if the page is re-rendered via next/link. */
+let autoplayed = false;
+
+/** "wait": hidden until in view (only under .motion-ok); "playing": rising and typing; null: idle. */
+type AutoplayPhase = "wait" | "playing" | null;
 
 function countLabel(count: number) {
   return `${count} ${count === 1 ? "result" : "results"}`;
@@ -42,10 +53,14 @@ export function DemoLauncher() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [copied, setCopied] = useState(false);
   const [announcement, setAnnouncement] = useState("");
+  const [autoplay, setAutoplay] = useState<AutoplayPhase>(() => (autoplayed ? null : "wait"));
 
+  const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const announceTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const autoplayTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const cancelVisibleWait = useRef<() => void>(undefined);
 
   const baseId = useId();
   const listId = `${baseId}-list`;
@@ -55,7 +70,56 @@ export function DemoLauncher() {
   const selected = results[Math.min(selectedIndex, results.length - 1)];
   const selectedId = selected ? optionId(selected) : undefined;
 
-  useEffect(() => () => clearTimeout(announceTimer.current), []);
+  useEffect(
+    () => () => {
+      clearTimeout(announceTimer.current);
+      clearTimeout(autoplayTimer.current);
+      cancelVisibleWait.current?.();
+    },
+    [],
+  );
+
+  function startAutoplay() {
+    if (autoplayed) return;
+    autoplayed = true;
+    // `motion-ok` is the single source of truth: reduced motion and the safety net both remove it.
+    if (!motionAllowed()) {
+      setAutoplay(null);
+      return;
+    }
+    setAutoplay("playing");
+    setQuery("");
+    setSelectedIndex(0);
+    setCopied(false);
+    let typed = 0;
+    const typeNext = () => {
+      typed += 1;
+      // Set directly, not via changeQuery: the live region stays silent during autoplay.
+      setQuery(INITIAL_QUERY.slice(0, typed));
+      setSelectedIndex(0);
+      if (typed < INITIAL_QUERY.length) {
+        autoplayTimer.current = setTimeout(typeNext, TYPE_MS);
+      } else {
+        setAutoplay(null);
+      }
+    };
+    autoplayTimer.current = setTimeout(typeNext, RISE_MS);
+  }
+
+  // Autoplay starts once the launcher is half in view and the tab is visible (no unseen play in background tabs).
+  useInView(rootRef, () => (cancelVisibleWait.current = whenPageVisible(startAutoplay)), {
+    threshold: 0.5,
+    enabled: autoplay === "wait",
+  });
+
+  /** Any focus, click or keypress in the demo hands control to the visitor, leaving the query as it is. */
+  function stopAutoplay() {
+    if (autoplay === null) return;
+    autoplayed = true;
+    clearTimeout(autoplayTimer.current);
+    cancelVisibleWait.current?.();
+    setAutoplay(null);
+  }
 
   // Keep the selected option visible by scrolling the list only (scrollIntoView could scroll the page).
   useLayoutEffect(() => {
@@ -133,7 +197,19 @@ export function DemoLauncher() {
   }
 
   return (
-    <div className={styles.launcher}>
+    <div
+      ref={rootRef}
+      className={styles.launcher}
+      data-autoplay={autoplay ?? undefined}
+      onPointerDownCapture={stopAutoplay}
+      onKeyDownCapture={stopAutoplay}
+      onFocusCapture={(event) => {
+        if (autoplay === null) return;
+        stopAutoplay();
+        // The first keystroke replaces the partial (or initial) query.
+        if (event.target === inputRef.current) inputRef.current.select();
+      }}
+    >
       <div className={styles.searchBar}>
         <span className={styles.searchIcon}>
           <SearchIcon />

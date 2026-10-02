@@ -13,7 +13,6 @@
   stroke-width: 1.2;
 }
 
-/* Step 7 draws this in once via a masked copy; see CLAUDE.md Motion. */
 .trail {
   fill: none;
   stroke: var(--accent);
@@ -21,6 +20,29 @@
   stroke-width: 2;
   stroke-dasharray: 2 9;
   stroke-linecap: round;
+}
+
+/* Without .motion-ok the mask is a full solid stroke, so the trail shows complete. */
+.trailMask {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+:global(.motion-ok) .trailMask {
+  stroke-dasharray: 1 1;
+  animation: draw 1.6s var(--ease) 300ms both;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 .cairn {
