@@ -63,6 +63,8 @@ src/
   hooks/
     useInView.ts        # IntersectionObserver, fires once
   lib/motion.ts         # motion-ok head script, motionAllowed(), whenPageVisible()
+  lib/backdrop/         # cursor-reactive hero backdrop: contours (shared ring data), math + comets
+                        # (pure, tested), geometry, runner, topoField (the scene)
   styles/
     tokens.css, globals.css
 design/                 # design reference (see design/README.md); not shipped
@@ -95,7 +97,7 @@ The site is **dark only**.
 | `--accent-text` | #B0A8EE | accent-colored text on dark |
 | `--danger` | #FF8A80 | Delete in the action panel |
 | `--focus` | #8B7FF0 | focus ring (`:focus-visible`) |
-| `--contour` | #252524 | hero backdrop contour lines |
+| `--contour` | #2A2A2A | hero backdrop contour lines (SVG and canvas) |
 | `--stone` | #3A3A39 | roadmap dashes, backdrop cairns, outline button border |
 | `--stone-edge` | #4A4A48 | upcoming roadmap stones, outline button hover |
 
@@ -141,13 +143,28 @@ How it's built:
 
 ## Motion
 
-Few, deliberate moments that show the product working. Every one plays **once**.
+Deliberate moments that show the product working or echo the cairn metaphor. Every one plays **once**; there is no ambient or looping motion (WCAG 2.2.2 would require a pause control for anything moving longer than 5s).
 
-1. **Hero autoplay:** the H1, subtitle and buttons are visible in the initial HTML (never hidden waiting for JS). When the launcher is half in view **and** `document.visibilityState === "visible"`, and only if `<html>` has `motion-ok` at that moment: it rises in (opacity + translateY, 600ms), then "start database" types itself (60ms per character) and results update live, ending with `Start-Service postgresql-x64-18` on top. The live region stays silent during autoplay. **Any focus, click or keypress in the demo stops it immediately**, leaving the partial query; if the interruption is focus on the input, the query is selected so the first keystroke replaces it. A module-level flag limits it to once per visit.
+1. **Hero autoplay:** the H1, subtitle and buttons are visible in the initial HTML (never hidden waiting for JS). When at least 15% of the launcher is in view (low on purpose: on short laptop screens it starts near the bottom edge and is invisible until it plays) **and** `document.visibilityState === "visible"`, and only if `<html>` has `motion-ok` at that moment: it rises in (opacity + translateY, 600ms), then "start database" types itself (60ms per character) and results update live, ending with `Start-Service postgresql-x64-18` on top. The live region stays silent during autoplay. **Any focus, click or keypress in the demo stops it immediately**, leaving the partial query; if the interruption is focus on the input, the query is selected so the first keystroke replaces it. A module-level flag limits it to once per visit.
 2. **Trail draws itself:** the dotted trail is shown through a `<mask>` holding a solid copy of the path (`pathLength="1"`), whose `stroke-dashoffset` animates 1 → 0 (1.6s). Pure CSS.
 3. **You type → Cairn finds:** on entering view, each query types out and its result fades in, rows staggered 250ms. Every character is its own span that only fades in (opacity), so rows never change size; screen readers get a visually hidden plain copy (not selectable, so copying doesn't double it) and the character spans are `aria-hidden`.
 4. **Keyboard section:** the Alt then Space keycaps press down, then the action panel opens with a quick scale (0.96 → 1) + fade, like in the app. Each keycap is a static base (the visible bottom edge, filled only in its lower half) and a cap that moves down with `translateY` and changes border **color** (no border-width change, no layout).
 5. **Roadmap:** version 0.1's solid line is a pseudo-element that fills with `scaleX` (horizontal trail) or `scaleY` (vertical trail) on entering view.
+6. **Contour lines draw in** (hero, on load): each ring traces itself (`pathLength="1"` + `stroke-dashoffset`), inner first, 150ms apart. The rings' coordinates are pre-scaled in code (`scalePath`): a `scale()` transform with `non-scaling-stroke` makes Chrome ignore `pathLength`.
+7. **The backdrop cairns stack** (hero, on load): each cairn's stones drop in bottom-first (120ms apart) when the trail's draw reaches it (~0.9s and ~1.5s). SVG shapes use `transform-box: fill-box`.
+8. **Five kinds:** the glyph tiles pop in (scale 0.9 → 1 + fade), 80ms apart.
+9. **Offline:** the database path types itself out (25ms per character) with `TypedText`, like the table (which uses it too).
+10. **Final CTA:** the mark's three stones stack bottom-up, 150ms apart.
+
+### Cursor-reactive backdrop
+
+The hero's topographic rings react to the mouse. It responds to the visitor, so it is not autoplaying motion (WCAG 2.2.2 doesn't apply), but:
+- **Who gets it:** only `(hover: hover) and (pointer: fine)`, and never under `prefers-reduced-motion`. Everyone else (no JS, touch, reduced motion) keeps the static SVG rings, and the canvas code is never downloaded for them (dynamic `import()`).
+- **Layers:** rings SVG → `<canvas>` → trail and cairns SVG, all the same box and `xMidYMid slice` mapping. The canvas starts after the SVG draw-in (~2.4s; immediately on a return visit), draws identical rings, then crossfades in (`data-canvas="on"` on the hero).
+- **Cost:** frames are drawn only while something moves; once settled the loop stops. Paused off screen (IntersectionObserver) and in hidden tabs; DPR capped at 2; listeners on the hero section only, touch pointers ignored. This is the **one exception** to "animate only transform/opacity".
+- **The scene (`topoField`):** rings within 240px of the cursor bend away (up to 34px, smooth falloff) and light up in the accent (up to 85%, 1.6× width).
+- **Comets:** moving the cursor launches comets (glowing `--accent-text` head, fading accent tail) from rings near it, running along the ring in the direction of travel; faster movement launches more and faster ones (max 12 on screen, 1.2s life). On a first visit, 3–4 comets fly once when the canvas takes over, starting on screen above the launcher; all gone within ~2.5s.
+- **No ambient motion:** comets exist only after a cursor movement or during the opening flight, so the loop always comes to rest. Comets that fly on their own forever would need a pause control (WCAG 2.2.2) and are out of scope.
 
 Hover styles (links, buttons, demo rows) live inside `@media (hover: hover)`, so taps on touchscreens never leave a stuck highlight.
 

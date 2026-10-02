@@ -1,3 +1,5 @@
+import { Reveal } from "@/components/ui/Reveal";
+import { TypedText } from "@/components/ui/TypedText";
 import styles from "./OfflineSection.module.css";
 
 const DATABASE_PATH = "%LOCALAPPDATA%\\com.ayoubedahlouli.cairn\\cairn.db";
@@ -20,9 +22,13 @@ export function OfflineSection() {
           everything lives in one SQLite file you can copy, back up or delete.
         </p>
         {/* Focusable so keyboard users can scroll it when the path overflows on narrow screens. */}
-        <div className={styles.path} tabIndex={0} role="region" aria-label="Database location">
-          <code>{DATABASE_PATH}</code>
-        </div>
+        <Reveal>
+          <div className={styles.path} tabIndex={0} role="region" aria-label="Database location">
+            <code>
+              <TypedText text={DATABASE_PATH} charClassName={styles.char} />
+            </code>
+          </div>
+        </Reveal>
         <ul className={styles.facts}>
           {facts.map((fact) => (
             <li key={fact.title} className={styles.fact}>

@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { intentExamples } from "@/content/intentExamples";
 import { Reveal } from "@/components/ui/Reveal";
+import { TypedText } from "@/components/ui/TypedText";
 import styles from "./IntentSection.module.css";
 
 export function IntentSection() {
@@ -32,16 +33,7 @@ export function IntentSection() {
               {intentExamples.map((example, row) => (
                 <tr key={example.query} style={{ "--row": row, "--len": example.query.length } as CSSProperties}>
                   <td className={styles.query}>
-                    {/* Typing effect: every character is laid out from the start and only fades in, so rows
-                        never change size. Screen readers get the plain text instead of single letters. */}
-                    <span className={`visually-hidden ${styles.spoken}`}>{example.query}</span>
-                    <span aria-hidden="true">
-                      {[...example.query].map((char, index) => (
-                        <span key={index} className={styles.char} style={{ "--i": index } as CSSProperties}>
-                          {char}
-                        </span>
-                      ))}
-                    </span>
+                    <TypedText text={example.query} charClassName={styles.char} />
                   </td>
                   <td>
                     <code className={styles.found}>{example.shown}</code>

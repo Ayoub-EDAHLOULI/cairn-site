@@ -1,10 +1,34 @@
 .backdrop {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   opacity: 0.9;
   pointer-events: none;
+}
+
+/* The three layers (rings, canvas, trail) share one box, so the canvas lines up with the SVGs. */
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Once the canvas has drawn its first frame, it crossfades in over the identical SVG rings. */
+.rings,
+.canvas {
+  transition: opacity 600ms var(--ease);
+}
+
+.canvas {
+  opacity: 0;
+}
+
+:global([data-canvas="on"]) .canvas {
+  opacity: 1;
+}
+
+:global([data-canvas="on"]) .rings {
+  opacity: 0;
 }
 
 .contours {
@@ -47,4 +71,35 @@
 
 .cairn {
   fill: var(--stone);
+}
+
+/* Motion (once, on load): the contour rings trace themselves outward, then each cairn's stones
+   drop into place as the trail reaches it. */
+:global(.motion-ok) .contours path {
+  stroke-dasharray: 1 1;
+  animation: draw 1.4s var(--ease) both;
+  /* 11 rings, 100ms apart: the last finishes at about 2.4s, when the canvas takes over (HeroCanvas). */
+  animation-delay: calc(var(--i) * 100ms);
+}
+
+.cairn ellipse {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+:global(.motion-ok) .cairn ellipse {
+  animation: drop 450ms var(--ease) both;
+  animation-delay: calc(var(--stack-at) + var(--i) * 120ms);
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }

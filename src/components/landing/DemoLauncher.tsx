@@ -106,9 +106,11 @@ export function DemoLauncher() {
     autoplayTimer.current = setTimeout(typeNext, RISE_MS);
   }
 
-  // Autoplay starts once the launcher is half in view and the tab is visible (no unseen play in background tabs).
+  // Autoplay starts once the launcher is in view and the tab is visible (no unseen play in background tabs).
+  // A low threshold: on short laptop screens the launcher starts near the bottom edge, and it is
+  // invisible until it plays, so waiting for half of it would leave an empty gap under the hero.
   useInView(rootRef, () => (cancelVisibleWait.current = whenPageVisible(startAutoplay)), {
-    threshold: 0.5,
+    threshold: 0.15,
     enabled: autoplay === "wait",
   });
 

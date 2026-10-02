@@ -1,0 +1,4 @@
+/* The screen-reader copy; excluded from text selection so copying gives the visible text once. */
+.spoken {
+  user-select: none;
+}

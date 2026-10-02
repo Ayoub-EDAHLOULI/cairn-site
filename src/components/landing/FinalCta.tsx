@@ -1,14 +1,16 @@
 import { links } from "@/content/links";
 import { Button } from "@/components/ui/Button";
 import { CairnMark } from "@/components/ui/CairnMark";
+import { Reveal } from "@/components/ui/Reveal";
 import styles from "./FinalCta.module.css";
 
 export function FinalCta() {
   return (
     <section className={styles.section} aria-labelledby="cta-title">
       <div className="container">
-        <div className={styles.card}>
-          <CairnMark size={56} variant="plain" />
+        <Reveal className={styles.card}>
+          {/* Its three stones stack bottom-up on entering view (CSS, under .motion-ok). */}
+          <CairnMark size={56} variant="plain" className={styles.mark} />
           <h2 id="cta-title" className={styles.title}>
             Leave a stone for your future self.
           </h2>
@@ -22,7 +24,7 @@ export function FinalCta() {
               Read the Field Guide
             </Button>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

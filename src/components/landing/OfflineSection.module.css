@@ -44,3 +44,19 @@
   color: var(--muted);
   font-size: 15.5px;
 }
+
+/* Motion: the database path types itself out. */
+:global(.motion-ok) [data-reveal] .char {
+  opacity: 0;
+}
+
+:global(.motion-ok) [data-reveal="play"] .char {
+  animation: appear 40ms linear both;
+  animation-delay: calc(200ms + var(--i) * 25ms);
+}
+
+@keyframes appear {
+  to {
+    opacity: 1;
+  }
+}
