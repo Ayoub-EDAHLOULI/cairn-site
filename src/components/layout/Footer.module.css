@@ -46,3 +46,9 @@
     color: var(--text);
   }
 }
+
+@media print {
+  .footer {
+    display: none;
+  }
+}

@@ -1,4 +1,4 @@
-import { links } from "@/content/links";
+import { VERSION, links } from "@/content/links";
 import { Button } from "@/components/ui/Button";
 import { GitHubIcon, WindowsIcon } from "@/components/ui/icons";
 import { DemoLauncher } from "./DemoLauncher";
@@ -12,7 +12,7 @@ export function Hero() {
       <div className={`container ${styles.inner}`}>
         <a href="#roadmap" className={styles.pill}>
           <span className={styles.pillDot} aria-hidden="true" />
-          Version 0.1 is out. Free and open source.
+          Version {VERSION} is out. Free and open source.
         </a>
         <h1 className={styles.title}>Find the command you already figured out.</h1>
         <p className={styles.subtitle}>

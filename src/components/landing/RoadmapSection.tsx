@@ -1,3 +1,4 @@
+import { VERSION } from "@/content/links";
 import { roadmap } from "@/content/roadmap";
 import { Reveal } from "@/components/ui/Reveal";
 import styles from "./RoadmapSection.module.css";
@@ -9,7 +10,7 @@ export function RoadmapSection() {
         <h2 id="roadmap-title" className="section-title">
           On the trail ahead.
         </h2>
-        <p className={`lead ${styles.lead}`}>Version 0.1 is the foundation. Here&apos;s what comes next, in order.</p>
+        <p className={`lead ${styles.lead}`}>Version {VERSION} is the foundation. Here&apos;s what comes next, in order.</p>
         <Reveal>
           <ol className={styles.trail}>
             {roadmap.map((stop) => (

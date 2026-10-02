@@ -53,3 +53,9 @@
     bottom: max(16px, env(safe-area-inset-bottom));
   }
 }
+
+@media print {
+  .button {
+    display: none;
+  }
+}

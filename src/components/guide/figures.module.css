@@ -1,0 +1,385 @@
+/* The guide's figures: the annotated Cairn window and the action panel. Static pictures built in HTML. */
+
+/* ---------- Annotated window ---------- */
+
+.annotated {
+  margin: 6px 0 26px;
+}
+
+.window {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 54px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.titleBar {
+  justify-content: flex-end;
+  height: 36px;
+}
+
+.chipBar {
+  gap: 6px;
+  height: 44px;
+  font-size: 12.5px;
+}
+
+.placeholder {
+  flex: 1;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.grow {
+  flex: 1;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+  margin-left: 4px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+
+.yellow {
+  background: #e2b33c;
+}
+
+.red {
+  background: #e5534b;
+}
+
+.chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.chipActive {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.chipPlain {
+  background: var(--raised);
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.chipKind {
+  background: color-mix(in srgb, var(--kind) 15%, transparent);
+  color: var(--kind);
+}
+
+.body {
+  display: flex;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 2px;
+  width: 46%;
+  margin: 0;
+  padding: 8px;
+  border-right: 1px solid var(--border);
+  list-style: none;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  margin: 0;
+  padding: 8px 9px;
+  border-radius: 8px;
+}
+
+.list .section {
+  padding-block: 4px;
+}
+
+.list .selected {
+  background: var(--accent-soft);
+}
+
+.sectionLabel,
+.rowTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sectionLabel {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.rowTitle {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.rowTitleSans {
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+
+.glyph {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--kind) 15%, transparent);
+  color: var(--kind);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.detail {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px 18px;
+}
+
+.detailBadges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail pre {
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.label {
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 14px;
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+  font-size: 12.5px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .list {
+    width: 100%;
+    border-right: 0;
+  }
+
+  .detail {
+    display: none;
+  }
+}
+
+/* The numbered pins and their legend */
+.pin {
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.legend {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  font-size: 15px;
+  list-style: none;
+}
+
+.legend li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+}
+
+.legend .pin {
+  transform: translateY(4px);
+}
+
+/* ---------- Action panel ---------- */
+
+.panel {
+  width: min(340px, 100%);
+  margin: 6px 0 22px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  font-size: 13.5px;
+}
+
+.panelEntry {
+  padding: 6px 10px 4px;
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panelRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 7px;
+}
+
+.panelRowSelected {
+  background: var(--accent-soft);
+}
+
+.panelLabel {
+  flex: 1;
+}
+
+.panelRowDanger .panelLabel {
+  color: var(--danger);
+}
+
+.panelRow kbd {
+  color: var(--muted);
+  font-size: 10.5px;
+}
+
+.panelSearch {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  margin: 4px 4px 2px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+/* ---------- Cheat sheet ---------- */
+
+.cheat {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 16px;
+  margin: 0 0 26px;
+}
+
+.cheatGroup {
+  padding: 14px 16px 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.cheat h3 {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cheat h3 + dl + h3 {
+  margin-top: 18px;
+}
+
+.cheat dl {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 14px;
+  margin: 0;
+}
+
+.cheat dt,
+.cheat dd {
+  margin: 0;
+  padding: 7px 0;
+  border-top: 1px solid var(--border);
+  font-size: 14.5px;
+}
+
+.cheat dt:first-of-type,
+.cheat dt:first-of-type + dd {
+  border-top: 0;
+}
+
+.cheat dd {
+  color: var(--muted);
+}
+
+.twice {
+  margin-left: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}

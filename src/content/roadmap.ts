@@ -1,5 +1,7 @@
-// "On the trail ahead". Only version 0.1 is available; everything else is labelled as coming.
-// Matches "What's coming next" in design/field-guide.html.
+// "On the trail ahead". Only the current version is available; everything else is labelled as coming.
+// Matches "What's coming next" in the Field Guide.
+
+import { VERSION } from "./links";
 
 export type RoadmapStop = {
   status: "available" | "upcoming";
@@ -13,7 +15,7 @@ export const roadmap: RoadmapStop[] = [
   {
     status: "available",
     label: "Available now",
-    title: "Version 0.1",
+    title: `Version ${VERSION}`,
     text: "Search by intent, actions, editor, themes, run and paste.",
   },
   {

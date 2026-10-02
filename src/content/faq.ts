@@ -1,4 +1,6 @@
-// The FAQ. Facts must match design/field-guide.html, which documents version 0.1.
+// The FAQ. Facts must match the Field Guide (/guide), which documents the current version.
+
+import { VERSION } from "./links";
 
 export type FaqItem = {
   question: string;
@@ -13,12 +15,12 @@ export const faq: FaqItem[] = [
   {
     question: "Why does Windows warn me when I install it?",
     answer:
-      "Version 0.1 isn’t code-signed yet, so Windows SmartScreen doesn’t recognise the publisher. Click More info, then Run anyway. The source and the build are on GitHub if you’d rather check first.",
+      `Version ${VERSION} isn’t code-signed yet, so Windows SmartScreen doesn’t recognise the publisher. Click More info, then Run anyway. The source and the build are on GitHub if you’d rather check first.`,
   },
   {
     question: "Does it work on macOS or Linux?",
     answer:
-      "Not yet. Cairn is built with Tauri, which runs on all three, but version 0.1 is tested and released for Windows 10 and 11 only.",
+      `Not yet. Cairn is built with Tauri, which runs on all three, but version ${VERSION} is tested and released for Windows 10 and 11 only.`,
   },
   {
     question: "Where is my data stored?",

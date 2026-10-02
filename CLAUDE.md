@@ -55,9 +55,11 @@ src/
     layout/             # Header, Footer, SkipLink, MotionReady, ScrollTopButton
     landing/            # Hero, TrailBackdrop, DemoLauncher, IntentSection, KindsSection,
                         # KeyboardSection, OfflineSection, RoadmapSection, FaqSection, FinalCta
-    guide/              # Callout, KeyCombo, KindRow, ...
+    guide/              # GuideHero, GuideTrail, Chapter, Callout, Keys, figures, SavePdfButton,
+                        # chapters/ (the 13 chapters as TSX); guide.module.css + figures.module.css
     ui/                 # Button, Kbd, CairnMark, KindGlyph, icons
-  content/              # typed data: demoEntries.ts, intentExamples.ts, actions.ts, faq.ts, roadmap.ts, kinds.ts, links.ts
+  content/              # typed data: demoEntries.ts, intentExamples.ts, actions.ts, faq.ts, roadmap.ts, kinds.ts,
+                        # links.ts (links, RELEASE/VERSION), guideChapters.ts
   lib/
     search.ts           # demo search (pure function, unit-tested)
   hooks/
@@ -111,7 +113,7 @@ Breakpoints (repeated as literals in each CSS module; CSS Modules can't share me
 
 ## The landing page, section by section
 
-1. **Header** (sticky, blurred): Cairn mark + name; links Features, Privacy, Roadmap, FAQ, GitHub; Download button. Phones: logo + one button only.
+1. **Header** (sticky, blurred): Cairn mark + name; links Features, Privacy, Roadmap, FAQ, Guide, GitHub; Download button. Phones: logo + one button only.
 2. **Hero** (`#top`): pill linking to the roadmap ("Version 0.1 is out. Free and open source."), H1 "Find the command you already figured out.", subtitle, **Download for Windows** + **View on GitHub**, small print "Windows 10 and 11. No account needed.", then the **demo launcher**. Behind it, `TrailBackdrop`: faint topographic contour lines, a dotted accent trail, two small cairns (decorative SVG, `aria-hidden`).
 3. **Search by what you remember** (`#features`): text + the "You type → Cairn finds" table (4 rows, from `intentExamples.ts`; tests check each query really finds that entry first in the demo).
 4. **Five kinds**: one bordered strip of 5 columns (stacks on phones).
@@ -142,6 +144,15 @@ How it's built:
 - `Button`'s `phoneVariant` prop swaps the style at ≤ 700px; section CSS swaps `order`.
 - The global `.phone-only` / `.desktop-only` classes only ever hide (`display: none`), so elements keep their own display where they show.
 - Below 480px, the hero and final CTA buttons stack at full width.
+
+## The Field Guide (`/guide`)
+
+Converted from `design/field-guide.html` (its content is the reference for what 0.1 does). Same text (a script compares the visible words of both), on the site's header, footer and dark tokens; the guide's own top bar, theme switch and accent swatches are dropped.
+- **Hero:** title, lede, "Version {VERSION} for Windows 10 and 11", a **Save as PDF** button (`window.print()`), the quote, and the site's `DemoLauncher` with `autoplay={false}`.
+- **Trail:** sticky table of contents (`GuideTrail`, client): current chapter `aria-current="location"`, passed chapters tinted; a box at the top below 960px. Chapter titles and order live in `src/content/guideChapters.ts`.
+- **Chapters** are TSX in `components/guide/chapters/`; literal `{{placeholders}}` are written as `{"{{name}}"}`. The page body is an `<article>` (the layout owns `<main>`).
+- **Print / Save as PDF:** no static PDF is shipped. Print styles switch to a light palette (`globals.css`), hide the header, footer, trail, demo and buttons, and avoid breaks inside callouts, tables and figures; `SavePdfButton` opens every `<details>` for printing (Ctrl P too) and closes them after.
+- **Version:** `RELEASE` ("0.1.0") and `VERSION` ("0.1") in `src/content/links.ts` are the only place the version is written (landing pill, roadmap, FAQ, guide hero, installer file name).
 
 ## Motion
 

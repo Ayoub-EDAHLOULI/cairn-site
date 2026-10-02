@@ -129,3 +129,34 @@ svg {
     scroll-behavior: auto !important;
   }
 }
+
+/* Print ("Save as PDF" on /guide): browsers drop backgrounds on paper, so switch to a light palette
+   (the Field Guide's original light theme) instead of printing light text on white. */
+@media print {
+  :root {
+    color-scheme: light;
+    --bg: #ffffff;
+    --surface: #f7f7f5;
+    --panel: #f7f7f5;
+    --raised: #efefed;
+    --border: #e2e2df;
+    --divider: #e9e9e7;
+    --text: #37352f;
+    --text-2: #37352f;
+    --muted: #6b6a66;
+    --faint: #6b6a66;
+    --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+    --accent-text: #4a3db8;
+    --danger: #b3261e;
+    --kind-command: #2f6f9f;
+    --kind-script: #a85808;
+    --kind-code: #2e7d6b;
+    --kind-note: #5f5e5a;
+    --kind-idea: #8a6800;
+    --shadow: none;
+  }
+
+  body {
+    background: #ffffff;
+  }
+}

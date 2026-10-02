@@ -10,6 +10,7 @@ const nav = [
   { label: "Privacy", href: "/#offline" },
   { label: "Roadmap", href: "/#roadmap" },
   { label: "FAQ", href: "/#faq" },
+  { label: "Guide", href: links.guide },
   { label: "GitHub", href: links.repo },
 ];
 

@@ -48,12 +48,13 @@ function kindStyle(entry: DemoEntry) {
  * A working miniature of Cairn: the combobox + listbox pattern, with focus always in the input.
  * Keyboard handlers live on the input only, so page scrolling keys keep working elsewhere.
  */
-export function DemoLauncher() {
+export function DemoLauncher({ autoplay: autoplayEnabled = true }: { autoplay?: boolean }) {
   const [query, setQuery] = useState(INITIAL_QUERY);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [copied, setCopied] = useState(false);
   const [announcement, setAnnouncement] = useState("");
-  const [autoplay, setAutoplay] = useState<AutoplayPhase>(() => (autoplayed ? null : "wait"));
+  // Without autoplay (the Field Guide), the launcher is never hidden waiting for one.
+  const [autoplay, setAutoplay] = useState<AutoplayPhase>(() => (autoplayEnabled && !autoplayed ? "wait" : null));
 
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
