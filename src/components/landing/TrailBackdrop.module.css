@@ -1,0 +1,28 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.contours {
+  fill: none;
+  stroke: var(--contour);
+  stroke-width: 1.2;
+}
+
+/* Step 7 draws this in once via a masked copy; see CLAUDE.md Motion. */
+.trail {
+  fill: none;
+  stroke: var(--accent);
+  stroke-opacity: 0.55;
+  stroke-width: 2;
+  stroke-dasharray: 2 9;
+  stroke-linecap: round;
+}
+
+.cairn {
+  fill: var(--stone);
+}

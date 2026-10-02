@@ -94,6 +94,7 @@ The site is **dark only**.
 | `--accent-text` | #B0A8EE | accent-colored text on dark |
 | `--danger` | #FF8A80 | Delete in the action panel |
 | `--focus` | #8B7FF0 | focus ring (`:focus-visible`) |
+| `--contour` | #252524 | hero backdrop contour lines |
 | `--stone` | #3A3A39 | roadmap dashes, backdrop cairns, outline button border |
 | `--stone-edge` | #4A4A48 | upcoming roadmap stones, outline button hover |
 
@@ -124,6 +125,7 @@ A working miniature of Cairn, using the entries in `src/content/demoEntries.ts`.
 - **Accessibility:** combobox + listbox pattern (`role="combobox"`, `aria-controls`, `aria-activedescendant`, `role="option"` with `aria-selected`); a polite live region announces the result count.
 - **Phones (≤ 700px):** results list only, no detail pane.
 - Initial query "start database" with `Start-Service postgresql-x64-18` selected (see Motion for the autoplay).
+- **Fixed height:** the launcher body has a fixed height whatever the query (no layout shift while typing); the results list scrolls inside it. When the selection moves out of view, scroll only the list (set its `scrollTop`), never `scrollIntoView`, which can scroll the page.
 
 ### Mobile download behavior
 
@@ -147,6 +149,7 @@ Rules:
 - **`prefers-reduced-motion: reduce`** → no autoplay typing, no reveals; everything is shown in its final state.
 - No parallax, no scroll-jacking, no loops, no generic fade-up on every section.
 - Content is never invisible without JavaScript: reveal states are applied by JS only after hydration.
+- **No load flash:** the static HTML shows every animated component in its final state. An inline `<head>` script adds `motion-ok` to `<html>` before first paint when `prefers-reduced-motion` is not `reduce`; pre-animation states (e.g. the empty launcher before the autoplay types) are styled only under `.motion-ok`. Without JS or with reduced motion, the final state shows as-is.
 
 ## Quality budgets
 
@@ -165,8 +168,8 @@ Rules:
 
 - [x] **0** Scaffold check: confirm the create-next-app setup, set `output: 'export'`, strict TS, remove template content, folder structure above. (Next 16.3.8; folders are created by the step that first needs them; no `start` script since `next start` doesn't work with a static export: preview with `npx serve out`.)
 - [x] **1** Tokens, fonts, global styles, layout: Header, Footer, skip link, `CairnMark`, `Button`, `Kbd`.
-- [ ] **2** Hero (static): copy, buttons, `TrailBackdrop`, launcher markup with static content.
-- [ ] **3** Demo launcher: `lib/search.ts` + tests, keyboard, copy, accessibility.
+- [x] **2** Hero (static): copy, buttons, `TrailBackdrop`, launcher markup with static content.
+- [ ] **3** Demo launcher: `lib/search.ts` + tests, keyboard, copy, accessibility. Include a test that `search("start database")` returns exactly the Start-Service command then the "won't start" note, so the static hero markup and `search()` can't drift apart.
 - [ ] **4** Sections: search by intent, five kinds, keyboard, offline.
 - [ ] **5** Roadmap, FAQ, final CTA, content files.
 - [ ] **6** Mobile pass (≤ 700px), including the mobile download behavior.

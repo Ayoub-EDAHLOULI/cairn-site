@@ -1,0 +1,208 @@
+.launcher {
+  width: 100%;
+  max-width: 900px;
+  overflow: hidden;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-launcher);
+  box-shadow:
+    0 40px 100px rgb(0 0 0 / 0.55),
+    0 0 0 1px rgb(255 255 255 / 0.02);
+}
+
+/* Search bar */
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 58px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.searchIcon {
+  color: var(--muted);
+}
+
+.input {
+  flex-grow: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 18px;
+}
+
+.input::placeholder {
+  color: var(--faint);
+}
+
+.count {
+  color: var(--muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+/* Body: a fixed height whatever the query, so typing never shifts the page. */
+
+.body {
+  display: flex;
+  height: 340px;
+}
+
+.list {
+  display: flex;
+  flex: 1 1 380px;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  margin: 0;
+  padding: 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  border-right: 1px solid var(--border);
+}
+
+.row {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px;
+  border-radius: var(--radius-row);
+}
+
+.selected {
+  background: var(--accent-soft);
+}
+
+.glyph {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--kind) 15%, transparent);
+  color: var(--kind);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.rowText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1.45;
+}
+
+.rowTitle,
+.rowWhy {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowTitle {
+  font-size: 13.5px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.rowWhy {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+/* Detail pane */
+
+.detail {
+  display: flex;
+  flex: 1 1 380px;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 20px 22px;
+  overflow-y: auto;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kindBadge,
+.shellBadge {
+  padding: 3px 9px;
+  border-radius: 5px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.kindBadge {
+  background: color-mix(in srgb, var(--kind) 15%, transparent);
+  color: var(--kind);
+  font-weight: 500;
+}
+
+.shellBadge {
+  background: var(--raised);
+  color: var(--text-2);
+}
+
+.content {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.whyLabel {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.why {
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* Footer */
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 16px;
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+  font-size: 13px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: var(--text-2);
+}

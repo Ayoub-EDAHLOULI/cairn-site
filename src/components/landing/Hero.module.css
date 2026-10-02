@@ -1,0 +1,103 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 96px 0 var(--section-pad);
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 13.5px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+/* The visible pill is ~31px tall; this extends the hit area to 44px. */
+.pill::after {
+  content: "";
+  position: absolute;
+  inset: -7px 0;
+}
+
+.pill:hover {
+  color: var(--text);
+}
+
+.pillDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.title {
+  max-width: 900px;
+  font-size: clamp(42px, 7vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.subtitle {
+  max-width: 640px;
+  margin-top: 24px;
+  color: var(--text-2);
+  font-size: clamp(18px, 2.2vw, 21px);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+/* Hooks for the phone layout (step 6), which swaps their order and style. */
+.download {
+  order: 0;
+}
+
+.github {
+  order: 1;
+}
+
+.smallPrint {
+  margin-top: 14px;
+  color: var(--faint);
+  font-size: 13.5px;
+}
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 64px;
+}
+
+.caption {
+  margin-top: 18px;
+  color: var(--faint);
+  font-size: 14px;
+}
+
+.tryQuery {
+  color: var(--text);
+}
