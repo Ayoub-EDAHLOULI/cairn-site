@@ -47,12 +47,12 @@ The owner prefers **incremental, step-confirmed work** and **honest critical fee
 ```
 src/
   app/
-    layout.tsx          # html, fonts, metadata, skip link, Header, Footer
+    layout.tsx          # html, fonts, metadata, skip link, Header, Footer, ScrollTopButton
     page.tsx            # landing page: composes the sections in order
     guide/page.tsx      # the Field Guide
     sitemap.ts, robots.ts
   components/
-    layout/             # Header, Footer, SkipLink
+    layout/             # Header, Footer, SkipLink, MotionReady, ScrollTopButton
     landing/            # Hero, TrailBackdrop, DemoLauncher, IntentSection, KindsSection,
                         # KeyboardSection, OfflineSection, RoadmapSection, FaqSection, FinalCta
     guide/              # Callout, KeyCombo, KindRow, ...
@@ -121,6 +121,8 @@ Breakpoints (repeated as literals in each CSS module; CSS Modules can't share me
 8. **Questions** (`#faq`): native `<details name="faq">` / `<summary>` (one open at a time, built in); the first has `open`. No client JS. The +/− sign is a CSS `::after`; the default marker is hidden (including `::-webkit-details-marker`).
 9. **Final CTA**: mark, "Leave a stone for your future self.", Download + Read the Field Guide.
 10. **Footer**: MIT, author link, GitHub, Releases, Field Guide.
+
+On every page (from the layout): a floating **Back to top** button, bottom right, shown after 1.5 viewport heights of scrolling. It's a real `<button aria-label="Back to top">`, hidden with `visibility` (so it's out of the tab order) when not shown. It scrolls smoothly (instantly under reduced motion) and moves focus to `<main>`.
 
 ### Demo launcher (the most important component)
 

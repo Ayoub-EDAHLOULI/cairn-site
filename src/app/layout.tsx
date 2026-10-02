@@ -4,6 +4,7 @@ import { SkipLink } from "@/components/layout/SkipLink";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MotionReady } from "@/components/layout/MotionReady";
+import { ScrollTopButton } from "@/components/layout/ScrollTopButton";
 import { motionHeadScript } from "@/lib/motion";
 import "@/styles/globals.css";
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <ScrollTopButton />
       </body>
     </html>
   );

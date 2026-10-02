@@ -1,0 +1,55 @@
+.button {
+  position: fixed;
+  right: 24px;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch);
+  height: var(--touch);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--panel);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.45);
+  color: var(--text);
+  cursor: pointer;
+  /* Hidden near the top: invisible and out of the tab order. */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 200ms var(--ease),
+    transform 200ms var(--ease),
+    background-color var(--dur-ui) var(--ease),
+    visibility 0s linear 200ms;
+}
+
+.button[data-visible="true"] {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 200ms var(--ease),
+    transform 200ms var(--ease),
+    background-color var(--dur-ui) var(--ease),
+    visibility 0s;
+}
+
+@media (hover: hover) {
+  .button:hover {
+    background: var(--raised);
+  }
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 700px) {
+  .button {
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
