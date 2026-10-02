@@ -56,11 +56,12 @@
   white-space: nowrap;
 }
 
-/* Body: a fixed height whatever the query, so typing never shifts the page. */
+/* Body: a fixed height whatever the query, so typing never shifts the page. 400px fits all seven
+   demo entries (the empty query) without scrolling. */
 
 .body {
   display: flex;
-  height: 340px;
+  height: 400px;
 }
 
 .listWrap {

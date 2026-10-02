@@ -134,7 +134,7 @@ A working miniature of Cairn, using the entries in `src/content/demoEntries.ts`.
 - **Accessibility:** combobox + listbox pattern (`role="combobox"`, `aria-controls`, `aria-activedescendant`, `role="option"` with `aria-selected`); a polite live region announces the result count (after typing pauses) and "Copied to clipboard". Options are `<li role="option">`, not buttons: focus stays in the input. This is the **one exception** to the button/link rule below.
 - **Phones (≤ 700px):** results list only, no detail pane; body height 280px (still fixed).
 - Initial query "start database" with `Start-Service postgresql-x64-18` selected (see Motion for the autoplay).
-- **Fixed height:** the launcher body has a fixed height whatever the query (no layout shift while typing); the results list scrolls inside it. When the selection moves out of view, scroll only the list (set its `scrollTop`), never `scrollIntoView`, which can scroll the page.
+- **Fixed height:** the launcher body has a fixed height (400px, enough for all seven entries; 280px on phones) whatever the query (no layout shift while typing); the results list scrolls inside it. When the selection moves out of view, scroll only the list (set its `scrollTop`), never `scrollIntoView`, which can scroll the page.
 
 ### Mobile download behavior
 
