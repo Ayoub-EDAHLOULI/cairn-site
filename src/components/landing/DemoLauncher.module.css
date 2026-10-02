@@ -54,18 +54,25 @@
   height: 340px;
 }
 
-.list {
-  display: flex;
+.listWrap {
+  position: relative;
   flex: 1 1 380px;
+  min-width: 0;
+  border-right: 1px solid var(--border);
+}
+
+.list {
+  /* Positioned so option offsetTop is measured from the list when keeping the selection in view. */
+  position: relative;
+  display: flex;
   flex-direction: column;
   gap: 2px;
-  min-width: 0;
+  height: 100%;
   margin: 0;
   padding: 8px;
   overflow-y: auto;
   overscroll-behavior: contain;
   list-style: none;
-  border-right: 1px solid var(--border);
 }
 
 .row {
@@ -75,6 +82,19 @@
   gap: 12px;
   padding: 9px 10px;
   border-radius: var(--radius-row);
+  cursor: pointer;
+}
+
+.empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
 }
 
 .selected {

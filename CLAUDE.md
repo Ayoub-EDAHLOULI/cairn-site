@@ -39,7 +39,7 @@ The owner prefers **incremental, step-confirmed work** and **honest critical fee
 - **Fonts:** `next/font/google` for **Geist** (UI) and **JetBrains Mono** (code). It downloads them at build time and serves them from the site, so visitors never contact Google.
 - **Images:** `next/image` with `unoptimized: true` (required for static export), or inline SVG for icons and illustrations.
 - **Animation:** CSS + a small `IntersectionObserver` hook. **No animation library** (see Motion).
-- **Tests:** propose a test runner (e.g. Vitest) in the step that needs it; ask first.
+- **Tests:** Node's built-in `node:test` (`npm test` runs `src/**/*.test.ts`), using Node's native type stripping: no test dependency. Requires Node ≥ 22.18 (`engines`), `"type": "module"`, `erasableSyntaxOnly` and `allowImportingTsExtensions`. Tests import with the `.ts` extension, and any file a test imports may only use `import type` for extension-less imports (no `@/` runtime imports).
 
 ## Folder structure
 
@@ -120,9 +120,9 @@ Type: headings Geist 700 with tight tracking (≈ −0.03em to −0.04em); hero 
 ### Demo launcher (the most important component)
 
 A working miniature of Cairn, using the entries in `src/content/demoEntries.ts`.
-- **Search** (`src/lib/search.ts`, pure and unit-tested): accent-insensitive, words prefix-match (1-letter words match exactly), every word must match somewhere in title, why, tags or content; if nothing matches all words, fall back to entries matching any, ranked by matches (title matches weigh more). Same rules as the real app.
-- **Keyboard:** ↑/↓ move, Enter copies the selected entry with the Clipboard API and shows "Copied to clipboard" in the footer (if the API fails, say nothing; never claim it copied). Handlers live on the input only, never on `window`: page scrolling keys must keep working.
-- **Accessibility:** combobox + listbox pattern (`role="combobox"`, `aria-controls`, `aria-activedescendant`, `role="option"` with `aria-selected`); a polite live region announces the result count.
+- **Search** (`src/lib/search.ts`, pure and unit-tested): accent-insensitive; query and content are split into words the same way (on anything that isn't a letter or digit, like Cairn's FTS5 tokenizer); words prefix-match (1-letter words match exactly), every word must match somewhere in title, why, tags or content; if nothing matches all words, fall back to entries matching any, ranked by matches (title matches weigh more). Same rules as the real app.
+- **Keyboard:** ↑/↓ move (wrapping), Esc clears the query (like the app's first Esc), Enter copies the selected entry with the Clipboard API and shows "Copied to clipboard" in the footer (if the API fails, say nothing; never claim it copied). Keys are ignored while an IME is composing (`isComposing`). Handlers live on the input only, never on `window`: page scrolling keys must keep working.
+- **Accessibility:** combobox + listbox pattern (`role="combobox"`, `aria-controls`, `aria-activedescendant`, `role="option"` with `aria-selected`); a polite live region announces the result count (after typing pauses) and "Copied to clipboard". Options are `<li role="option">`, not buttons: focus stays in the input. This is the **one exception** to the button/link rule below.
 - **Phones (≤ 700px):** results list only, no detail pane.
 - Initial query "start database" with `Start-Service postgresql-x64-18` selected (see Motion for the autoplay).
 - **Fixed height:** the launcher body has a fixed height whatever the query (no layout shift while typing); the results list scrolls inside it. When the selection moves out of view, scroll only the list (set its `scrollTop`), never `scrollIntoView`, which can scroll the page.
@@ -155,7 +155,7 @@ Rules:
 
 - Lighthouse (mobile): **≥ 95** in Performance, Accessibility, Best Practices and SEO.
 - LCP < 2.0s, CLS < 0.05, total JS for `/` kept small (no libraries beyond Next/React without approval).
-- WCAG 2.2 AA: contrast ≥ 4.5:1 for text, visible focus rings, skip link, logical heading order (one H1 per page), every interactive element a real `<button>` or `<a>`, touch targets ≥ 44px.
+- WCAG 2.2 AA: contrast ≥ 4.5:1 for text, visible focus rings, skip link, logical heading order (one H1 per page), every interactive element a real `<button>` or `<a>` (sole exception: the demo launcher's listbox options), touch targets ≥ 44px.
 
 ## SEO and metadata
 
@@ -169,7 +169,7 @@ Rules:
 - [x] **0** Scaffold check: confirm the create-next-app setup, set `output: 'export'`, strict TS, remove template content, folder structure above. (Next 16.3.8; folders are created by the step that first needs them; no `start` script since `next start` doesn't work with a static export: preview with `npx serve out`.)
 - [x] **1** Tokens, fonts, global styles, layout: Header, Footer, skip link, `CairnMark`, `Button`, `Kbd`.
 - [x] **2** Hero (static): copy, buttons, `TrailBackdrop`, launcher markup with static content.
-- [ ] **3** Demo launcher: `lib/search.ts` + tests, keyboard, copy, accessibility. Include a test that `search("start database")` returns exactly the Start-Service command then the "won't start" note, so the static hero markup and `search()` can't drift apart.
+- [x] **3** Demo launcher: `lib/search.ts` + tests, keyboard, copy, accessibility. Include a test that `search("start database")` returns exactly the Start-Service command then the "won't start" note, so the static hero markup and `search()` can't drift apart.
 - [ ] **4** Sections: search by intent, five kinds, keyboard, offline.
 - [ ] **5** Roadmap, FAQ, final CTA, content files.
 - [ ] **6** Mobile pass (≤ 700px), including the mobile download behavior.
