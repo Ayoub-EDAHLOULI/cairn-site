@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Cairn Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFFFFF; --panel: #F7F7F5; --raised: #EFEFED; --border: #E9E9E7;
+  --text: #37352F; --muted: #6B6A66; --code-bg: #F7F7F5;
+  --accent: #6050DC;
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --accent-text: color-mix(in srgb, var(--accent) 88%, black);
+  --k-command: #2F6F9F; --k-script: #A85808; --k-code: #2E7D6B; --k-note: #5F5E5A; --k-idea: #8A6800;
+  --danger: #B3261E;
+  --shadow: 0 12px 32px rgba(15,15,15,0.12), 0 2px 6px rgba(15,15,15,0.06);
+  --sans: 'Geist', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #191919; --panel: #202020; --raised: #2C2C2B; --border: #2F2F2E;
+    --text: #EDEDEC; --muted: #9B9A97; --code-bg: #141414;
+    --accent-soft: color-mix(in srgb, var(--accent) 24%, transparent);
+    --accent-text: color-mix(in srgb, var(--accent) 55%, white);
+    --k-command: #6FB3E0; --k-script: #FFA95E; --k-code: #5EC2AE; --k-note: #B4B3AF; --k-idea: #E6BE3A;
+    --danger: #FF8A80;
+    --shadow: 0 16px 40px rgba(0,0,0,0.45);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #191919; --panel: #202020; --raised: #2C2C2B; --border: #2F2F2E;
+  --text: #EDEDEC; --muted: #9B9A97; --code-bg: #141414;
+  --accent-soft: color-mix(in srgb, var(--accent) 24%, transparent);
+  --accent-text: color-mix(in srgb, var(--accent) 55%, white);
+  --k-command: #6FB3E0; --k-script: #FFA95E; --k-code: #5EC2AE; --k-note: #B4B3AF; --k-idea: #E6BE3A;
+  --danger: #FF8A80;
+  --shadow: 0 16px 40px rgba(0,0,0,0.45);
+  color-scheme: dark;
+}
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16.5px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent-text); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--raised); padding: 0.12em 0.4em; border-radius: 5px; overflow-wrap: anywhere; }
+pre { margin: 0; font-family: var(--mono); font-size: 14px; line-height: 1.6; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; }
+pre code { background: none; padding: 0; font-size: inherit; }
+kbd { display: inline-flex; align-items: center; min-width: 1.6em; height: 1.55em; padding: 0 0.42em; justify-content: center; font-family: var(--sans); font-size: 0.8em; font-weight: 500; line-height: 1; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 5px; white-space: nowrap; vertical-align: 0.1em; }
+.keys { white-space: nowrap; }
+.keys kbd + kbd { margin-left: 3px; }
+
+/* ---------- Top bar ---------- */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; display: flex; align-items: center; gap: 14px; height: 56px; padding: 0 clamp(16px, 4vw, 32px); background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; color: var(--text); text-decoration: none; }
+.mark { width: 26px; height: 26px; border-radius: 7px; background: var(--accent); display: grid; place-items: center; flex-shrink: 0; }
+.mark svg { width: 16px; height: 16px; fill: #fff; }
+.spacer { flex: 1; }
+.seg { display: flex; padding: 3px; gap: 2px; border-radius: 8px; background: var(--raised); }
+.seg button { height: 28px; padding: 0 10px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); font: inherit; font-size: 13px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--bg); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.12); }
+.swatches { display: flex; gap: 6px; }
+.swatches button { width: 22px; height: 22px; border-radius: 6px; border: 2px solid transparent; cursor: pointer; padding: 0; }
+.swatches button[aria-pressed="true"] { border-color: var(--text); }
+@media (max-width: 560px) { .swatches { display: none; } .brand span { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { padding: clamp(40px, 8vw, 88px) clamp(16px, 4vw, 32px) clamp(32px, 6vw, 64px); max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
+@media (max-width: 960px) { .hero { grid-template-columns: minmax(0, 1fr); } }
+.hero h1 { margin: 0 0 18px; font-size: clamp(40px, 6.4vw, 68px); line-height: 1.02; letter-spacing: -0.035em; font-weight: 700; }
+.hero .lede { margin: 0 0 22px; font-size: clamp(18px, 2vw, 21px); line-height: 1.5; color: var(--text); max-width: 30ch; }
+.hero .version { margin: 0 0 30px; font-size: 14px; color: var(--muted); }
+.hero blockquote { margin: 0; padding: 0 0 0 18px; border-left: 2px solid var(--accent); font-size: 15.5px; line-height: 1.6; color: var(--muted); max-width: 46ch; }
+.hero blockquote b { color: var(--text); font-weight: 600; }
+.try { margin: 14px 2px 0; font-size: 13.5px; color: var(--muted); }
+
+/* ---------- Launcher demo ---------- */
+.launcher { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; min-height: 400px; }
+:root[data-theme="light"] .launcher, :root:not([data-theme]) .launcher { background: var(--bg); }
+.l-search { display: flex; align-items: center; gap: 12px; height: 54px; padding: 0 16px; border-bottom: 1px solid var(--border); }
+.l-search svg { flex-shrink: 0; stroke: var(--muted); }
+.l-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text); font: inherit; font-size: 16.5px; }
+.l-search input::placeholder { color: var(--muted); }
+.l-meta { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.l-body { display: flex; flex: 1; min-height: 0; }
+.l-list { list-style: none; margin: 0; padding: 8px; width: 46%; flex-shrink: 0; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
+@media (max-width: 640px) { .l-list { width: 100%; border-right: 0; } .l-detail { display: none !important; } }
+.l-list li { display: flex; align-items: center; gap: 11px; padding: 8px 9px; border-radius: 8px; cursor: pointer; min-width: 0; }
+.l-list li[aria-selected="true"] { background: var(--accent-soft); }
+.glyph { width: 28px; height: 28px; flex-shrink: 0; border-radius: 7px; display: grid; place-items: center; font-family: var(--mono); font-size: 11px; font-weight: 500; }
+.g-command { color: var(--k-command); background: color-mix(in srgb, var(--k-command) 15%, transparent); }
+.g-script { color: var(--k-script); background: color-mix(in srgb, var(--k-script) 15%, transparent); }
+.g-code { color: var(--k-code); background: color-mix(in srgb, var(--k-code) 15%, transparent); }
+.g-note { color: var(--k-note); background: color-mix(in srgb, var(--k-note) 15%, transparent); }
+.g-idea { color: var(--k-idea); background: color-mix(in srgb, var(--k-idea) 15%, transparent); }
+.l-txt { display: flex; flex-direction: column; min-width: 0; gap: 1px; }
+.l-title { font-family: var(--mono); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.l-title.sans { font-family: var(--sans); font-size: 13px; }
+.l-why { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.4; }
+.l-empty { padding: 32px 12px; text-align: center; font-size: 13px; color: var(--muted); }
+.l-detail { flex: 1; min-width: 0; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+.chip { display: inline-block; padding: 2px 8px; border-radius: 5px; font-size: 11.5px; font-weight: 500; }
+.chip.plain { background: var(--raised); color: var(--muted); font-weight: 400; }
+.l-detail pre { font-size: 12.5px; padding: 12px 14px; white-space: pre-wrap; word-break: break-word; }
+.l-label { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+.l-whyfull { font-size: 13.5px; line-height: 1.55; }
+.l-foot { display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border-top: 1px solid var(--border); background: var(--panel); font-size: 12.5px; }
+.l-foot .mark { width: 20px; height: 20px; border-radius: 5px; }
+.l-foot .mark svg { width: 12px; height: 12px; }
+.l-status { color: var(--muted); margin-left: auto; display: flex; align-items: center; gap: 6px; }
+
+/* ---------- Layout ---------- */
+.shell { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px) 80px; display: grid; grid-template-columns: 236px minmax(0, 1fr); gap: 56px; border-top: 1px solid var(--border); padding-top: 48px; }
+@media (max-width: 960px) { .shell { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+
+/* Trail table of contents */
+.trail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 80px); align-self: start; max-height: calc(100vh - 100px); overflow-y: auto; }
+.trail h2 { margin: 0 0 14px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.trail ol { list-style: none; margin: 0; padding: 0; position: relative; }
+.trail ol::before { content: ""; position: absolute; left: 9px; top: 10px; bottom: 10px; width: 2px; background: var(--border); border-radius: 1px; }
+.trail li a { position: relative; display: flex; align-items: baseline; gap: 12px; padding: 5px 8px 5px 0; color: var(--muted); text-decoration: none; font-size: 14px; line-height: 1.4; }
+.trail li a .stone { position: relative; z-index: 1; flex-shrink: 0; width: 20px; height: 12px; margin-top: 3px; border-radius: 50%; background: var(--bg); border: 2px solid var(--border); transition: background 0.2s, border-color 0.2s; }
+.trail li a:hover { color: var(--text); }
+.trail li a[aria-current="true"] { color: var(--text); font-weight: 500; }
+.trail li a[aria-current="true"] .stone { background: var(--accent); border-color: var(--accent); }
+.trail li a.passed .stone { border-color: color-mix(in srgb, var(--accent) 60%, var(--border)); }
+@media (max-width: 960px) {
+  .trail { position: static; max-height: none; margin-bottom: 40px; padding: 18px 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); }
+  .trail li a .stone { background: var(--panel); }
+}
+
+/* ---------- Chapters ---------- */
+main { min-width: 0; max-width: 72ch; }
+.chapter { padding-bottom: 56px; margin-bottom: 56px; border-bottom: 1px solid var(--border); }
+.chapter:last-of-type { border-bottom: 0; }
+.ch-head { display: flex; align-items: center; gap: 18px; margin-bottom: 22px; }
+.ch-num { flex-shrink: 0; width: 58px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-text); font-weight: 600; font-size: 17px; font-variant-numeric: tabular-nums; }
+.ch-head h2 { margin: 0; font-size: clamp(26px, 3.4vw, 34px); line-height: 1.15; letter-spacing: -0.02em; font-weight: 650; }
+h3 { margin: 36px 0 10px; font-size: 19px; line-height: 1.3; letter-spacing: -0.01em; font-weight: 600; }
+p { margin: 0 0 16px; }
+ul, ol.steps { margin: 0 0 18px; padding-left: 22px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--muted); }
+
+ol.steps { list-style: none; padding: 0; counter-reset: s; }
+ol.steps > li { counter-increment: s; position: relative; padding-left: 40px; margin-bottom: 14px; }
+ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%; background: var(--raised); color: var(--text); font-size: 13px; font-weight: 600; display: grid; place-items: center; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin: 0 0 22px; border: 1px solid var(--border); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 10px 14px; vertical-align: top; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: 0; }
+th { font-size: 13px; font-weight: 600; color: var(--muted); background: var(--panel); }
+td:first-child { white-space: nowrap; }
+td.wrap { white-space: normal; }
+
+/* Callouts */
+.callout { display: flex; gap: 12px; margin: 0 0 22px; padding: 14px 16px; border-radius: 10px; background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--muted); font-size: 15.5px; line-height: 1.6; }
+.callout svg { flex-shrink: 0; width: 18px; height: 18px; margin-top: 3px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.callout > div > :last-child { margin-bottom: 0; }
+.callout .label { font-weight: 600; margin-right: 4px; }
+.callout.tip { border-left-color: var(--accent); }
+.callout.tip svg { color: var(--accent-text); }
+.callout.note svg { color: var(--muted); }
+.callout.important { border-left-color: var(--k-script); }
+.callout.important svg { color: var(--k-script); }
+.callout ul { margin: 6px 0 0; }
+
+/* Kinds */
+.kinds { display: grid; gap: 2px; margin: 0 0 24px; border: 1px solid var(--border); border-radius: 12px; padding: 6px; }
+.kind { display: grid; grid-template-columns: 30px 92px minmax(0, 1fr); align-items: center; gap: 14px; padding: 9px 10px; border-radius: 8px; }
+.kind:hover { background: var(--panel); }
+.kind b { font-weight: 600; }
+.kind span:last-child { color: var(--muted); font-size: 15px; }
+@media (max-width: 520px) { .kind { grid-template-columns: 30px minmax(0, 1fr); } .kind span:last-child { grid-column: 2; } }
+
+/* Annotated window */
+.annot { margin: 6px 0 26px; }
+.annot .launcher { min-height: 0; pointer-events: none; }
+.annot .l-list li { cursor: default; }
+.pin { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+.annot .launcher .pin { position: relative; z-index: 1; }
+.legend { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; font-size: 15px; }
+.legend li { display: flex; align-items: baseline; gap: 10px; margin: 0; }
+.legend .pin { transform: translateY(4px); }
+.dots { display: flex; gap: 6px; margin-left: 4px; }
+.dot { width: 11px; height: 11px; border-radius: 50%; }
+.dot.y { background: #E2B33C; }
+.dot.r { background: #E5534B; }
+
+/* Action panel figure */
+.panel-fig { width: min(340px, 100%); margin: 6px 0 22px; padding: 6px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); font-size: 13.5px; }
+.panel-fig .ph { padding: 6px 10px 4px; font-size: 12px; color: var(--muted); font-weight: 500; font-family: var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.panel-fig .row { display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 10px; border-radius: 7px; }
+.panel-fig .row:first-of-type { background: var(--accent-soft); }
+.panel-fig .row span:first-child { flex: 1; }
+.panel-fig .row .keys kbd { font-size: 10.5px; color: var(--muted); }
+.panel-fig .row.danger span:first-child { color: var(--danger); }
+.panel-fig .sa { margin: 4px 4px 2px; height: 30px; border: 1px solid var(--border); border-radius: 7px; background: var(--bg); display: flex; align-items: center; padding: 0 9px; color: var(--muted); font-size: 12.5px; }
+
+/* Cheat sheet */
+.cheat { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 0 0 26px; }
+.cheat section { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px 8px; }
+.cheat h3 { margin: 0 0 8px; font-size: 14px; color: var(--muted); font-weight: 600; }
+.cheat dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; }
+.cheat dt, .cheat dd { margin: 0; padding: 7px 0; border-top: 1px solid var(--border); font-size: 14.5px; }
+.cheat dt:first-of-type, .cheat dt:first-of-type + dd { border-top: 0; }
+.cheat dd { color: var(--muted); }
+.cheat .twice { font-size: 12px; color: var(--muted); margin-left: 4px; }
+
+/* Troubleshooting */
+details { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; background: var(--bg); }
+details[open] { background: var(--panel); }
+summary { list-style: none; cursor: pointer; padding: 13px 16px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: ""; margin-left: auto; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg) translateY(-2px); transition: transform 0.15s; flex-shrink: 0; }
+details[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+details > div { padding: 0 16px 6px; font-size: 15.5px; }
+details > div ul { padding-left: 20px; }
+
+/* Roadmap */
+.ahead { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 0; }
+.ahead li { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 16px; padding: 13px 0; margin: 0; border-top: 1px solid var(--border); }
+.ahead li:first-child { border-top: 0; }
+.ahead b { font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.ahead b::before { content: ""; width: 12px; height: 8px; border-radius: 50%; border: 2px solid var(--accent); flex-shrink: 0; }
+.ahead span { color: var(--muted); }
+@media (max-width: 560px) { .ahead li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+
+/* Closing */
+.closing { margin: 24px 0 0; padding: 40px 20px; text-align: center; border-radius: 14px; background: var(--panel); border: 1px solid var(--border); }
+.closing svg { width: 54px; height: 54px; fill: var(--accent); margin-bottom: 12px; }
+.closing p { margin: 0; font-size: 19px; line-height: 1.5; }
+.closing p + p { color: var(--muted); font-size: 16px; margin-top: 4px; }
+
+footer.site { max-width: 1180px; margin: 0 auto; padding: 24px clamp(16px, 4vw, 32px) 40px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
+
+@media print {
+  .topbar, .try, .trail { display: none !important; }
+  .shell { grid-template-columns: minmax(0, 1fr); border: 0; }
+  .chapter { break-inside: auto; }
+  details { break-inside: avoid; }
+  details > div { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="The Cairn Field Guide, back to top">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="19" rx="9" ry="3.2"/><ellipse cx="11.5" cy="12.6" rx="6.2" ry="2.8"/><ellipse cx="12.4" cy="6.8" rx="3.8" ry="2.4"/></svg></span>
+    <span>The Cairn Field Guide</span>
+  </a>
+  <div class="spacer"></div>
+  <div class="swatches" role="group" aria-label="Accent color">
+    <button type="button" data-accent="#6050DC" style="background:#6050DC" aria-label="Majorelle" aria-pressed="true"></button>
+    <button type="button" data-accent="#1F8A7A" style="background:#1F8A7A" aria-label="Zellige teal" aria-pressed="false"></button>
+    <button type="button" data-accent="#C9602E" style="background:#C9602E" aria-label="Terracotta" aria-pressed="false"></button>
+  </div>
+  <div class="seg" role="group" aria-label="Theme">
+    <button type="button" data-theme-choice="system" aria-pressed="true">System</button>
+    <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+    <button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div>
+    <h1>The Cairn Field Guide</h1>
+    <p class="lede">Your commands, scripts and snippets, with the reason you saved them. Found in seconds. Fully offline.</p>
+    <p class="version">Version 0.1 for Windows 10 and 11</p>
+    <blockquote>Hikers stack small piles of stones, called <b>cairns</b>, to mark the trail for the next person who passes. Cairn does the same for you: every command you save is a stone on a path you've already walked, so the next time you need it, you just follow the markers.</blockquote>
+  </div>
+  <div>
+    <div class="launcher" id="demo">
+      <div class="l-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="demo-q" type="text" value="start database" autocomplete="off" spellcheck="false" aria-label="Try a search" role="combobox" aria-controls="demo-list" aria-expanded="true" aria-autocomplete="list">
+        <span class="l-meta" id="demo-meta" aria-live="polite"></span>
+      </div>
+      <div class="l-body">
+        <ul class="l-list" id="demo-list" role="listbox" aria-label="Results"></ul>
+        <div class="l-detail" id="demo-detail"></div>
+      </div>
+      <div class="l-foot">
+        <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="19" rx="9" ry="3.2"/><ellipse cx="11.5" cy="12.6" rx="6.2" ry="2.8"/><ellipse cx="12.4" cy="6.8" rx="3.8" ry="2.4"/></svg></span>
+        <span>Cairn</span>
+        <span class="l-status" id="demo-status">Copy to clipboard <kbd>Enter</kbd></span>
+      </div>
+    </div>
+    <p class="try">Try it: type the way you'd remember something, like <code>git history</code> or <code>port in use</code>, and use <kbd>↑</kbd> <kbd>↓</kbd>.</p>
+  </div>
+</section>
+
+<div class="shell">
+  <nav class="trail" aria-label="Chapters">
+    <h2>On this trail</h2>
+    <ol>
+      <li><a href="#start"><span class="stone"></span>Before you start</a></li>
+      <li><a href="#install"><span class="stone"></span>Install Cairn</a></li>
+      <li><a href="#first"><span class="stone"></span>Your first minute</a></li>
+      <li><a href="#finding"><span class="stone"></span>Finding things</a></li>
+      <li><a href="#using"><span class="stone"></span>Using what you found</a></li>
+      <li><a href="#saving"><span class="stone"></span>Saving new entries</a></li>
+      <li><a href="#editing"><span class="stone"></span>Editing, favorites and deleting</a></li>
+      <li><a href="#actions"><span class="stone"></span>The action panel</a></li>
+      <li><a href="#settings"><span class="stone"></span>Settings</a></li>
+      <li><a href="#keys"><span class="stone"></span>Keyboard cheat sheet</a></li>
+      <li><a href="#data"><span class="stone"></span>Your data and privacy</a></li>
+      <li><a href="#trouble"><span class="stone"></span>Troubleshooting</a></li>
+      <li><a href="#next"><span class="stone"></span>What's coming next</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+<!-- 1 -->
+<section class="chapter" id="start">
+  <div class="ch-head"><span class="ch-num">1</span><h2>Before you start</h2></div>
+
+  <h3>What Cairn is</h3>
+  <p>Cairn is a small window that appears when you press <span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span>. You type what you're looking for, the way you remember it (<em>"start the database"</em>), and Cairn finds the exact command you saved months ago (<code>Start-Service postgresql-x64-18</code>). Press <kbd>Enter</kbd> and it's on your clipboard.</p>
+  <p>You can keep five kinds of things in it:</p>
+  <div class="kinds">
+    <div class="kind"><span class="glyph g-command">&gt;_</span><b>Command</b><span><code>git log --oneline --graph -20</code></span></div>
+    <div class="kind"><span class="glyph g-script">#!</span><b>Script</b><span>a <code>backup-dev-db.ps1</code> you run before migrations</span></div>
+    <div class="kind"><span class="glyph g-code">&lt;/&gt;</span><b>Code</b><span>a React hook, a SQL query you always rewrite</span></div>
+    <div class="kind"><span class="glyph g-note">¶</span><b>Note</b><span>"Postgres won't start: port 5432 is in use, here's the fix"</span></div>
+    <div class="kind"><span class="glyph g-idea">✦</span><b>Idea</b><span>"Import my PowerShell aliases into Cairn"</span></div>
+  </div>
+
+  <h3>The one habit that makes Cairn work</h3>
+  <p>Every entry has a field called <b>Why</b>: one sentence saying <em>why you saved it</em>.</p>
+  <div class="callout tip">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
+    <div>
+      <p><span class="label">Write the why the way you'll search for it later.</span> Not <em>"pg command"</em>, but <em>"Start the local database when the app can't connect."</em></p>
+      <p>Cairn searches the why as seriously as the command itself. That's how <em>"start database"</em> finds <code>Start-Service postgresql-x64-18</code>.</p>
+    </div>
+  </div>
+
+  <h3>What you need</h3>
+  <ul>
+    <li><b>Windows 10 or 11.</b></li>
+    <li><b>Microsoft Edge WebView2.</b> It's already installed on up-to-date Windows 10 and 11, so you almost certainly have it.</li>
+    <li>No account, no internet connection, no sign-up. Ever.</li>
+  </ul>
+</section>
+
+<!-- 2 -->
+<section class="chapter" id="install">
+  <div class="ch-head"><span class="ch-num">2</span><h2>Install Cairn</h2></div>
+  <ol class="steps">
+    <li><b>Run the installer</b> you were given: <code>cairn_0.1.0_x64-setup.exe</code> (or the <code>.msi</code>).</li>
+    <li><b>If Windows SmartScreen says "Windows protected your PC"</b>, click <b>More info</b>, then <b>Run anyway</b>. This early version isn't code-signed yet, so Windows doesn't recognise the publisher.</li>
+    <li>Follow the installer's steps. Cairn starts when it finishes.</li>
+  </ol>
+  <p>You'll know Cairn is running when you see <b>its icon in the system tray</b> (bottom-right of the taskbar; it may be hidden behind the <b>^</b> arrow). Hover over it: the tooltip says <b>Cairn</b> and shows its shortcut.</p>
+
+  <h3>Start Cairn with Windows (optional)</h3>
+  <p>Cairn doesn't start automatically yet (a setting for that is coming). Until then:</p>
+  <ol class="steps">
+    <li>Press <span class="keys"><kbd>Win</kbd><kbd>R</kbd></span>, type <code>shell:startup</code>, press <kbd>Enter</kbd>. A folder opens.</li>
+    <li>Right-click inside it, choose <b>New → Shortcut</b>, and point it to Cairn (usually in <code>C:\Program Files\cairn\</code> or <code>%LOCALAPPDATA%\cairn\</code>).</li>
+  </ol>
+  <p>From the next restart, Cairn is ready in the tray as soon as Windows is.</p>
+</section>
+
+<!-- 3 -->
+<section class="chapter" id="first">
+  <div class="ch-head"><span class="ch-num">3</span><h2>Your first minute</h2></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Do this</th><th>What happens</th></tr></thead>
+    <tbody>
+      <tr><td>Press <span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span></td><td class="wrap">Cairn appears in the middle of the screen.</td></tr>
+      <tr><td>Type <code>start</code></td><td class="wrap">Results appear as you type.</td></tr>
+      <tr><td>Press <kbd>↓</kbd> a few times</td><td class="wrap">The selection moves; the right side shows details.</td></tr>
+      <tr><td>Press <kbd>Enter</kbd></td><td class="wrap">The entry is copied, and Cairn gets out of the way.</td></tr>
+      <tr><td>Press <span class="keys"><kbd>Ctrl</kbd><kbd>V</kbd></span> anywhere</td><td class="wrap">There it is.</td></tr>
+    </tbody>
+  </table></div>
+  <p>To make Cairn go away without doing anything, press <kbd>Esc</kbd>, or just click somewhere else.</p>
+  <div class="callout note">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+    <div><p>Cairn never really closes when you hide it. It waits in the tray, so the next <span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span> is instant, and it remembers what you were typing.</p></div>
+  </div>
+
+  <h3>The window, top to bottom</h3>
+  <figure class="annot" aria-label="The Cairn window with numbered parts">
+    <div class="launcher">
+      <div class="l-search" style="height:36px;border-bottom:1px solid var(--border);justify-content:flex-end">
+        <span class="pin" aria-hidden="true">1</span>
+        <span class="dots"><span class="dot y"></span><span class="dot r"></span></span>
+      </div>
+      <div class="l-search">
+        <span class="pin" aria-hidden="true">2</span>
+        <span style="flex:1;color:var(--muted);font-size:15px">Search commands, scripts, notes…</span>
+        <span class="l-meta">13 results · 16 ms</span>
+      </div>
+      <div class="l-search" style="height:44px;gap:6px;font-size:12.5px">
+        <span class="pin" aria-hidden="true">3</span>
+        <span class="chip" style="background:var(--accent-soft);color:var(--accent-text)">All 13</span>
+        <span class="chip plain">Commands 6</span>
+        <span class="chip plain">Scripts 1</span>
+        <span style="flex:1"></span>
+        <span class="l-meta">Tab to switch</span>
+      </div>
+      <div class="l-body">
+        <ul class="l-list" aria-hidden="true">
+          <li style="padding:4px 9px"><span class="pin">4</span><span class="l-why">Favorites and recent</span></li>
+          <li aria-selected="true"><span class="glyph g-command">&gt;_</span><span class="l-txt"><span class="l-title">Start-Service postgresql-x64-18</span></span></li>
+          <li><span class="glyph g-command">&gt;_</span><span class="l-txt"><span class="l-title">git log --oneline --graph -20</span></span></li>
+          <li><span class="glyph g-script">#!</span><span class="l-txt"><span class="l-title">backup-dev-db.ps1</span></span></li>
+          <li><span class="glyph g-note">¶</span><span class="l-txt"><span class="l-title sans">Port 5432 in use</span></span></li>
+        </ul>
+        <div class="l-detail" aria-hidden="true">
+          <div style="display:flex;gap:8px;align-items:center"><span class="pin">5</span><span class="chip" style="color:var(--k-command);background:color-mix(in srgb,var(--k-command) 15%,transparent)">Command</span><span class="chip plain">PowerShell</span></div>
+          <pre>Start-Service postgresql-x64-18</pre>
+          <span class="l-label">Why I saved this</span>
+          <span class="l-whyfull" style="color:var(--muted)">Tags, used, last used</span>
+        </div>
+      </div>
+      <div class="l-foot">
+        <span class="pin" aria-hidden="true">6</span>
+        <span>Cairn</span>
+        <span class="l-status">Copy to clipboard <kbd>Enter</kbd> · Actions <kbd>Ctrl</kbd><kbd>K</kbd></span>
+      </div>
+    </div>
+    <ol class="legend">
+      <li><span class="pin">1</span><span><b>Title bar.</b> Drag it to move the window. The <b>yellow</b> button hides Cairn, the <b>red</b> one quits it.</span></li>
+      <li><span class="pin">2</span><span><b>Search box</b>, with the number of results and how long the search took.</span></li>
+      <li><span class="pin">3</span><span><b>Filter chips</b> for each kind, with their counts.</span></li>
+      <li><span class="pin">4</span><span><b>Results.</b> With an empty search: your favorites and recent entries.</span></li>
+      <li><span class="pin">5</span><span><b>Details pane</b>: the full content, the why, tags and usage.</span></li>
+      <li><span class="pin">6</span><span><b>Footer</b> with the main action and the action panel.</span></li>
+    </ol>
+  </figure>
+</section>
+
+<!-- 4 -->
+<section class="chapter" id="finding">
+  <div class="ch-head"><span class="ch-num">4</span><h2>Finding things</h2></div>
+
+  <h3>Just type</h3>
+  <p>Type what you remember, in any words. Cairn looks in the <b>title</b>, the <b>content</b>, the <b>why</b> and the <b>tags</b> all at once, and puts the best match on top.</p>
+  <ul>
+    <li><b>Words are matched as you type:</b> <code>datab</code> already finds <em>database</em>.</li>
+    <li><b>Every word should appear somewhere.</b> If no entry has all of them, Cairn shows the entries that match <em>some</em> of them instead, best first. So <em>"start the database please"</em> still finds your Postgres command.</li>
+    <li><b>Accents don't matter:</b> <code>cafe</code> finds <em>café</em>.</li>
+  </ul>
+  <div class="callout tip">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
+    <div><p>Fewer, more distinctive words work best. <code>postgres start</code> beats <code>how do I start the postgres thing</code>.</p></div>
+  </div>
+
+  <h3>With an empty search box</h3>
+  <p>You see <b>Favorites and recent</b>: your favorites first, then what you used most recently, then everything else, newest first. Most of the time, what you need is already in the top three.</p>
+
+  <h3>Shortcuts inside the search box</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Type</th><th>Meaning</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><code>&gt;</code> at the start</td><td class="wrap"><b>Commands only</b> (the Commands chip switches on)</td><td><code>&gt;docker</code></td></tr>
+      <tr><td><code>#tag</code> anywhere</td><td class="wrap"><b>Only entries with this exact tag.</b> Add several to require all of them.</td><td><code>#postgres #docker exec</code></td></tr>
+      <tr><td><code>?</code> at the start</td><td class="wrap">Reserved for asking questions (coming later); for now it's ordinary search</td><td><code>? restart api</code></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout note">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+    <div><p><code>#tag</code> is exact: <code>#docker</code> won't match an entry tagged <code>dockerfile</code>. Plain words (without <code>#</code>) also look inside tags, but loosely.</p></div>
+  </div>
+
+  <h3>Filter chips</h3>
+  <p>Under the search box: <b>All</b>, <b>Commands</b>, <b>Scripts</b>, <b>Code</b>, <b>Notes</b> and <b>Ideas</b>, each with its number of matches.</p>
+  <ul>
+    <li>Press <kbd>Tab</kbd> for the next chip, <span class="keys"><kbd>Shift</kbd><kbd>Tab</kbd></span> for the previous one. It wraps around.</li>
+    <li>Or click a chip. You can keep typing right away.</li>
+  </ul>
+  <p>If a chip says <em>"Nothing of this type matches"</em>, look at the other chips' numbers: your entry is probably in another kind.</p>
+
+  <h3>Moving around</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Key</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td class="wrap">Move through the results</td></tr>
+      <tr><td><span class="keys"><kbd>Ctrl</kbd><kbd>D</kbd></span></td><td class="wrap">Hide or show the details pane (more room for the list)</td></tr>
+      <tr><td><kbd>Esc</kbd></td><td class="wrap">Clear the search; press again to hide Cairn</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 5 -->
+<section class="chapter" id="using">
+  <div class="ch-head"><span class="ch-num">5</span><h2>Using what you found</h2></div>
+  <p>Select an entry, then choose what to do with it.</p>
+
+  <h3><kbd>Enter</kbd> Copy</h3>
+  <p>Copies the entry to the clipboard and hides Cairn. The search box is empty again next time.</p>
+
+  <h3><span class="keys"><kbd>Ctrl</kbd><kbd>Enter</kbd></span> Paste straight into your app</h3>
+  <p>Cairn remembers which window you were in when you pressed <span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span>. <span class="keys"><kbd>Ctrl</kbd><kbd>Enter</kbd></span> copies the entry, switches back to that window and pastes it for you, at the cursor.</p>
+  <div class="callout important">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9.5 16.5h-19z"/><path d="M12 10v4M12 17h.01"/></svg>
+    <div><ul style="margin:0">
+      <li>If that window was <b>closed</b> meanwhile, Cairn stays open and says <b>"Copied; paste with Ctrl+V"</b>. The content is on your clipboard; paste it wherever you like.</li>
+      <li>Apps <b>running as administrator</b> don't accept keystrokes from normal apps (a Windows security rule). Cairn switches to them, but nothing is typed. Just press <span class="keys"><kbd>Ctrl</kbd><kbd>V</kbd></span> yourself: the content is already on the clipboard.</li>
+    </ul></div>
+  </div>
+
+  <h3><span class="keys"><kbd>Ctrl</kbd><kbd>R</kbd></span> Run it in a terminal</h3>
+  <p>For <b>commands and scripts</b> only. Cairn opens <b>Windows Terminal</b> (or a classic console window) in your home folder and runs the entry there. The window stays open so you can read the output.</p>
+  <ul>
+    <li><b>Press <span class="keys"><kbd>Ctrl</kbd><kbd>R</kbd></span> twice.</b> The first press asks <em>"Press Ctrl+R again to run in PowerShell"</em>. Running something can't be undone, and Ctrl+R is also "reload" in browsers, so Cairn makes sure you meant it.</li>
+    <li><b>Shells:</b> <b>PowerShell</b> (also used when no shell is set) and <b>cmd</b>. Entries marked <code>bash</code>, <code>zsh</code> and others can't be run yet; Cairn tells you so.</li>
+    <li>Entries with <code>{{placeholders}}</code> can't be run yet either (see <a href="#placeholders">Placeholders</a>).</li>
+  </ul>
+</section>
+
+<!-- 6 -->
+<section class="chapter" id="saving">
+  <div class="ch-head"><span class="ch-num">6</span><h2>Saving new entries</h2></div>
+  <p>Press <span class="keys"><kbd>Ctrl</kbd><kbd>N</kbd></span> in Cairn. The editor opens, with the kind already set to the chip you were on (Commands if you were on All).</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Field</th><th>Tips</th></tr></thead>
+    <tbody>
+      <tr><td><b>Content</b></td><td class="wrap">The command, script, code or text. Required for commands, scripts and code. <kbd>Tab</kbd> moves to the next field (it doesn't indent).</td></tr>
+      <tr><td><b>Title</b></td><td class="wrap">Optional. Leave it empty and Cairn uses the first line of the content.</td></tr>
+      <tr><td><b>Type</b></td><td class="wrap">Command, Script, Code, Note, Idea. Use <kbd>←</kbd> <kbd>→</kbd> to change it.</td></tr>
+      <tr><td><b>Shell</b> or <b>Language</b></td><td class="wrap">Shown for commands and scripts (<code>powershell</code>, <code>bash</code>, <code>cmd</code>…) and for code (<code>typescript</code>, <code>rust</code>, <code>sql</code>…). Suggestions appear as you type.</td></tr>
+      <tr><td><b>Why</b></td><td class="wrap"><b>The most important field.</b> One sentence, in the words you'd search with.</td></tr>
+      <tr><td><b>Tags</b></td><td class="wrap">Type a tag and press <kbd>Enter</kbd> (or a comma). <kbd>Backspace</kbd> in an empty tag box removes the last one. Existing tags are suggested.</td></tr>
+      <tr><td><b>Favorite</b></td><td class="wrap">Switch it on to keep the entry at the top of <em>Favorites and recent</em>.</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><span class="keys"><kbd>Ctrl</kbd><kbd>Enter</kbd></span> saves. You're back in the search with the new entry selected.</li>
+    <li><kbd>Esc</kbd> cancels. If you've typed anything, Cairn asks first: <b>"Discard changes? Press Esc again"</b>.</li>
+  </ul>
+  <div class="callout tip">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
+    <div><p><span class="label">Your draft is safe.</span> If you click elsewhere or press <span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span> while writing, Cairn hides, but your draft is waiting, untouched, when you come back. Only <kbd>Esc</kbd> throws it away.</p></div>
+  </div>
+
+  <h3>How tags are tidied up</h3>
+  <p>Cairn cleans tags so the same tag is never saved twice in different spellings:</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>You type</th><th>Saved as</th></tr></thead>
+    <tbody>
+      <tr><td><code>#Docker</code></td><td><code>docker</code></td></tr>
+      <tr><td><code>dev ops</code></td><td><code>dev-ops</code></td></tr>
+      <tr><td><code>docker, k8s</code></td><td class="wrap"><code>docker</code> and <code>k8s</code> (commas separate tags)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 id="placeholders">Placeholders</h3>
+  <p>Write <code>{{name}}</code> in your content for the parts that change each time, or <code>{{name:default}}</code> with a default value:</p>
+  <pre><code>docker exec -it {{container}} psql -U {{user:postgres}}</code></pre>
+  <p style="margin-top:16px">For now, Cairn copies placeholders as they are, so you replace them after pasting. <b>Filling them in from Cairn, with suggestions from the values you used before, is coming soon.</b></p>
+</section>
+
+<!-- 7 -->
+<section class="chapter" id="editing">
+  <div class="ch-head"><span class="ch-num">7</span><h2>Editing, favorites and deleting</h2></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>To…</th><th>Do this</th></tr></thead>
+    <tbody>
+      <tr><td><b>Edit</b> an entry</td><td class="wrap">Select it, press <span class="keys"><kbd>Ctrl</kbd><kbd>E</kbd></span>. Same editor, same rules. Saving without changes changes nothing.</td></tr>
+      <tr><td><b>Favorite</b> or <b>unfavorite</b></td><td class="wrap"><span class="keys"><kbd>Ctrl</kbd><kbd>K</kbd></span>, then <b>Add to favorites</b> (or <b>Remove from favorites</b>), or the switch in the editor.</td></tr>
+      <tr><td><b>Delete</b></td><td class="wrap">Select it, press <span class="keys"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Backspace</kbd></span> <b>twice</b>. The first press warns you in red; moving to another entry cancels.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout note">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+    <div><p><kbd>Backspace</kbd> is the key just above <kbd>Enter</kbd> that erases backwards, not the <kbd>Delete</kbd> key.</p></div>
+  </div>
+  <p>Deleted entries disappear from Cairn right away. They're kept in your database for now, and a way to restore them is planned.</p>
+</section>
+
+<!-- 8 -->
+<section class="chapter" id="actions">
+  <div class="ch-head"><span class="ch-num">8</span><h2>The action panel</h2></div>
+  <p>Don't want to learn shortcuts? Press <span class="keys"><kbd>Ctrl</kbd><kbd>K</kbd></span> (or click <b>Actions</b> at the bottom right). A small menu lists everything you can do with the selected entry:</p>
+  <div class="panel-fig" role="img" aria-label="The action panel, listing Copy, Paste, Run, Edit, Add to favorites, Delete, New entry, Settings and Quit">
+    <div class="ph">Start-Service postgresql-x64-18</div>
+    <div class="row"><span>Copy to clipboard</span><span class="keys"><kbd>Enter</kbd></span></div>
+    <div class="row"><span>Paste into active window</span><span class="keys"><kbd>Ctrl</kbd><kbd>Enter</kbd></span></div>
+    <div class="row"><span>Run in PowerShell</span><span class="keys"><kbd>Ctrl</kbd><kbd>R</kbd></span></div>
+    <div class="row"><span>Edit</span><span class="keys"><kbd>Ctrl</kbd><kbd>E</kbd></span></div>
+    <div class="row"><span>Add to favorites</span></div>
+    <div class="row danger"><span>Delete</span><span class="keys"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>⌫</kbd></span></div>
+    <div class="row"><span>New entry</span><span class="keys"><kbd>Ctrl</kbd><kbd>N</kbd></span></div>
+    <div class="row"><span>Settings</span><span class="keys"><kbd>Ctrl</kbd><kbd>,</kbd></span></div>
+    <div class="row"><span>Quit Cairn</span></div>
+    <div class="sa">Search actions…</div>
+  </div>
+  <ul>
+    <li><b>Type</b> to filter (<code>fav</code>, <code>del</code>…), <kbd>↑</kbd> <kbd>↓</kbd> to move, <kbd>Enter</kbd> to run.</li>
+    <li><kbd>Esc</kbd> closes the panel. Every shortcut keeps working while it's open.</li>
+    <li>Each row shows its shortcut, so the panel teaches you as you go.</li>
+  </ul>
+</section>
+
+<!-- Settings -->
+<section class="chapter" id="settings">
+  <div class="ch-head"><span class="ch-num">9</span><h2>Settings</h2></div>
+  <p>Open them with <span class="keys"><kbd>Ctrl</kbd><kbd>,</kbd></span> (comma), from <span class="keys"><kbd>Ctrl</kbd><kbd>K</kbd></span> then <b>Settings</b>, or by right-clicking the tray icon and choosing <b>Settings…</b>. Every change applies <b>immediately</b>, and Cairn remembers it.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Setting</th><th>Choices</th></tr></thead>
+    <tbody>
+      <tr><td><b>Theme</b></td><td class="wrap"><b>System</b> follows Windows and shows which theme it's using right now. <b>Light</b> is warm white, <b>Dark</b> is warm charcoal.</td></tr>
+      <tr><td><b>Accent color</b></td><td class="wrap"><b>Majorelle</b> (violet, the default), <b>Zellige teal</b>, <b>Terracotta</b> or <b>Saffron</b>. It colors the selection, the active chip, buttons and the Cairn mark. Try them on this page with the swatches at the top.</td></tr>
+      <tr><td><b>Show detail pane</b></td><td class="wrap">The right-hand pane with the full content, the why and the tags. <span class="keys"><kbd>Ctrl</kbd><kbd>D</kbd></span> flips the same switch from the search.</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>From the keyboard:</b> the arrows move between choices (<kbd>←</kbd> <kbd>→</kbd> along a row, <kbd>↑</kbd> <kbd>↓</kbd> to the row above or below), and <kbd>Enter</kbd> applies the one you're on. Settings opens on your current theme, so you can start right away.</p>
+  <p>Press <kbd>Esc</kbd> (or click <b>Back to search</b>) to return.</p>
+  <div class="callout note">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+    <div><p>More sections (shortcuts, search, backup…) will appear here as those features arrive.</p></div>
+  </div>
+</section>
+
+<!-- Keys -->
+<section class="chapter" id="keys">
+  <div class="ch-head"><span class="ch-num">10</span><h2>Keyboard cheat sheet</h2></div>
+  <div class="cheat">
+    <section aria-labelledby="ck1">
+      <h3 id="ck1">Anywhere in Windows</h3>
+      <dl>
+        <dt><span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span></dt><dd>Open or hide Cairn</dd>
+      </dl>
+      <h3 style="margin-top:18px" id="ck3">In the editor</h3>
+      <dl>
+        <dt><span class="keys"><kbd>Ctrl</kbd><kbd>Enter</kbd></span></dt><dd>Save</dd>
+        <dt><kbd>Esc</kbd></dt><dd>Cancel (twice if you changed something)</dd>
+        <dt><kbd>Tab</kbd></dt><dd>Next field</dd>
+      </dl>
+    </section>
+    <section aria-labelledby="ck2">
+      <h3 id="ck2">In the search</h3>
+      <dl>
+        <dt><kbd>↑</kbd> <kbd>↓</kbd></dt><dd>Move the selection</dd>
+        <dt><span class="keys"><kbd>Tab</kbd></span> <span class="keys"><kbd>Shift</kbd><kbd>Tab</kbd></span></dt><dd>Next or previous chip</dd>
+        <dt><kbd>Enter</kbd></dt><dd>Copy and hide</dd>
+        <dt><span class="keys"><kbd>Ctrl</kbd><kbd>Enter</kbd></span></dt><dd>Paste into the window you came from</dd>
+        <dt><span class="keys"><kbd>Ctrl</kbd><kbd>R</kbd></span><span class="twice">×2</span></dt><dd>Run in a terminal</dd>
+        <dt><span class="keys"><kbd>Ctrl</kbd><kbd>N</kbd></span></dt><dd>New entry</dd>
+        <dt><span class="keys"><kbd>Ctrl</kbd><kbd>E</kbd></span></dt><dd>Edit the selected entry</dd>
+        <dt><span class="keys"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>⌫</kbd></span><span class="twice">×2</span></dt><dd>Delete the selected entry</dd>
+        <dt><span class="keys"><kbd>Ctrl</kbd><kbd>K</kbd></span></dt><dd>Action panel</dd>
+        <dt><span class="keys"><kbd>Ctrl</kbd><kbd>D</kbd></span></dt><dd>Show or hide the details pane</dd>
+        <dt><span class="keys"><kbd>Ctrl</kbd><kbd>,</kbd></span></dt><dd>Settings</dd>
+        <dt><kbd>Esc</kbd></dt><dd>Close panel, then clear search, then hide</dd>
+        <dt><span class="keys"><kbd>Alt</kbd><kbd>F4</kbd></span></dt><dd>Hide (Cairn keeps running)</dd>
+      </dl>
+    </section>
+  </div>
+
+  <h3>Hide or quit?</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>You want to…</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hide</b> Cairn (it stays ready)</td><td class="wrap"><kbd>Esc</kbd>, click elsewhere, <span class="keys"><kbd>Alt</kbd><kbd>F4</kbd></span>, the <b>yellow</b> button, or <span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span></td></tr>
+      <tr><td><b>Quit</b> Cairn completely</td><td class="wrap">The <b>red</b> button, the tray icon's <b>Quit Cairn</b>, or <span class="keys"><kbd>Ctrl</kbd><kbd>K</kbd></span> then <b>Quit Cairn</b></td></tr>
+      <tr><td><b>Bring it back</b></td><td class="wrap"><span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span>, or left-click the tray icon</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- Data -->
+<section class="chapter" id="data">
+  <div class="ch-head"><span class="ch-num">11</span><h2>Your data and privacy</h2></div>
+  <p><b>Cairn never connects to the internet.</b> No account, no sync, no analytics, no telemetry. Even its fonts are built in.</p>
+  <p>Everything you save lives in <b>one file on your computer</b>:</p>
+  <pre><code>%LOCALAPPDATA%\com.ayoubedahlouli.cairn\cairn.db</code></pre>
+  <p style="margin-top:12px">Paste that into the File Explorer address bar to open the folder.</p>
+
+  <h3>Backing up</h3>
+  <p>Built-in backup and export are coming. Until then:</p>
+  <ol class="steps">
+    <li><b>Quit</b> Cairn (tray icon, then <b>Quit Cairn</b>), so the file isn't in use.</li>
+    <li>Copy <code>cairn.db</code> somewhere safe. If you see <code>cairn.db-wal</code> and <code>cairn.db-shm</code> next to it, copy them too.</li>
+  </ol>
+  <p>To restore, quit Cairn and put the file back in the same folder.</p>
+
+  <h3>Appearance</h3>
+  <p>By default Cairn follows your <b>Windows light or dark setting</b> (<em>Settings → Personalization → Colors</em>). To choose yourself, open Cairn's own <a href="#settings">Settings</a>.</p>
+</section>
+
+<!-- Trouble -->
+<section class="chapter" id="trouble">
+  <div class="ch-head"><span class="ch-num">12</span><h2>Troubleshooting</h2></div>
+
+  <details><summary>Alt + Space doesn't open Cairn</summary><div>
+    <p>Another app (often <b>PowerToys Run</b>) may already use <span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span>. Cairn then falls back to <span class="keys"><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Space</kbd></span>. <b>Hover over the tray icon</b>: the tooltip always shows the shortcut that works, or says there is none (then use the tray icon itself).</p>
+  </div></details>
+
+  <details><summary>Ctrl + Shift + Backspace doesn't delete</summary><div>
+    <ul>
+      <li>Press it <b>twice</b>: the first press only shows the red warning.</li>
+      <li>Make sure it's <b>Backspace</b> (above Enter), not Delete.</li>
+      <li>On some keyboards set up with several languages, <b>Ctrl + Shift switches the keyboard layout</b> and eats the shortcut. Check <em>Settings → Time &amp; language → Typing → Advanced keyboard settings → Input language hot keys</em>.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Ctrl + Enter copied but didn't paste</summary><div>
+    <ul>
+      <li>The target app may be <b>running as administrator</b>. Press <span class="keys"><kbd>Ctrl</kbd><kbd>V</kbd></span> yourself; the content is on the clipboard.</li>
+      <li>If you see <b>"Copied; paste with Ctrl+V"</b>, the window you came from was closed, or Windows wouldn't bring it forward. Paste manually.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>Ctrl + R says "Run supports PowerShell and cmd for now"</summary><div>
+    <p>The entry's shell is something else (<code>bash</code>, <code>zsh</code>…). Edit it with <span class="keys"><kbd>Ctrl</kbd><kbd>E</kbd></span> and set the shell to <code>powershell</code> or <code>cmd</code> if it's really a Windows command, or copy it and run it yourself.</p>
+  </div></details>
+
+  <details><summary>I can't find something I know I saved</summary><div>
+    <ul>
+      <li>Try <b>fewer words</b>, or a single distinctive one.</li>
+      <li>Check the <b>chip</b>: you may be filtering on Scripts while it's a Command. Press <kbd>Tab</kbd> until <b>All</b> is selected.</li>
+      <li>Remember that <code>#tag</code> is exact; try the word without <code>#</code>.</li>
+      <li>Next time, give it a better <b>why</b>. It's the part you'll remember.</li>
+    </ul>
+  </div></details>
+
+  <details><summary>I opened Cairn twice</summary><div>
+    <p>No problem: Cairn only ever runs once. Starting it again just brings the existing window forward.</p>
+  </div></details>
+</section>
+
+<!-- Next -->
+<section class="chapter" id="next">
+  <div class="ch-head"><span class="ch-num">13</span><h2>What's coming next</h2></div>
+  <p>Cairn is young. Here's what's on the trail ahead:</p>
+  <ul class="ahead">
+    <li><b>Typo tolerance</b><span><code>postgers</code> will still find <em>postgres</em>.</span></li>
+    <li><b>Smarter ranking</b><span>What you use often and recently rises to the top.</span></li>
+    <li><b>Search by meaning</b><span>Find entries by idea, even with completely different words, using a model that runs on your own computer.</span></li>
+    <li><b>Fill parameters</b><span><code>{{container}}</code> gets a small form, with values you used before suggested. <span class="keys"><kbd>Ctrl</kbd><kbd>P</kbd></span>.</span></li>
+    <li><b>Quick capture</b><span><span class="keys"><kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd></span> saves whatever is on your clipboard, in two seconds.</span></li>
+    <li><b>Shell history import</b><span>Cairn notices commands you keep typing in PowerShell or bash, and offers to keep them.</span></li>
+    <li><b>Local AI helpers</b><span>A suggested why, automatic tags, and questions about your own entries (<code>?</code>). All on your machine.</span></li>
+    <li><b>More settings</b><span>Density, start with Windows, your own shortcut, backup and export.</span></li>
+  </ul>
+
+  <div class="closing">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="19" rx="9" ry="3.2"/><ellipse cx="11.5" cy="12.6" rx="6.2" ry="2.8"/><ellipse cx="12.4" cy="6.8" rx="3.8" ry="2.4"/></svg>
+    <p>Leave a stone for your future self.</p>
+    <p><span class="keys"><kbd>Alt</kbd><kbd>Space</kbd></span>, and you're back on the trail.</p>
+  </div>
+</section>
+
+  </main>
+</div>
+
+<footer class="site">The Cairn Field Guide, version 0.1. Cairn runs fully offline on Windows 10 and 11.</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+  // Theme
+  var themeBtns = document.querySelectorAll('[data-theme-choice]');
+  function applyTheme(t) {
+    if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme');
+    themeBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.themeChoice === t)); });
+  }
+  applyTheme(load('cairn-guide-theme') || 'system');
+  themeBtns.forEach(function (b) { b.addEventListener('click', function () { applyTheme(b.dataset.themeChoice); store('cairn-guide-theme', b.dataset.themeChoice); }); });
+
+  // Accent
+  var accBtns = document.querySelectorAll('[data-accent]');
+  function applyAccent(a) {
+    root.style.setProperty('--accent', a);
+    accBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.accent === a)); });
+  }
+  var savedAcc = load('cairn-guide-accent');
+  if (savedAcc) applyAccent(savedAcc);
+  accBtns.forEach(function (b) { b.addEventListener('click', function () { applyAccent(b.dataset.accent); store('cairn-guide-accent', b.dataset.accent); }); });
+
+  // Trail: highlight current chapter
+  var links = Array.prototype.slice.call(document.querySelectorAll('.trail a'));
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function onScroll() {
+    var y = window.scrollY + 140, idx = -1;
+    sections.forEach(function (s, i) { if (s && s.offsetTop <= y) idx = i; });
+    links.forEach(function (a, i) {
+      a.setAttribute('aria-current', String(i === idx));
+      a.classList.toggle('passed', i < idx);
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Live demo
+  var entries = [
+    { k: 'command', g: '>_', label: 'Command', shell: 'PowerShell', title: 'Start-Service postgresql-x64-18', why: 'Start the local PostgreSQL service when the app can\u2019t connect to the database.', tags: 'postgres windows database' },
+    { k: 'command', g: '>_', label: 'Command', shell: 'bash', title: 'git log --oneline --graph -20', why: 'Show the last 20 commits as a compact history graph.', tags: 'git history' },
+    { k: 'command', g: '>_', label: 'Command', shell: 'bash', title: 'docker exec -it {{container}} psql -U {{user:postgres}}', why: 'Open a psql shell inside a running Postgres container.', tags: 'postgres docker database' },
+    { k: 'script', g: '#!', label: 'Script', shell: 'PowerShell', title: 'backup-dev-db.ps1', why: 'Dump the dev database before running risky migrations.', tags: 'postgres backup database', body: '$date = Get-Date -Format "yyyy-MM-dd"\npg_dump -U postgres -F c devdb > "D:\\backups\\devdb_$date.dump"' },
+    { k: 'note', g: '\u00b6', label: 'Note', shell: 'Windows', title: 'Postgres won\u2019t start: port 5432 in use', why: 'Another instance is holding port 5432. Find the process and stop it.', tags: 'postgres troubleshooting port', body: 'netstat -ano | findstr 5432\ntaskkill /PID <pid> /F' },
+    { k: 'code', g: '</>', label: 'Code', shell: 'TypeScript', title: 'useDebounce hook', why: 'Debounce a search input in React so it doesn\u2019t fire on every keystroke.', tags: 'react typescript hooks', body: 'function useDebounce<T>(value: T, ms = 200) {\n  const [v, setV] = useState(value);\n  useEffect(() => {\n    const t = setTimeout(() => setV(value), ms);\n    return () => clearTimeout(t);\n  }, [value, ms]);\n  return v;\n}' },
+    { k: 'idea', g: '\u2726', label: 'Idea', shell: 'Idea', title: 'Import my PowerShell aliases into Cairn', why: 'Stop retyping aliases on every new machine.', tags: 'powershell ideas' }
+  ];
+  var q = document.getElementById('demo-q'), list = document.getElementById('demo-list'),
+      detail = document.getElementById('demo-detail'), meta = document.getElementById('demo-meta'),
+      status = document.getElementById('demo-status');
+  var sel = 0, shown = [];
+  function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+  function hay(e) { return norm(e.title + ' ' + e.why + ' ' + e.tags + ' ' + (e.body || '')); }
+  function words(h) { return h.split(/[^a-z0-9]+/).filter(Boolean); }
+  function match(tok, ws) { return ws.some(function (w) { return w.indexOf(tok) === 0; }); }
+  function search() {
+    var toks = norm(q.value).split(/\s+/).filter(function (t) { return t.length > 0; });
+    if (!toks.length) return entries.slice();
+    var scored = entries.map(function (e) {
+      var ws = words(hay(e)), tw = words(norm(e.title));
+      var hits = toks.filter(function (t) { return t.length > 1 ? match(t, ws) : ws.indexOf(t) >= 0; }).length;
+      var th = toks.filter(function (t) { return match(t, tw); }).length;
+      return { e: e, hits: hits, score: hits * 10 + th * 3 };
+    });
+    var all = scored.filter(function (s) { return s.hits === toks.length; });
+    var pool = all.length ? all : scored.filter(function (s) { return s.hits > 0; });
+    pool.sort(function (a, b) { return b.score - a.score; });
+    return pool.map(function (s) { return s.e; });
+  }
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function render() {
+    var t0 = performance.now();
+    shown = search();
+    if (sel >= shown.length) sel = 0;
+    list.innerHTML = shown.length ? shown.map(function (e, i) {
+      return '<li role="option" id="opt' + i + '" data-i="' + i + '" aria-selected="' + (i === sel) + '">' +
+        '<span class="glyph g-' + e.k + '" aria-hidden="true">' + esc(e.g) + '</span>' +
+        '<span class="l-txt"><span class="l-title' + (e.k === 'note' || e.k === 'idea' ? ' sans' : '') + '">' + esc(e.title) + '</span>' +
+        '<span class="l-why">' + esc(e.why) + '</span></span></li>';
+    }).join('') : '<li class="l-empty" role="presentation">Nothing matches yet. In Cairn, Ctrl N saves a new entry.</li>';
+    q.setAttribute('aria-activedescendant', shown.length ? 'opt' + sel : '');
+    var e = shown[sel];
+    detail.innerHTML = e ? (
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip g-' + e.k + '">' + e.label + '</span><span class="chip plain">' + esc(e.shell) + '</span></div>' +
+      '<pre>' + esc(e.body || e.title) + '</pre>' +
+      '<span class="l-label">Why I saved this</span><span class="l-whyfull">' + esc(e.why) + '</span>'
+    ) : '';
+    var ms = Math.max(1, Math.round(performance.now() - t0));
+    meta.textContent = shown.length + (shown.length === 1 ? ' result' : ' results') + ' \u00b7 ' + ms + ' ms';
+    status.innerHTML = 'Copy to clipboard <kbd>Enter</kbd>';
+  }
+  q.addEventListener('input', function () { sel = 0; render(); });
+  q.addEventListener('keydown', function (ev) {
+    if (ev.key === 'ArrowDown') { ev.preventDefault(); if (shown.length) { sel = (sel + 1) % shown.length; render(); } }
+    else if (ev.key === 'ArrowUp') { ev.preventDefault(); if (shown.length) { sel = (sel - 1 + shown.length) % shown.length; render(); } }
+    else if (ev.key === 'Enter') {
+      ev.preventDefault();
+      var e = shown[sel]; if (!e) return;
+      var text = e.body || e.title;
+      var done = function () { status.textContent = 'Copied to clipboard'; };
+      var fail = function () { status.textContent = 'In Cairn, Enter copies this'; };
+      try { navigator.clipboard.writeText(text).then(done, fail); } catch (err) { fail(); }
+    } else if (ev.key === 'Escape') { q.value = ''; sel = 0; render(); }
+  });
+  list.addEventListener('click', function (ev) {
+    var li = ev.target.closest('li[data-i]'); if (!li) return;
+    sel = +li.dataset.i; render(); q.focus();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

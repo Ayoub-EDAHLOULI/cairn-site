@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cairn, landing page</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141414}
+a{color:#A79EF0}a:hover{color:#C8C2F7}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #8B7FF0;outline-offset:2px}
+@media (max-width:700px){.c-nav{display:none!important}.c-detail{display:none!important}.c-list{border-right:0!important}.c-space{width:160px!important}.c-kind{border-right:0!important;border-bottom:1px solid #252524}}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 100vh; background: #141414; color: #EDEDEC; font-family: 'Geist', 'Segoe UI', system-ui, sans-serif; font-size: 17px; line-height: 1.6">
+
+<header style="position: sticky; top: 0; z-index: 10; background: rgba(20,20,20,0.82); backdrop-filter: blur(12px); border-bottom: 1px solid #2A2A29">
+<div style="max-width: 1120px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 28px">
+<a href="#top" style="display: flex; align-items: center; gap: 10px; color: #EDEDEC; text-decoration: none; font-weight: 600; font-size: 17px">
+<span style="width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: {{accent}}" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><ellipse cx="12" cy="19" rx="9" ry="3.2"></ellipse><ellipse cx="11.5" cy="12.6" rx="6.2" ry="2.8"></ellipse><ellipse cx="12.4" cy="6.8" rx="3.8" ry="2.4"></ellipse></svg></span>
+Cairn
+</a>
+<nav class="c-nav" aria-label="Main" style="display: flex; gap: 22px; font-size: 14.5px; flex-wrap: wrap">
+<a href="#features" style="color: #9B9A97; text-decoration: none">Features</a>
+<a href="#offline" style="color: #9B9A97; text-decoration: none">Privacy</a>
+<a href="#roadmap" style="color: #9B9A97; text-decoration: none">Roadmap</a>
+<a href="#faq" style="color: #9B9A97; text-decoration: none">FAQ</a>
+<a href="https://github.com/Ayoub-EDAHLOULI/cairn" style="color: #9B9A97; text-decoration: none">GitHub</a>
+</nav>
+<span style="flex-grow: 1"></span>
+<a href="https://github.com/Ayoub-EDAHLOULI/cairn/releases/latest" style="display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border-radius: 9px; background: {{accent}}; color: #ffffff; text-decoration: none; font-size: 14.5px; font-weight: 500; white-space: nowrap">Download</a>
+</div>
+</header>
+
+<section id="top" style="position: relative; overflow: hidden; padding: 96px 24px 120px">
+<svg aria-hidden="true" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.9">
+<g transform="translate(700 560)" fill="none" stroke="#252524" stroke-width="1.2">
+<path vector-effect="non-scaling-stroke" transform="scale(0.55)" d="M0,-225 C180,-235 320,-145 330,-15 C340,125 200,215 10,225 C-180,235 -330,155 -340,5 C-350,-145 -180,-215 0,-225Z"></path>
+<path vector-effect="non-scaling-stroke" transform="scale(0.9)" d="M0,-225 C180,-235 320,-145 330,-15 C340,125 200,215 10,225 C-180,235 -330,155 -340,5 C-350,-145 -180,-215 0,-225Z"></path>
+<path vector-effect="non-scaling-stroke" transform="scale(1.3)" d="M0,-225 C190,-240 330,-140 335,-10 C345,135 195,225 5,232 C-190,240 -340,150 -345,0 C-350,-150 -185,-215 0,-225Z"></path>
+<path vector-effect="non-scaling-stroke" transform="scale(1.75)" d="M0,-225 C175,-245 335,-150 330,-20 C330,130 205,220 15,228 C-175,236 -335,160 -342,10 C-348,-140 -190,-210 0,-225Z"></path>
+<path vector-effect="non-scaling-stroke" transform="scale(2.25)" d="M0,-225 C185,-232 325,-150 332,-12 C340,128 198,218 8,226 C-182,234 -332,152 -340,2 C-348,-148 -182,-218 0,-225Z"></path>
+<path vector-effect="non-scaling-stroke" transform="scale(2.8)" d="M0,-225 C180,-235 320,-145 330,-15 C340,125 200,215 10,225 C-180,235 -330,155 -340,5 C-350,-145 -180,-215 0,-225Z"></path>
+</g>
+<path d="M60,880 C220,780 300,640 470,600 C640,560 760,640 930,520 C1080,415 1180,300 1360,250" fill="none" stroke="{{accent}}" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"></path>
+<g fill="#3A3A39"><ellipse cx="470" cy="596" rx="12" ry="5"></ellipse><ellipse cx="469" cy="587" rx="8" ry="4"></ellipse><ellipse cx="470" cy="580" rx="5" ry="3"></ellipse></g>
+<g fill="#3A3A39"><ellipse cx="1080" cy="412" rx="12" ry="5"></ellipse><ellipse cx="1079" cy="403" rx="8" ry="4"></ellipse><ellipse cx="1080" cy="396" rx="5" ry="3"></ellipse></g>
+</svg>
+
+<div style="position: relative; max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center">
+<a href="#roadmap" style="display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px; border: 1px solid #2F2F2E; background: #1A1A1A; color: #B4B3AF; font-size: 13.5px; text-decoration: none; margin-bottom: 28px"><span style="width: 7px; height: 7px; border-radius: 4px; background: {{accent}}"></span>Version 0.1 is out. Free and open source.</a>
+<h1 style="margin: 0; max-width: 900px; font-size: clamp(42px, 7vw, 76px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 700">Find the command you already figured out.</h1>
+<p style="margin: 24px 0 0; max-width: 640px; font-size: clamp(18px, 2.2vw, 21px); line-height: 1.5; color: #B4B3AF">Cairn keeps your commands, scripts and snippets with the reason you saved them, and finds them by what you remember. A keystroke away, fully offline.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 36px">
+<a href="https://github.com/Ayoub-EDAHLOULI/cairn/releases/latest" style="display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 22px; border-radius: 11px; background: {{accent}}; color: #ffffff; text-decoration: none; font-size: 16px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zM11.5 4.4L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.4z"></path></svg>Download for Windows</a>
+<a href="https://github.com/Ayoub-EDAHLOULI/cairn" style="display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 22px; border-radius: 11px; background: #202020; border: 1px solid #2F2F2E; color: #EDEDEC; text-decoration: none; font-size: 16px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="#EDEDEC" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8v2.7c0 .3.2.6.7.5A10 10 0 0 0 12 2z"></path></svg>View on GitHub</a>
+</div>
+<p style="margin: 14px 0 0; font-size: 13.5px; color: #8A8986">Windows 10 and 11. No account needed.</p>
+
+<div style="width: 100%; max-width: 900px; margin-top: 64px; text-align: left; background: #191919; border: 1px solid #2F2F2E; border-radius: 16px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.02)">
+<div style="display: flex; align-items: center; gap: 12px; height: 58px; padding: 0 18px; border-bottom: 1px solid #2F2F2E">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9B9A97" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input type="text" value="{{q}}" onChange="{{onQ}}" onKeyDown="{{onKey}}" aria-label="Try searching Cairn" placeholder="Type what you remember…" style="flex-grow: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #EDEDEC; font-family: inherit; font-size: 18px">
+<span style="font-size: 12.5px; color: #9B9A97; white-space: nowrap">{{countLabel}}</span>
+</div>
+<div style="display: flex; min-height: 300px">
+<div class="c-list" style="flex: 1 1 380px; min-width: 0; padding: 8px; display: flex; flex-direction: column; gap: 2px; border-right: 1px solid #2F2F2E">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+<button type="button" onClick="{{r.pick}}" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 9px 10px; border: 0; border-radius: 8px; background: {{r.bg}}; color: #EDEDEC; font-family: inherit; text-align: left; cursor: pointer">
+<span style="width: 30px; height: 30px; flex-shrink: 0; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; background: {{r.badgeBg}}; color: {{r.badgeFg}}">{{r.glyph}}</span>
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="font-family: {{r.font}}; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.title}}</span>
+<span style="font-size: 12.5px; color: #9B9A97; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.why}}</span>
+</span>
+</button>
+</sc-for>
+<sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+<div style="padding: 48px 16px; text-align: center; font-size: 14px; color: #9B9A97">Nothing here yet. In Cairn, Ctrl N saves it.</div>
+</sc-if>
+</div>
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+<div class="c-detail" style="flex: 1 1 380px; min-width: 0; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<span style="padding: 3px 9px; border-radius: 5px; font-size: 12px; font-weight: 500; background: {{sel.badgeBg}}; color: {{sel.badgeFg}}">{{sel.kind}}</span>
+<span style="padding: 3px 9px; border-radius: 5px; font-size: 12px; background: #2C2C2B; color: #B4B3AF">{{sel.shell}}</span>
+</div>
+<pre style="margin: 0; padding: 14px 16px; border-radius: 10px; background: #141414; border: 1px solid #2F2F2E; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; color: #EDEDEC">{{sel.body}}</pre>
+<div style="font-size: 12px; font-weight: 500; color: #9B9A97">Why I saved this</div>
+<div style="font-size: 15px; line-height: 1.55; margin-top: -8px">{{sel.why}}</div>
+</div>
+</sc-if>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 16px; border-top: 1px solid #2F2F2E; background: #202020; font-size: 13px">
+<span style="width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; background: {{accent}}" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><ellipse cx="12" cy="19" rx="9" ry="3.2"></ellipse><ellipse cx="11.5" cy="12.6" rx="6.2" ry="2.8"></ellipse><ellipse cx="12.4" cy="6.8" rx="3.8" ry="2.4"></ellipse></svg></span>
+<span>Cairn</span>
+<span style="flex-grow: 1"></span>
+<span style="color: #B4B3AF; display: flex; align-items: center; gap: 6px">{{status}}<span style="min-width: 22px; height: 20px; padding: 0 6px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; background: #2F2F2E; font-size: 11px">↵</span></span>
+</div>
+</div>
+<p style="margin: 18px 0 0; font-size: 14px; color: #8A8986">This is the real search, running in your browser. Try <span style="color: #EDEDEC">port in use</span> or <span style="color: #EDEDEC">git history</span>.</p>
+</div>
+</section>
+
+<section id="features" style="padding: 120px 24px; border-top: 1px solid #222221">
+<div style="max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 64px; align-items: center">
+<div>
+<h2 style="margin: 0; font-size: clamp(32px, 4vw, 46px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 700">Search by what you remember, not what you typed.</h2>
+<p style="margin: 22px 0 0; color: #B4B3AF; max-width: 480px">Every entry carries one sentence: why you saved it. Cairn searches that sentence as seriously as the command itself, so the words you remember months later are enough.</p>
+<p style="margin: 16px 0 0; color: #B4B3AF; max-width: 480px">Typing partial words works, accents don't matter, and if no entry has every word, Cairn shows the closest ones instead of nothing.</p>
+</div>
+<div style="display: flex; flex-direction: column; border: 1px solid #2F2F2E; border-radius: 14px; background: #191919; overflow: hidden">
+<div style="display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); padding: 12px 20px; font-size: 13px; color: #9B9A97; border-bottom: 1px solid #2F2F2E"><span>You type</span><span>Cairn finds</span></div>
+<div style="display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 12px; padding: 18px 20px; border-bottom: 1px solid #252524; align-items: center"><span style="font-size: 16px">start the database</span><code style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: {{accentText}}; overflow-wrap: anywhere">Start-Service postgresql-x64-18</code></div>
+<div style="display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 12px; padding: 18px 20px; border-bottom: 1px solid #252524; align-items: center"><span style="font-size: 16px">port in use</span><code style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: {{accentText}}; overflow-wrap: anywhere">netstat -ano | findstr 5432</code></div>
+<div style="display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 12px; padding: 18px 20px; border-bottom: 1px solid #252524; align-items: center"><span style="font-size: 16px">open psql in docker</span><code style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: {{accentText}}; overflow-wrap: anywhere">docker exec -it pg-dev psql</code></div>
+<div style="display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 12px; padding: 18px 20px; align-items: center"><span style="font-size: 16px">backup before migration</span><code style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: {{accentText}}; overflow-wrap: anywhere">backup-dev-db.ps1</code></div>
+</div>
+</div>
+</section>
+
+<section style="padding: 0 24px 120px">
+<div style="max-width: 1120px; margin: 0 auto">
+<h2 style="margin: 0; font-size: clamp(28px, 3.4vw, 38px); line-height: 1.1; letter-spacing: -0.025em; font-weight: 700; max-width: 640px">Five kinds of things worth keeping.</h2>
+<p style="margin: 14px 0 0; color: #B4B3AF; max-width: 560px">No folders to maintain. Pick a kind, add a few tags, and filter with a keystroke.</p>
+<div style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); border: 1px solid #2F2F2E; border-radius: 14px; overflow: hidden; background: #191919">
+<div class="c-kind" style="padding: 24px 22px; border-right: 1px solid #252524; display: flex; flex-direction: column; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 14px; background: #6FB3E026; color: #6FB3E0" aria-hidden="true">&gt;_</span><span style="font-weight: 600; font-size: 17px">Commands</span><span style="font-size: 14.5px; color: #9B9A97; line-height: 1.5">The one-liners you look up every few weeks.</span></div>
+<div class="c-kind" style="padding: 24px 22px; border-right: 1px solid #252524; display: flex; flex-direction: column; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 14px; background: #FFA95E26; color: #FFA95E" aria-hidden="true">#!</span><span style="font-weight: 600; font-size: 17px">Scripts</span><span style="font-size: 14.5px; color: #9B9A97; line-height: 1.5">Multi-line PowerShell or cmd you run as a whole.</span></div>
+<div class="c-kind" style="padding: 24px 22px; border-right: 1px solid #252524; display: flex; flex-direction: column; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 14px; background: #5EC2AE26; color: #5EC2AE" aria-hidden="true">&lt;/&gt;</span><span style="font-weight: 600; font-size: 17px">Code</span><span style="font-size: 14.5px; color: #9B9A97; line-height: 1.5">The hook or query you always end up rewriting.</span></div>
+<div class="c-kind" style="padding: 24px 22px; border-right: 1px solid #252524; display: flex; flex-direction: column; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 15px; background: #B4B3AF26; color: #B4B3AF" aria-hidden="true">¶</span><span style="font-weight: 600; font-size: 17px">Notes</span><span style="font-size: 14.5px; color: #9B9A97; line-height: 1.5">The fix you found after an hour of searching.</span></div>
+<div style="padding: 24px 22px; display: flex; flex-direction: column; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 15px; background: #E6BE3A26; color: #E6BE3A" aria-hidden="true">✦</span><span style="font-weight: 600; font-size: 17px">Ideas</span><span style="font-size: 14.5px; color: #9B9A97; line-height: 1.5">Half-formed thoughts, saved before they're gone.</span></div>
+</div>
+</div>
+</section>
+
+<section style="padding: 120px 24px; background: #191919; border-top: 1px solid #222221; border-bottom: 1px solid #222221">
+<div style="max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 64px; align-items: center">
+<div style="display: flex; flex-direction: column; align-items: flex-start">
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 32px">
+<span style="height: 64px; padding: 0 22px; display: inline-flex; align-items: center; border-radius: 12px; background: #242423; border: 1px solid #353534; border-bottom-width: 4px; font-size: 22px; font-weight: 500">Alt</span>
+<span style="font-size: 22px; color: #6F6E69">+</span>
+<span class="c-space" style="height: 64px; width: 220px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: #242423; border: 1px solid #353534; border-bottom-width: 4px; font-size: 22px; font-weight: 500">Space</span>
+</div>
+<h2 style="margin: 0; font-size: clamp(32px, 4vw, 46px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 700">Never leave the keyboard.</h2>
+<p style="margin: 22px 0 0; color: #B4B3AF; max-width: 480px">Open Cairn from anywhere, type, and press Enter to copy. Ctrl Enter pastes straight into the window you came from. Ctrl K shows every action, with its shortcut, so you learn as you go.</p>
+</div>
+<div style="display: flex; justify-content: center">
+<div style="width: 100%; max-width: 380px; padding: 7px; background: #202020; border: 1px solid #2F2F2E; border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); font-size: 14.5px">
+<div style="padding: 8px 12px 6px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #9B9A97">Start-Service postgresql-x64-18</div>
+<sc-for list="{{actions}}" as="a" hint-placeholder-count="7">
+<div style="display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 12px; border-radius: 8px; background: {{a.bg}}; color: {{a.fg}}"><span style="flex-grow: 1">{{a.label}}</span><span style="font-size: 12px; color: #9B9A97">{{a.keys}}</span></div>
+</sc-for>
+<div style="margin: 6px 5px 3px; height: 34px; display: flex; align-items: center; padding: 0 10px; border: 1px solid #2F2F2E; border-radius: 8px; background: #191919; color: #8A8986; font-size: 13px">Search actions…</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="offline" style="padding: 120px 24px">
+<div style="max-width: 1120px; margin: 0 auto">
+<h2 style="margin: 0; font-size: clamp(32px, 4vw, 46px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 700; max-width: 720px">Offline by design. Your notes never leave your machine.</h2>
+<p style="margin: 22px 0 0; color: #B4B3AF; max-width: 600px">Commands hold server names, paths and sometimes passwords. Cairn makes no network requests at all: everything lives in one SQLite file you can copy, back up or delete.</p>
+<div style="margin-top: 32px; padding: 16px 20px; border-radius: 12px; background: #191919; border: 1px solid #2F2F2E; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #B4B3AF; overflow-x: auto; white-space: nowrap">%LOCALAPPDATA%\com.ayoubedahlouli.cairn\cairn.db</div>
+<div style="margin-top: 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-weight: 600; font-size: 18px">No account</span><span style="color: #9B9A97; font-size: 15.5px">Install it and start typing. Nothing to sign up for, ever.</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-weight: 600; font-size: 18px">No telemetry</span><span style="color: #9B9A97; font-size: 15.5px">No analytics, no crash reports sent anywhere. Even the fonts are built in.</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span style="font-weight: 600; font-size: 18px">Open source</span><span style="color: #9B9A97; font-size: 15.5px">Every line is on GitHub, so you don't have to take our word for any of this.</span></div>
+</div>
+</div>
+</section>
+
+<section id="roadmap" style="padding: 120px 24px; border-top: 1px solid #222221">
+<div style="max-width: 1120px; margin: 0 auto">
+<h2 style="margin: 0; font-size: clamp(32px, 4vw, 46px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 700">On the trail ahead.</h2>
+<p style="margin: 18px 0 0; color: #B4B3AF; max-width: 560px">Version 0.1 is the foundation. Here's what comes next, in order.</p>
+<ol style="list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0">
+<li style="position: relative; padding: 36px 24px 0 0; border-top: 2px solid {{accent}}"><span style="position: absolute; top: -9px; left: 0; width: 22px; height: 14px; border-radius: 50%; background: {{accent}}"></span><div style="font-size: 13px; color: {{accentText}}; font-weight: 500">Available now</div><div style="margin-top: 6px; font-weight: 600; font-size: 17px">Version 0.1</div><div style="margin-top: 6px; color: #9B9A97; font-size: 14.5px">Search by intent, actions, editor, themes, run and paste.</div></li>
+<li style="position: relative; padding: 36px 24px 0 0; border-top: 2px dashed #3A3A39"><span style="position: absolute; top: -8px; left: 0; width: 22px; height: 14px; border-radius: 50%; background: #141414; border: 2px solid #4A4A48"></span><div style="font-size: 13px; color: #9B9A97">Next</div><div style="margin-top: 6px; font-weight: 600; font-size: 17px">Smarter search</div><div style="margin-top: 6px; color: #9B9A97; font-size: 14.5px">Typo tolerance, and what you use often rises to the top.</div></li>
+<li style="position: relative; padding: 36px 24px 0 0; border-top: 2px dashed #3A3A39"><span style="position: absolute; top: -8px; left: 0; width: 22px; height: 14px; border-radius: 50%; background: #141414; border: 2px solid #4A4A48"></span><div style="font-size: 13px; color: #9B9A97">Then</div><div style="margin-top: 6px; font-weight: 600; font-size: 17px">Search by meaning</div><div style="margin-top: 6px; color: #9B9A97; font-size: 14.5px">Find entries by idea, with a model that runs on your computer.</div></li>
+<li style="position: relative; padding: 36px 24px 0 0; border-top: 2px dashed #3A3A39"><span style="position: absolute; top: -8px; left: 0; width: 22px; height: 14px; border-radius: 50%; background: #141414; border: 2px solid #4A4A48"></span><div style="font-size: 13px; color: #9B9A97">Then</div><div style="margin-top: 6px; font-weight: 600; font-size: 17px">Capture faster</div><div style="margin-top: 6px; color: #9B9A97; font-size: 14.5px">Quick capture, fill parameters, and import from shell history.</div></li>
+<li style="position: relative; padding: 36px 0 0 0; border-top: 2px dashed #3A3A39"><span style="position: absolute; top: -8px; left: 0; width: 22px; height: 14px; border-radius: 50%; background: #141414; border: 2px solid #4A4A48"></span><div style="font-size: 13px; color: #9B9A97">Later</div><div style="margin-top: 6px; font-weight: 600; font-size: 17px">Local AI helpers</div><div style="margin-top: 6px; color: #9B9A97; font-size: 14.5px">A suggested why, automatic tags, questions about your entries.</div></li>
+</ol>
+</div>
+</section>
+
+<section id="faq" style="padding: 120px 24px; border-top: 1px solid #222221">
+<div style="max-width: 760px; margin: 0 auto">
+<h2 style="margin: 0 0 36px; font-size: clamp(32px, 4vw, 46px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 700">Questions</h2>
+<sc-for list="{{faq}}" as="f" hint-placeholder-count="5">
+<div style="border-top: 1px solid #2A2A29">
+<button type="button" onClick="{{f.toggle}}" aria-expanded="{{f.open}}" style="display: flex; align-items: center; gap: 16px; width: 100%; min-height: 64px; padding: 16px 0; border: 0; background: transparent; color: #EDEDEC; font-family: inherit; font-size: 18px; font-weight: 500; text-align: left; cursor: pointer"><span style="flex-grow: 1">{{f.q}}</span><span style="font-size: 22px; color: #9B9A97; width: 20px; text-align: center" aria-hidden="true">{{f.icon}}</span></button>
+<sc-if value="{{f.open}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; padding: 0 40px 22px 0; color: #B4B3AF; font-size: 16px">{{f.a}}</p>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="padding: 40px 24px 120px">
+<div style="max-width: 1120px; margin: 0 auto; padding: 72px 32px; border-radius: 20px; background: #191919; border: 1px solid #2F2F2E; display: flex; flex-direction: column; align-items: center; text-align: center">
+<svg width="56" height="56" viewBox="0 0 24 24" fill="{{accent}}" aria-hidden="true"><ellipse cx="12" cy="19" rx="9" ry="3.2"></ellipse><ellipse cx="11.5" cy="12.6" rx="6.2" ry="2.8"></ellipse><ellipse cx="12.4" cy="6.8" rx="3.8" ry="2.4"></ellipse></svg>
+<h2 style="margin: 22px 0 0; font-size: clamp(32px, 4.4vw, 50px); line-height: 1.06; letter-spacing: -0.03em; font-weight: 700">Leave a stone for your future self.</h2>
+<p style="margin: 16px 0 0; color: #B4B3AF; font-size: 18px">Free, open source and offline. Windows 10 and 11.</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px">
+<a href="https://github.com/Ayoub-EDAHLOULI/cairn/releases/latest" style="display: inline-flex; align-items: center; height: 50px; padding: 0 24px; border-radius: 11px; background: {{accent}}; color: #ffffff; text-decoration: none; font-size: 16px; font-weight: 500">Download for Windows</a>
+<a href="/guide" style="display: inline-flex; align-items: center; height: 50px; padding: 0 24px; border-radius: 11px; background: transparent; border: 1px solid #3A3A39; color: #EDEDEC; text-decoration: none; font-size: 16px; font-weight: 500">Read the Field Guide</a>
+</div>
+</div>
+</section>
+
+<footer style="border-top: 1px solid #222221; padding: 36px 24px 48px">
+<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 24px; font-size: 14px; color: #9B9A97">
+<span style="display: flex; align-items: center; gap: 10px; color: #EDEDEC; font-weight: 600"><span style="width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: {{accent}}" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><ellipse cx="12" cy="19" rx="9" ry="3.2"></ellipse><ellipse cx="11.5" cy="12.6" rx="6.2" ry="2.8"></ellipse><ellipse cx="12.4" cy="6.8" rx="3.8" ry="2.4"></ellipse></svg></span>Cairn</span>
+<span style="flex-grow: 1">MIT licensed. Made by <a href="https://ayoubedahlouli.com">Ayoub Edahlouli</a>.</span>
+<a href="https://github.com/Ayoub-EDAHLOULI/cairn" style="color: #9B9A97">GitHub</a>
+<a href="https://github.com/Ayoub-EDAHLOULI/cairn/releases" style="color: #9B9A97">Releases</a>
+<a href="/guide" style="color: #9B9A97">Field Guide</a>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#6050DC","options":["#6050DC","#1F8A7A","#C9602E"]},"$preview":{"width":1440,"height":5600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { q: 'start database', sel: 0, copied: false, open: 0 };
+    this.entries = [
+      { kind: 'Command', glyph: '>_', fg: '#6FB3E0', shell: 'PowerShell', title: 'Start-Service postgresql-x64-18', why: 'Start the local PostgreSQL service when the app can\u2019t connect to the database.', tags: 'postgres windows database start' },
+      { kind: 'Command', glyph: '>_', fg: '#6FB3E0', shell: 'bash', title: 'git log --oneline --graph -20', why: 'Show the last 20 commits as a compact history graph.', tags: 'git history log' },
+      { kind: 'Command', glyph: '>_', fg: '#6FB3E0', shell: 'bash', title: 'docker exec -it {{container}} psql -U {{user:postgres}}', why: 'Open a psql shell inside a running Postgres container.', tags: 'postgres docker database psql' },
+      { kind: 'Script', glyph: '#!', fg: '#FFA95E', shell: 'PowerShell', title: 'backup-dev-db.ps1', why: 'Dump the dev database before running risky migrations.', tags: 'postgres backup database migration', body: '$date = Get-Date -Format "yyyy-MM-dd"\npg_dump -U postgres -F c devdb > "D:\\backups\\devdb_$date.dump"' },
+      { kind: 'Note', glyph: '\u00b6', fg: '#B4B3AF', shell: 'Windows', title: 'Postgres won\u2019t start: port 5432 in use', why: 'Another instance is holding port 5432. Find the process and stop it.', tags: 'postgres troubleshooting port database', body: 'netstat -ano | findstr 5432\ntaskkill /PID <pid> /F', sans: true },
+      { kind: 'Code', glyph: '</>', fg: '#5EC2AE', shell: 'TypeScript', title: 'useDebounce hook', why: 'Debounce a search input in React so it doesn\u2019t fire on every keystroke.', tags: 'react typescript hooks search', body: 'function useDebounce<T>(value: T, ms = 200) {\n  const [v, setV] = useState(value);\n  useEffect(() => {\n    const t = setTimeout(() => setV(value), ms);\n    return () => clearTimeout(t);\n  }, [value, ms]);\n  return v;\n}', sans: true },
+      { kind: 'Idea', glyph: '\u2726', fg: '#E6BE3A', shell: 'Idea', title: 'Import my PowerShell aliases into Cairn', why: 'Stop retyping aliases on every new machine.', tags: 'powershell ideas aliases', sans: true }
+    ];
+    this.faq = [
+      ['Is Cairn free?', 'Yes. Cairn is free and open source under the MIT license, with no paid tier and no account.'],
+      ['Why does Windows warn me when I install it?', 'Version 0.1 isn\u2019t code-signed yet, so Windows SmartScreen doesn\u2019t recognise the publisher. Click More info, then Run anyway. The source and the build are on GitHub if you\u2019d rather check first.'],
+      ['Does it work on macOS or Linux?', 'Not yet. Cairn is built with Tauri, which runs on all three, but version 0.1 is tested and released for Windows 10 and 11 only.'],
+      ['Where is my data stored?', 'In one SQLite file on your computer, under %LOCALAPPDATA%. Cairn never sends it anywhere. To back it up, quit Cairn and copy the file.'],
+      ['What if Alt Space is already taken?', 'If another app such as PowerToys Run uses Alt Space, Cairn falls back to Ctrl Shift Space. The tray icon\u2019s tooltip always shows the shortcut that works.']
+    ];
+  }
+  mix(hex, to, amt) {
+    const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+    const a = p(hex), b = p(to);
+    return '#' + a.map((v, i) => Math.round(v + (b[i] - v) * amt).toString(16).padStart(2, '0')).join('');
+  }
+  find(q) {
+    const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const toks = norm(q).split(/\s+/).filter(Boolean);
+    if (!toks.length) return this.entries.slice();
+    const scored = this.entries.map((e) => {
+      const words = norm(e.title + ' ' + e.why + ' ' + e.tags + ' ' + (e.body || '')).split(/[^a-z0-9]+/).filter(Boolean);
+      const tw = norm(e.title).split(/[^a-z0-9]+/).filter(Boolean);
+      const hit = (t, ws) => ws.some((w) => (t.length > 1 ? w.indexOf(t) === 0 : w === t));
+      const hits = toks.filter((t) => hit(t, words)).length;
+      const th = toks.filter((t) => hit(t, tw)).length;
+      return { e, hits, score: hits * 10 + th * 3 };
+    });
+    const all = scored.filter((s) => s.hits === toks.length);
+    const pool = all.length ? all : scored.filter((s) => s.hits > 0);
+    pool.sort((a, b) => b.score - a.score);
+    return pool.map((s) => s.e);
+  }
+  renderVals() {
+    const accent = this.props.accent ?? '#6050DC';
+    const accentSoft = accent + '3D';
+    const accentText = this.mix(accent, '#ffffff', 0.5);
+    const results = this.find(this.state.q);
+    const sel = Math.min(this.state.sel, Math.max(results.length - 1, 0));
+    const deco = (e) => ({ ...e, badgeFg: e.fg, badgeBg: e.fg + '26', body: e.body || e.title, font: e.sans ? "'Geist', system-ui, sans-serif" : "'JetBrains Mono', monospace" });
+    const rows = results.map((e, i) => ({ ...deco(e), bg: i === sel ? accentSoft : 'transparent', pick: () => this.setState({ sel: i, copied: false }) }));
+    const actions = [
+      ['Copy to clipboard', '\u21b5'], ['Paste into active window', 'Ctrl \u21b5'], ['Run in PowerShell', 'Ctrl R'],
+      ['Edit', 'Ctrl E'], ['Add to favorites', ''], ['Delete', 'Ctrl \u21e7 \u232b'], ['Settings', 'Ctrl ,']
+    ].map(([label, keys], i) => ({ label, keys, bg: i === 0 ? accentSoft : 'transparent', fg: label === 'Delete' ? '#FF8A80' : '#EDEDEC' }));
+    const faq = this.faq.map(([q, a], i) => ({ q, a, open: this.state.open === i, icon: this.state.open === i ? '\u2212' : '+', toggle: () => this.setState({ open: this.state.open === i ? -1 : i }) }));
+    return {
+      accent, accentText, rows, actions, faq,
+      q: this.state.q,
+      countLabel: results.length + (results.length === 1 ? ' result' : ' results'),
+      empty: results.length === 0,
+      hasSel: results.length > 0,
+      sel: results.length ? deco(results[sel]) : {},
+      status: this.state.copied ? 'Copied to clipboard' : 'Copy to clipboard',
+      onQ: (e) => this.setState({ q: e.target.value, sel: 0, copied: false }),
+      onKey: (e) => {
+        if (e.key === 'ArrowDown') { e.preventDefault(); if (results.length) this.setState({ sel: (sel + 1) % results.length, copied: false }); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); if (results.length) this.setState({ sel: (sel - 1 + results.length) % results.length, copied: false }); }
+        else if (e.key === 'Enter') {
+          e.preventDefault();
+          const it = results[sel];
+          if (!it) return;
+          try { navigator.clipboard.writeText(it.body || it.title).then(() => this.setState({ copied: true }), () => {}); } catch (err) {}
+        }
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
