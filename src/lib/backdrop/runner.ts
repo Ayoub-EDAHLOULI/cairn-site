@@ -27,6 +27,16 @@ export type Scene = {
    * Returns true while the scene is still animating on its own (e.g. comets in flight).
    */
   draw(ctx: CanvasRenderingContext2D, pointer: Pointer, colors: Colors, dt: number): boolean;
+  /** Launches an ambient comet (called by the runner every few seconds, unless paused). */
+  launchAmbient?(): void;
+  /** Removes the comets the cursor didn't launch (pausing stops them at once). */
+  clearAutomatic?(): void;
+};
+
+export type Backdrop = {
+  stop(): void;
+  /** Pauses or resumes the automatic comets. Cursor comets keep responding: the visitor starts those. */
+  setPaused(paused: boolean): void;
 };
 
 /** How fast the smoothed cursor follows the real one, and how fast the effect fades in and out. */
@@ -36,12 +46,15 @@ const FADE = 0.08;
 const MAX_DPR = 2;
 /** Frame time cap, so a stalled frame doesn't teleport comets. */
 const MAX_DT = 50;
+/** Ambient comets: one every 3–7 seconds, at a random interval. */
+const AMBIENT_MIN_MS = 3000;
+const AMBIENT_MAX_MS = 7000;
 
-/** Starts the scene. Sets `data-canvas="on"` on the hero once the first frame is drawn. Returns a cleanup. */
-export function runBackdrop(canvas: HTMLCanvasElement, scene: Scene): () => void {
+/** Starts the scene. Sets `data-canvas="on"` on the hero once the first frame is drawn. */
+export function runBackdrop(canvas: HTMLCanvasElement, scene: Scene, { paused = false } = {}): Backdrop {
   const host = canvas.closest("section") ?? canvas.parentElement;
   const ctx = canvas.getContext("2d");
-  if (!host || !ctx) return () => {};
+  if (!host || !ctx) return { stop: () => {}, setPaused: () => {} };
 
   const root = getComputedStyle(document.documentElement);
   const accent = root.getPropertyValue("--accent").trim();
@@ -60,6 +73,23 @@ export function runBackdrop(canvas: HTMLCanvasElement, scene: Scene): () => void
   let lastTime = 0;
   let onScreen = true;
   let shown = false;
+  let ambientTimer: ReturnType<typeof setTimeout> | undefined;
+
+  // Ambient comets: a single timer between launches, so nothing redraws in between.
+  function scheduleAmbient() {
+    clearTimeout(ambientTimer);
+    if (paused || !scene.launchAmbient) return;
+    ambientTimer = setTimeout(
+      () => {
+        if (onScreen && document.visibilityState === "visible") {
+          scene.launchAmbient!();
+          request();
+        }
+        scheduleAmbient();
+      },
+      AMBIENT_MIN_MS + Math.random() * (AMBIENT_MAX_MS - AMBIENT_MIN_MS),
+    );
+  }
 
   function request() {
     if (!frame && onScreen) frame = requestAnimationFrame(render);
@@ -143,13 +173,29 @@ export function runBackdrop(canvas: HTMLCanvasElement, scene: Scene): () => void
 
   host.addEventListener("pointermove", onPointerMove, { passive: true });
   host.addEventListener("pointerleave", onPointerLeave, { passive: true });
+  if (paused) scene.clearAutomatic?.();
+  scheduleAmbient();
 
-  return () => {
+  function setPaused(next: boolean) {
+    paused = next;
+    if (paused) {
+      clearTimeout(ambientTimer);
+      scene.clearAutomatic?.();
+      request();
+    } else {
+      scheduleAmbient();
+    }
+  }
+
+  function stop() {
+    clearTimeout(ambientTimer);
     cancelAnimationFrame(frame);
     resizeObserver.disconnect();
     visibilityObserver.disconnect();
-    host.removeEventListener("pointermove", onPointerMove);
-    host.removeEventListener("pointerleave", onPointerLeave);
-    delete host.dataset.canvas;
-  };
+    host!.removeEventListener("pointermove", onPointerMove);
+    host!.removeEventListener("pointerleave", onPointerLeave);
+    delete host!.dataset.canvas;
+  }
+
+  return { stop, setPaused };
 }

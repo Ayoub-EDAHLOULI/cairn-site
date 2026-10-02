@@ -1,8 +1,10 @@
 // The hero's "living topographic map":
 // - the rings bend away from the cursor like terrain pushed by a finger, and light up around it;
 // - moving the cursor launches comets that race along nearby rings in the direction of travel;
-// - on a first visit, a few comets fly once when the canvas takes over (gone within ~2.5s).
-// Comets only exist for a moment, so once they're gone and the cursor rests, nothing redraws.
+// - on a first visit, a few comets fly once when the canvas takes over (gone within ~2.5s);
+// - every few seconds, an ambient comet crosses the map on its own (scheduled by the runner,
+//   pausable with the hero's pause button).
+// Comets only exist for a moment, so between them, with the cursor at rest, nothing redraws.
 
 import { cometOpacity, emission, stepHead, wrapIndex } from "./comets";
 import { ringPoints } from "./geometry";
@@ -37,8 +39,16 @@ const LIFE = 1200;
 /** The opening flight: these rings each carry one comet. */
 const INTRO_RINGS = [3, 5, 7, 9];
 const INTRO_LIFE = 2200;
-/** Intro comets start in the top part of the hero, above the demo launcher, so they're seen. */
+/** Intro and ambient comets start in the top part of the hero, above the demo launcher, so they're seen. */
 const INTRO_MAX_Y = 0.55;
+/** Ambient comets: calmer and a little fainter than the ones the cursor launches. */
+const AMBIENT_LIFE_MIN = 2000;
+const AMBIENT_LIFE_MAX = 2500;
+const AMBIENT_SPEED_MIN = 0.7;
+const AMBIENT_SPEED_MAX = 1.0;
+const AMBIENT_BRIGHTNESS = 0.85;
+/** Chance that an ambient comet has a companion on another ring. */
+const AMBIENT_PAIR_CHANCE = 0.2;
 
 type Comet = {
   ring: number;
@@ -48,6 +58,10 @@ type Comet = {
   velocity: number;
   age: number;
   life: number;
+  /** Opacity multiplier (ambient comets are a little fainter). */
+  brightness: number;
+  /** Launched without the cursor (the opening flight or ambient): the pause button removes these. */
+  automatic: boolean;
 };
 
 export function createScene({ intro }: { intro: boolean }): Scene {
@@ -66,9 +80,31 @@ export function createScene({ intro }: { intro: boolean }): Scene {
   let lastX = Number.NaN;
   let lastY = Number.NaN;
 
-  function launch(ring: number, head: number, direction: number, speed: number, life: number) {
+  function launch(
+    ring: number,
+    head: number,
+    direction: number,
+    speed: number,
+    life: number,
+    { brightness = 1, automatic = false } = {},
+  ) {
     if (comets.length >= MAX_COMETS) return;
-    comets.push({ ring, head, velocity: (direction * speed) / spacing[ring], age: 0, life });
+    comets.push({ ring, head, velocity: (direction * speed) / spacing[ring], age: 0, life, brightness, automatic });
+  }
+
+  const between = (min: number, max: number) => min + Math.random() * (max - min);
+
+  /** Launches one automatic comet on a random ring, starting on screen; returns the ring used, or -1. */
+  function launchAutomatic(speed: number, life: number, brightness: number, avoidRing = -1): number {
+    const order = rings.map((_, ring) => ring).sort(() => Math.random() - 0.5);
+    for (const ring of order) {
+      if (ring === avoidRing) continue;
+      const head = visibleStart(ring);
+      if (head === null) continue;
+      launch(ring, head, Math.random() < 0.5 ? -1 : 1, speed, life, { brightness, automatic: true });
+      return ring;
+    }
+    return -1;
   }
 
   /** A random point of the ring that's on screen in the top part of the hero, if there is one. */
@@ -124,7 +160,7 @@ export function createScene({ intro }: { intro: boolean }): Scene {
   function drawComet(ctx: CanvasRenderingContext2D, comet: Comet, colors: { accentRgb: number[]; glowRgb: number[] }) {
     const points = bent[comet.ring];
     const count = points.length / 2;
-    const opacity = cometOpacity(comet.age, comet.life);
+    const opacity = cometOpacity(comet.age, comet.life) * comet.brightness;
     if (opacity <= 0) return;
     const direction = Math.sign(comet.velocity);
     const stride = TAIL / spacing[comet.ring] / TAIL_SEGMENTS;
@@ -154,6 +190,20 @@ export function createScene({ intro }: { intro: boolean }): Scene {
   }
 
   return {
+    launchAmbient() {
+      const speed = () => between(AMBIENT_SPEED_MIN, AMBIENT_SPEED_MAX);
+      const life = () => between(AMBIENT_LIFE_MIN, AMBIENT_LIFE_MAX);
+      const first = launchAutomatic(speed(), life(), AMBIENT_BRIGHTNESS);
+      if (first >= 0 && Math.random() < AMBIENT_PAIR_CHANCE) {
+        launchAutomatic(speed(), life(), AMBIENT_BRIGHTNESS, first);
+      }
+    },
+
+    clearAutomatic() {
+      introPending = false;
+      comets = comets.filter((comet) => !comet.automatic);
+    },
+
     resize(newWidth, newHeight) {
       width = newWidth;
       height = newHeight;
@@ -179,7 +229,9 @@ export function createScene({ intro }: { intro: boolean }): Scene {
           const head = visibleStart(ring);
           if (head === null) continue;
           const direction = Math.random() < 0.5 ? -1 : 1;
-          launch(ring, head, direction, 0.9 + Math.random() * 0.5, INTRO_LIFE - Math.random() * 400);
+          launch(ring, head, direction, 0.9 + Math.random() * 0.5, INTRO_LIFE - Math.random() * 400, {
+            automatic: true,
+          });
         }
       }
 

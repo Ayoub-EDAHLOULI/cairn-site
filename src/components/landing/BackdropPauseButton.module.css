@@ -1,0 +1,37 @@
+/* Bottom-left corner of the hero (bottom-right is the back-to-top button's). Hidden until the
+   cursor-reactive canvas is running: without it there is nothing to pause. */
+.button {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 2;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch);
+  height: var(--touch);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--panel);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-ui) var(--ease),
+    color var(--dur-ui) var(--ease);
+}
+
+:global([data-canvas="on"]) .button {
+  display: flex;
+}
+
+.button[aria-pressed="true"] {
+  color: var(--text);
+}
+
+@media (hover: hover) {
+  .button:hover {
+    background: var(--raised);
+    color: var(--text);
+  }
+}

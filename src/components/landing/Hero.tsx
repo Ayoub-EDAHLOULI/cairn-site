@@ -1,6 +1,7 @@
 import { VERSION, links } from "@/content/links";
 import { Button } from "@/components/ui/Button";
 import { GitHubIcon, WindowsIcon } from "@/components/ui/icons";
+import { BackdropPauseButton } from "./BackdropPauseButton";
 import { DemoLauncher } from "./DemoLauncher";
 import { TrailBackdrop } from "./TrailBackdrop";
 import styles from "./Hero.module.css";
@@ -9,6 +10,7 @@ export function Hero() {
   return (
     <section id="top" className={styles.hero}>
       <TrailBackdrop />
+      <BackdropPauseButton />
       <div className={`container ${styles.inner}`}>
         <a href="#roadmap" className={styles.pill}>
           <span className={styles.pillDot} aria-hidden="true" />

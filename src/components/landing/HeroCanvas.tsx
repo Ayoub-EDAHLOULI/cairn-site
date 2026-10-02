@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { backdropControl } from "@/lib/backdrop/control";
 import { motionAllowed } from "@/lib/motion";
 
 /** When the SVG rings finish drawing in (see TrailBackdrop.module.css); the canvas takes over after. */
@@ -22,6 +23,7 @@ export function HeroCanvas({ className }: { className?: string }) {
 
     let cancelled = false;
     let stop = () => {};
+    let unsubscribe = () => {};
     // First visit: let the SVG draw-in finish, then open with a short comet flight.
     // Return visit (motion already played): take over at once, without the flight.
     const firstVisit = motionAllowed();
@@ -31,7 +33,12 @@ export function HeroCanvas({ className }: { className?: string }) {
           import("@/lib/backdrop/runner"),
           import("@/lib/backdrop/topoField"),
         ]);
-        if (!cancelled) stop = runBackdrop(canvas, createScene({ intro: firstVisit }));
+        if (cancelled) return;
+        const backdrop = runBackdrop(canvas, createScene({ intro: firstVisit }), {
+          paused: backdropControl.isPaused(),
+        });
+        stop = backdrop.stop;
+        unsubscribe = backdropControl.subscribe(backdrop.setPaused);
       },
       firstVisit ? DRAW_IN_MS : 0,
     );
@@ -39,6 +46,7 @@ export function HeroCanvas({ className }: { className?: string }) {
     return () => {
       cancelled = true;
       clearTimeout(timer);
+      unsubscribe();
       stop();
     };
   }, []);

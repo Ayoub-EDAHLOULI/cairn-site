@@ -177,7 +177,8 @@ The hero's topographic rings react to the mouse. It responds to the visitor, so 
 - **Cost:** frames are drawn only while something moves; once settled the loop stops. Paused off screen (IntersectionObserver) and in hidden tabs; DPR capped at 2; listeners on the hero section only, touch pointers ignored. This is the **one exception** to "animate only transform/opacity".
 - **The scene (`topoField`):** rings within 240px of the cursor bend away (up to 34px, smooth falloff) and light up in the accent (up to 85%, 1.6× width).
 - **Comets:** moving the cursor launches comets (glowing `--accent-text` head, fading accent tail) from rings near it, running along the ring in the direction of travel; faster movement launches more and faster ones (max 12 on screen, 1.2s life). On a first visit, 3–4 comets fly once when the canvas takes over, starting on screen above the launcher; all gone within ~2.5s.
-- **No ambient motion:** comets exist only after a cursor movement or during the opening flight, so the loop always comes to rest. Comets that fly on their own forever would need a pause control (WCAG 2.2.2) and are out of scope.
+- **Ambient comets:** every 3–7s (random), one comet (sometimes two) crosses a ring on its own, starting on screen above the launcher; 2–2.5s each, slightly fainter. Scheduled by a single timer in the runner, so nothing redraws between comets; skipped while the hero is off screen or the tab is hidden.
+- **Pause control (WCAG 2.2.2):** `BackdropPauseButton`, bottom-left of the hero, shown only while the canvas runs (`data-canvas="on"`). It stops the ambient comets and the opening flight at once (cursor comets still respond). The choice lasts for the visit (`lib/backdrop/control.ts`), never stored on the device.
 
 Hover styles (links, buttons, demo rows) live inside `@media (hover: hover)`, so taps on touchscreens never leave a stuck highlight.
 
