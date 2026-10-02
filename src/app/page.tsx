@@ -1,7 +1,7 @@
 export default function Home() {
   return (
-    <main id="main">
+    <div className="container">
       <h1>Find the command you already figured out.</h1>
-    </main>
+    </div>
   );
 }

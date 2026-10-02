@@ -1,0 +1,67 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-button);
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-ui) var(--ease),
+    border-color var(--dur-ui) var(--ease),
+    transform var(--dur-ui) var(--ease);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.md {
+  height: 50px;
+  padding: 0 22px;
+  font-size: 16px;
+}
+
+.sm {
+  height: var(--touch);
+  padding: 0 16px;
+  border-radius: 9px;
+  font-size: 14.5px;
+}
+
+.primary,
+.primary:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.primary:hover {
+  background: color-mix(in srgb, var(--accent) 88%, #ffffff);
+}
+
+.secondary,
+.secondary:hover {
+  background: var(--panel);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.secondary:hover {
+  background: var(--raised);
+}
+
+.outline,
+.outline:hover {
+  background: transparent;
+  border-color: var(--stone);
+  color: var(--text);
+}
+
+.outline:hover {
+  border-color: var(--stone-edge);
+}

@@ -1,0 +1,46 @@
+.footer {
+  padding: 36px 0 48px;
+  border-top: 1px solid var(--divider);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.credit {
+  flex-grow: 1;
+}
+
+/* Inline links with 44px-tall hit areas. */
+.credit a,
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch);
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.nav a {
+  color: var(--muted);
+}
+
+.nav a:hover {
+  color: var(--text);
+}

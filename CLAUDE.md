@@ -93,6 +93,11 @@ The site is **dark only**.
 | `--accent-soft` | `color-mix(in srgb, var(--accent) 24%, transparent)` | selected rows |
 | `--accent-text` | #B0A8EE | accent-colored text on dark |
 | `--danger` | #FF8A80 | Delete in the action panel |
+| `--focus` | #8B7FF0 | focus ring (`:focus-visible`) |
+| `--stone` | #3A3A39 | roadmap dashes, backdrop cairns, outline button border |
+| `--stone-edge` | #4A4A48 | upcoming roadmap stones, outline button hover |
+
+Design colors without their own token map to the nearest one: links #A79EF0 → `--accent-text` (hover `--text`), row dividers #252524 → `--divider`, header border #2A2A29 → `--border`, pill #1A1A1A → `--surface`. Kind colors are `--kind-command`, `--kind-script`, `--kind-code`, `--kind-note`, `--kind-idea`. Internal links use `next/link`, external ones a plain `<a>`.
 
 Entry kinds (glyph, color): Command `>_` #6FB3E0 · Script `#!` #FFA95E · Code `</>` #5EC2AE · Note `¶` #B4B3AF · Idea `✦` #E6BE3A. Badge background = the color at 15% alpha.
 
@@ -159,7 +164,7 @@ Rules:
 ## Roadmap
 
 - [x] **0** Scaffold check: confirm the create-next-app setup, set `output: 'export'`, strict TS, remove template content, folder structure above. (Next 16.3.8; folders are created by the step that first needs them; no `start` script since `next start` doesn't work with a static export: preview with `npx serve out`.)
-- [ ] **1** Tokens, fonts, global styles, layout: Header, Footer, skip link, `CairnMark`, `Button`, `Kbd`.
+- [x] **1** Tokens, fonts, global styles, layout: Header, Footer, skip link, `CairnMark`, `Button`, `Kbd`.
 - [ ] **2** Hero (static): copy, buttons, `TrailBackdrop`, launcher markup with static content.
 - [ ] **3** Demo launcher: `lib/search.ts` + tests, keyboard, copy, accessibility.
 - [ ] **4** Sections: search by intent, five kinds, keyboard, offline.

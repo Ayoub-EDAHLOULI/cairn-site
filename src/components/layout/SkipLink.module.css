@@ -1,0 +1,22 @@
+.skip {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  height: var(--touch);
+  padding: 0 16px;
+  border-radius: var(--radius-button);
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip:focus-visible,
+.skip:focus {
+  transform: none;
+  color: #ffffff;
+}

@@ -1,3 +1,63 @@
-/* Design tokens. Values are defined in CLAUDE.md and added in roadmap step 1. */
+/* Design tokens. CLAUDE.md is the source of truth for these values. The site is dark only. */
 :root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #141414;
+  --surface: #191919;
+  --panel: #202020;
+  --raised: #2c2c2b;
+
+  /* Lines */
+  --border: #2f2f2e;
+  --divider: #222221;
+  --stone: #3a3a39;
+  --stone-edge: #4a4a48;
+
+  /* Text */
+  --text: #ededec;
+  --text-2: #b4b3af;
+  --muted: #9b9a97;
+  --faint: #8a8986;
+
+  /* Accent (Majorelle) */
+  --accent: #6050dc;
+  --accent-soft: color-mix(in srgb, var(--accent) 24%, transparent);
+  --accent-text: #b0a8ee;
+  --focus: #8b7ff0;
+  --danger: #ff8a80;
+
+  /* Entry kinds */
+  --kind-command: #6fb3e0;
+  --kind-script: #ffa95e;
+  --kind-code: #5ec2ae;
+  --kind-note: #b4b3af;
+  --kind-idea: #e6be3a;
+
+  /* Type (font variables are set by next/font in layout.tsx) */
+  --font-sans: var(--font-geist), "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, Consolas, monospace;
+
+  /* Radii */
+  --radius-button: 11px;
+  --radius-launcher: 16px;
+  --radius-card: 14px;
+  --radius-row: 8px;
+
+  /* Layout */
+  --content-max: 1120px;
+  --gutter: 24px;
+  --section-pad: 120px;
+  --header-height: 64px;
+  --touch: 44px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-ui: 150ms;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --section-pad: 64px;
+  }
 }
