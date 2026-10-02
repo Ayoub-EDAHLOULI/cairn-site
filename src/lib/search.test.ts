@@ -1,6 +1,7 @@
 import { describe, test } from "node:test";
 import assert from "node:assert/strict";
 import { demoEntries } from "../content/demoEntries.ts";
+import { intentExamples } from "../content/intentExamples.ts";
 import { search, tokenize, type Searchable } from "./search.ts";
 
 const ids = (results: { id: string }[]) => results.map((r) => r.id);
@@ -33,6 +34,19 @@ describe("search() on the demo entries", () => {
     assert.deepEqual(ids(search(demoEntries, "")), ids(demoEntries));
     assert.deepEqual(ids(search(demoEntries, "  -  ")), ids(demoEntries));
   });
+});
+
+describe('the "You type → Cairn finds" table', () => {
+  for (const example of intentExamples) {
+    test(`"${example.query}" finds ${example.entryId} first, which contains what the table shows`, () => {
+      const top = search(demoEntries, example.query)[0];
+      assert.equal(top?.id, example.entryId);
+      assert.ok(
+        top.title.includes(example.shown) || (top.body ?? "").includes(example.shown),
+        `"${example.shown}" is not in ${top.id}`,
+      );
+    });
+  }
 });
 
 describe("search() rules", () => {

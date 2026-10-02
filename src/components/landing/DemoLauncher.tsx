@@ -15,6 +15,7 @@ import { kinds } from "@/content/kinds";
 import { search } from "@/lib/search";
 import { CairnMark } from "@/components/ui/CairnMark";
 import { Kbd } from "@/components/ui/Kbd";
+import { KindGlyph } from "@/components/ui/KindGlyph";
 import { SearchIcon } from "@/components/ui/icons";
 import styles from "./DemoLauncher.module.css";
 
@@ -180,7 +181,7 @@ export function DemoLauncher() {
                   }}
                 >
                   <span className={styles.glyph} aria-hidden="true">
-                    {kind.glyph}
+                    <KindGlyph kind={kind} />
                   </span>
                   <span className={styles.rowText}>
                     <span className={`${styles.rowTitle} ${kind.monoTitle ? styles.mono : ""}`}>{entry.title}</span>

@@ -1,0 +1,71 @@
+.section {
+  border-top: 1px solid var(--divider);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: 64px;
+  align-items: center;
+}
+
+.copy {
+  max-width: 480px;
+}
+
+.second {
+  margin-top: 16px;
+}
+
+.tableWrap {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.table th,
+.table td {
+  padding: 18px 20px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  padding-block: 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+/* 40 / 60 split, like the design's 0.8fr / 1.2fr. */
+.table th:first-child,
+.table td:first-child {
+  width: 40%;
+  padding-right: 6px;
+}
+
+.table td:last-child {
+  padding-left: 6px;
+}
+
+.table tbody tr + tr td {
+  border-top: 1px solid var(--divider);
+}
+
+.query {
+  font-size: 16px;
+}
+
+.found {
+  color: var(--accent-text);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}

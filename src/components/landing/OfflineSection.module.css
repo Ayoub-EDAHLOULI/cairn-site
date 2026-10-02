@@ -1,0 +1,46 @@
+.title {
+  max-width: 720px;
+}
+
+.lead {
+  max-width: 600px;
+}
+
+.path {
+  margin-top: 32px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 40px;
+  margin: 48px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.factTitle {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.factText {
+  color: var(--muted);
+  font-size: 15.5px;
+}

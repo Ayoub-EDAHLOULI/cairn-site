@@ -18,7 +18,7 @@ Links:
 
 Non-negotiables:
 - **The site practices what Cairn preaches:** no analytics, no cookies, no tracking pixels, no third-party scripts, no runtime requests to other domains (fonts are self-hosted at build time).
-- **Honest copy:** only version 0.1 features are described as available. Everything else is labelled as coming.
+- **Honest copy:** only version 0.1 features are described as available. Everything else is labelled as coming. `design/field-guide.html` documents 0.1 and is the **source of truth for what's available**: check it before asking the owner whether a feature exists.
 - **Fast and accessible:** see budgets below.
 
 ## Working agreement (read before every task)
@@ -55,8 +55,8 @@ src/
     landing/            # Hero, TrailBackdrop, DemoLauncher, IntentSection, KindsSection,
                         # KeyboardSection, OfflineSection, RoadmapSection, FaqSection, FinalCta
     guide/              # Callout, KeyCombo, KindRow, ...
-    ui/                 # Button, Kbd, CairnMark
-  content/              # typed data: demoEntries.ts, faq.ts, roadmap.ts, kinds.ts, links.ts
+    ui/                 # Button, Kbd, CairnMark, KindGlyph, icons
+  content/              # typed data: demoEntries.ts, intentExamples.ts, actions.ts, faq.ts, roadmap.ts, kinds.ts, links.ts
   lib/
     search.ts           # demo search (pure function, unit-tested)
   hooks/
@@ -100,7 +100,7 @@ The site is **dark only**.
 
 Design colors without their own token map to the nearest one: links #A79EF0 → `--accent-text` (hover `--text`), row dividers #252524 → `--divider`, header border #2A2A29 → `--border`, pill #1A1A1A → `--surface`. Kind colors are `--kind-command`, `--kind-script`, `--kind-code`, `--kind-note`, `--kind-idea`. Internal links use `next/link`, external ones a plain `<a>`.
 
-Entry kinds (glyph, color): Command `>_` #6FB3E0 · Script `#!` #FFA95E · Code `</>` #5EC2AE · Note `¶` #B4B3AF · Idea `✦` #E6BE3A. Badge background = the color at 15% alpha.
+Entry kinds (glyph, color): Command `>_` #6FB3E0 · Script `#!` #FFA95E · Code `</>` #5EC2AE · Note `¶` #B4B3AF · Idea `✦` #E6BE3A. Badge background = the color at 15% alpha. The Idea star is drawn as an inline SVG (`KindGlyph`): ✦ isn't in the bundled font subsets.
 
 Type: headings Geist 700 with tight tracking (≈ −0.03em to −0.04em); hero H1 `clamp(42px, 7vw, 76px)`; section H2 `clamp(32px, 4vw, 46px)`; body 17px / 1.6. Radii: buttons 11, launcher 16, cards 14, rows 8. Content max-width 1120px, side padding 24px. Section vertical padding 120px (64px on phones).
 
@@ -108,7 +108,7 @@ Type: headings Geist 700 with tight tracking (≈ −0.03em to −0.04em); hero 
 
 1. **Header** (sticky, blurred): Cairn mark + name; links Features, Privacy, Roadmap, FAQ, GitHub; Download button. Phones: logo + one button only.
 2. **Hero** (`#top`): pill linking to the roadmap ("Version 0.1 is out. Free and open source."), H1 "Find the command you already figured out.", subtitle, **Download for Windows** + **View on GitHub**, small print "Windows 10 and 11. No account needed.", then the **demo launcher**. Behind it, `TrailBackdrop`: faint topographic contour lines, a dotted accent trail, two small cairns (decorative SVG, `aria-hidden`).
-3. **Search by what you remember** (`#features`): text + the "You type → Cairn finds" table (4 rows).
+3. **Search by what you remember** (`#features`): text + the "You type → Cairn finds" table (4 rows, from `intentExamples.ts`; tests check each query really finds that entry first in the demo).
 4. **Five kinds**: one bordered strip of 5 columns (stacks on phones).
 5. **Never leave the keyboard**: big Alt + Space keycaps, copy, and a static action panel.
 6. **Offline by design** (`#offline`): copy, the database path in a code block, three facts.
@@ -170,7 +170,7 @@ Rules:
 - [x] **1** Tokens, fonts, global styles, layout: Header, Footer, skip link, `CairnMark`, `Button`, `Kbd`.
 - [x] **2** Hero (static): copy, buttons, `TrailBackdrop`, launcher markup with static content.
 - [x] **3** Demo launcher: `lib/search.ts` + tests, keyboard, copy, accessibility. Include a test that `search("start database")` returns exactly the Start-Service command then the "won't start" note, so the static hero markup and `search()` can't drift apart.
-- [ ] **4** Sections: search by intent, five kinds, keyboard, offline.
+- [x] **4** Sections: search by intent, five kinds, keyboard, offline.
 - [ ] **5** Roadmap, FAQ, final CTA, content files.
 - [ ] **6** Mobile pass (≤ 700px), including the mobile download behavior.
 - [ ] **7** Motion (the five moments + transitions + reduced motion).

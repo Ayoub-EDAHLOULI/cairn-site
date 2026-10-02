@@ -1,0 +1,131 @@
+.section {
+  background: var(--surface);
+  border-block: 1px solid var(--divider);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: 64px;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Alt + Space keycaps */
+
+.keys {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.keycap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  padding: 0 22px;
+  border: 1px solid var(--stone);
+  border-bottom-width: 4px;
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.space {
+  width: 220px;
+}
+
+.plus {
+  color: var(--faint);
+  font-size: 22px;
+}
+
+.lead {
+  max-width: 480px;
+}
+
+/* Action panel */
+
+.figure {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.panel {
+  width: 100%;
+  max-width: 380px;
+  padding: 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--panel);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
+  font-size: 14.5px;
+}
+
+.entry {
+  padding: 8px 12px 6px;
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: var(--radius-row);
+  color: var(--text);
+}
+
+.selected {
+  background: var(--accent-soft);
+}
+
+.danger {
+  color: var(--danger);
+}
+
+.label {
+  flex-grow: 1;
+}
+
+.shortcut {
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 12px;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  margin: 6px 5px 3px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-row);
+  background: var(--surface);
+  color: var(--faint);
+  font-size: 13px;
+}
