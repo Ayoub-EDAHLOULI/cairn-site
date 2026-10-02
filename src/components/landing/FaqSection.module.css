@@ -1,0 +1,74 @@
+.inner {
+  max-width: calc(760px + 2 * var(--gutter));
+}
+
+.title {
+  margin-bottom: 36px;
+}
+
+.list {
+  /* Lets block-size transition to and from `auto`. */
+  interpolate-size: allow-keywords;
+}
+
+.item {
+  border-top: 1px solid var(--border);
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+  padding: 16px 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  list-style: none;
+  cursor: pointer;
+}
+
+.question::-webkit-details-marker {
+  display: none;
+}
+
+/* The +/− sign: drawn by CSS so it is never read aloud. */
+.question::after {
+  content: "+";
+  flex-shrink: 0;
+  width: 20px;
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 22px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.item[open] > .question::after {
+  content: "−";
+}
+
+.answer {
+  padding: 0 40px 22px 0;
+  color: var(--text-2);
+  font-size: 16px;
+}
+
+/* Smooth open/close where supported; other browsers open instantly. */
+.item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 250ms var(--ease),
+    content-visibility 250ms allow-discrete;
+}
+
+.item[open]::details-content {
+  block-size: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item::details-content {
+    transition: none;
+  }
+}

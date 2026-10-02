@@ -20,6 +20,7 @@ Non-negotiables:
 - **The site practices what Cairn preaches:** no analytics, no cookies, no tracking pixels, no third-party scripts, no runtime requests to other domains (fonts are self-hosted at build time).
 - **Honest copy:** only version 0.1 features are described as available. Everything else is labelled as coming. `design/field-guide.html` documents 0.1 and is the **source of truth for what's available**: check it before asking the owner whether a feature exists.
 - **Fast and accessible:** see budgets below.
+- **Internal links go through `next/link`** (or `Button`, which uses it for `/…` hrefs); external links are a plain `<a>`; in-page fragment links (`#roadmap`) may stay plain. Reason: a GitHub Pages project site needs a `basePath`, which plain `<a href="/…">` would ignore.
 
 ## Working agreement (read before every task)
 
@@ -98,7 +99,7 @@ The site is **dark only**.
 | `--stone` | #3A3A39 | roadmap dashes, backdrop cairns, outline button border |
 | `--stone-edge` | #4A4A48 | upcoming roadmap stones, outline button hover |
 
-Design colors without their own token map to the nearest one: links #A79EF0 → `--accent-text` (hover `--text`), row dividers #252524 → `--divider`, header border #2A2A29 → `--border`, pill #1A1A1A → `--surface`. Kind colors are `--kind-command`, `--kind-script`, `--kind-code`, `--kind-note`, `--kind-idea`. Internal links use `next/link`, external ones a plain `<a>`.
+Design colors without their own token map to the nearest one: links #A79EF0 → `--accent-text` (hover `--text`), row dividers #252524 → `--divider`, header border #2A2A29 → `--border`, pill #1A1A1A → `--surface`. Kind colors are `--kind-command`, `--kind-script`, `--kind-code`, `--kind-note`, `--kind-idea`.
 
 Entry kinds (glyph, color): Command `>_` #6FB3E0 · Script `#!` #FFA95E · Code `</>` #5EC2AE · Note `¶` #B4B3AF · Idea `✦` #E6BE3A. Badge background = the color at 15% alpha. The Idea star is drawn as an inline SVG (`KindGlyph`): ✦ isn't in the bundled font subsets.
 
@@ -113,7 +114,7 @@ Type: headings Geist 700 with tight tracking (≈ −0.03em to −0.04em); hero 
 5. **Never leave the keyboard**: big Alt + Space keycaps, copy, and a static action panel.
 6. **Offline by design** (`#offline`): copy, the database path in a code block, three facts.
 7. **On the trail ahead** (`#roadmap`): horizontal trail; only "Version 0.1" is solid and marked available; the rest dashed and labelled Next / Then / Later.
-8. **Questions** (`#faq`): accordion of real `<button aria-expanded>` elements.
+8. **Questions** (`#faq`): native `<details name="faq">` / `<summary>` (one open at a time, built in); the first has `open`. No client JS. The +/− sign is a CSS `::after`; the default marker is hidden (including `::-webkit-details-marker`).
 9. **Final CTA**: mark, "Leave a stone for your future self.", Download + Read the Field Guide.
 10. **Footer**: MIT, author link, GitHub, Releases, Field Guide.
 
@@ -141,7 +142,7 @@ Few, deliberate moments that show the product working. Every one plays **once**.
 4. **Keyboard section:** the Alt then Space keycaps press down (translateY + border change), then the action panel opens with a quick scale (0.96 → 1) + fade, like in the app.
 5. **Roadmap:** the solid line fills up to the "Available now" stone on entering view.
 
-Everyday transitions: button and link hover/press 150ms; FAQ answer expand/collapse animated (grid-rows or height via `ResizeObserver`, no jump); demo selection highlight 120ms.
+Everyday transitions: button and link hover/press 150ms; FAQ answer expand/collapse animated with `interpolate-size: allow-keywords` + a `block-size` transition on `::details-content` (browsers without support open instantly; none under reduced motion); demo selection highlight 120ms.
 
 Rules:
 - Animate only `transform` and `opacity` (plus `stroke-dashoffset` for the trail). No layout-affecting animation.
@@ -171,12 +172,12 @@ Rules:
 - [x] **2** Hero (static): copy, buttons, `TrailBackdrop`, launcher markup with static content.
 - [x] **3** Demo launcher: `lib/search.ts` + tests, keyboard, copy, accessibility. Include a test that `search("start database")` returns exactly the Start-Service command then the "won't start" note, so the static hero markup and `search()` can't drift apart.
 - [x] **4** Sections: search by intent, five kinds, keyboard, offline.
-- [ ] **5** Roadmap, FAQ, final CTA, content files.
-- [ ] **6** Mobile pass (≤ 700px), including the mobile download behavior.
+- [x] **5** Roadmap, FAQ, final CTA, content files.
+- [ ] **6** Mobile pass (≤ 700px), including the mobile download behavior. Hero and final CTA buttons have class hooks (`.download`/`.github`, `.download`/`.guide`); decide whether the final CTA's Field Guide becomes primary on phones.
 - [ ] **7** Motion (the five moments + transitions + reduced motion).
 - [ ] **8** `/guide` from `design/field-guide.html`, using the site's header and footer.
 - [ ] **9** SEO: metadata, icons, OG image, sitemap, robots.
-- [ ] **10** Deploy + audit: hosting choice (GitHub Pages or Vercel), domain, Lighthouse run, fixes.
+- [ ] **10** Deploy + audit: hosting choice (GitHub Pages or Vercel), domain, Lighthouse run, fixes. Decide `basePath` and `trailingSlash` together with hosting.
 
 ## Out of scope (unless the owner changes this)
 

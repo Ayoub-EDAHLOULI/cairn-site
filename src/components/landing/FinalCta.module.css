@@ -1,0 +1,44 @@
+.section {
+  padding: 40px 0 var(--section-pad);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 72px 32px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  text-align: center;
+}
+
+.title {
+  margin-top: 22px;
+  font-size: clamp(32px, 4.4vw, 50px);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+}
+
+.text {
+  margin-top: 16px;
+  color: var(--text-2);
+  font-size: 18px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* Hooks for the phone layout (step 6). */
+.download {
+  order: 0;
+}
+
+.guide {
+  order: 1;
+}

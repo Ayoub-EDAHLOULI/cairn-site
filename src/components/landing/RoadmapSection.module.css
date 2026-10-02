@@ -1,0 +1,102 @@
+.section {
+  border-top: 1px solid var(--divider);
+}
+
+.lead {
+  max-width: 560px;
+  margin-top: 18px;
+}
+
+/* A vertical trail on narrow screens, horizontal (five columns) from 900px. */
+.trail {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 48px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stop {
+  position: relative;
+  padding: 0 0 36px 40px;
+  border-left: 2px dashed var(--stone);
+}
+
+.stop:last-child {
+  padding-bottom: 0;
+}
+
+.available {
+  border-left-style: solid;
+  border-left-color: var(--accent);
+}
+
+/* The stones: a flat ellipse on the line, like the backdrop's cairns. */
+.stone {
+  position: absolute;
+  top: 2px;
+  left: -12px;
+  width: 22px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.available .stone {
+  background: var(--accent);
+}
+
+.upcoming .stone {
+  border: 2px solid var(--stone-edge);
+  background: var(--bg);
+}
+
+@media (min-width: 900px) {
+  .trail {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .stop,
+  .stop:last-child {
+    padding: 36px 24px 0 0;
+    border-left: 0;
+    border-top: 2px dashed var(--stone);
+  }
+
+  .stop:last-child {
+    padding-right: 0;
+  }
+
+  .available {
+    border-top-style: solid;
+    border-top-color: var(--accent);
+  }
+
+  .stone {
+    top: -8px;
+    left: 0;
+  }
+}
+
+.label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.available .label {
+  color: var(--accent-text);
+  font-weight: 500;
+}
+
+.title {
+  margin-top: 6px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.text {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14.5px;
+}
