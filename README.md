@@ -17,6 +17,10 @@ npx serve out      # preview the exported site
 
 Project conventions, design tokens and the roadmap are in [CLAUDE.md](CLAUDE.md). The design reference is in [design/](design/README.md).
 
+## Deploy
+
+Pushing to `main` deploys to GitHub Pages (`.github/workflows/deploy.yml`): lint, typecheck, tests and the static build must pass first. The site is served at https://cairn.ayoubedahlouli.com (`public/CNAME`). Node version: `.nvmrc`.
+
 ## License
 
 MIT. Made by [Ayoub Edahlouli](https://ayoubedahlouli.com).

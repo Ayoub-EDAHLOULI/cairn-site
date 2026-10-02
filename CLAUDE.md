@@ -217,6 +217,15 @@ Rules:
 - **Domain:** `SITE_URL` in `src/content/links.ts` is still the placeholder (candidate: `cairn.ayoubedahlouli.com`, decided in step 10). `next.config.ts` warns on local builds and **fails CI builds** (`CI` is set on GitHub Actions and Vercel) while it contains "example", so the placeholder can't ship.
 - **App icon:** `design/cairn-app-icon-1024.png` is the site's favicon mark (small-size stones, transparent corners) at 1024×1024, for `npm run tauri icon` in the app repo, so the app and the site share one logo.
 
+## Hosting and deploy
+
+- **GitHub Pages**, custom domain **cairn.ayoubedahlouli.com** (`public/CNAME`; `public/.nojekyll` so `_next/` is never filtered). `SITE_URL` in `src/content/links.ts` matches it.
+- **`trailingSlash: true`**: every page exports as `<path>/index.html` and is linked as `<path>/` (e.g. `/guide/`); canonical URLs and the sitemap use the slash. Without it, `/guide` can hit the exported `guide/` data folder.
+- **Deploy:** `.github/workflows/deploy.yml` on push to `main` (or by hand): `npm ci` → lint → typecheck → test → build → upload `out/` → deploy (official `configure-pages`, `upload-pages-artifact`, `deploy-pages`; `pages: write` + `id-token: write`; one `pages` concurrency group). Node comes from `.nvmrc`. Any failure stops the deploy.
+- **404:** `src/app/not-found.tsx` exports `404.html` ("Off the trail."), which Pages serves for unknown paths.
+- **Limits of Pages:** no custom headers (no CSP/HSTS/cache control beyond GitHub's defaults). The host keeps ordinary access logs; the site itself adds no analytics, cookies or third-party requests.
+- **Performance work:** sections below the fold use `content-visibility: auto` (landing `.section`, guide chapters); the mono font isn't preloaded (the LCP text is Geist). About 124 KB gzipped of the page's JS is React + the Next.js runtime; our own code is ~14 KB.
+
 ## Roadmap
 
 - [x] **0** Scaffold check: confirm the create-next-app setup, set `output: 'export'`, strict TS, remove template content, folder structure above. (Next 16.3.8; folders are created by the step that first needs them; no `start` script since `next start` doesn't work with a static export: preview with `npx serve out`.)
@@ -230,7 +239,11 @@ Rules:
 - [x] **8** `/guide` from `design/field-guide.html`, using the site's header and footer.
 - [x] **9** SEO: metadata, icons, OG image, sitemap, robots.
 - [ ] **10** Deploy + audit: hosting choice (GitHub Pages or Vercel), domain, Lighthouse run, fixes. Decide `basePath` and `trailingSlash` together with hosting.
+- [ ] **11** i18n infrastructure + French landing page: English stays at `/`, French at `/fr` (static routes, `lang` per page); typed dictionaries per language (no i18n library); a language switcher in the header and footer; `hreflang` alternates and both languages in the sitemap. During the refactor, convert the CSS to logical properties (`inline-start`/`inline-end`, `margin-inline`, `inset-inline`…) so a right-to-left language is possible later.
+- [ ] **12** French Field Guide, only once the guide content is stable (run the text check per language).
 
 ## Out of scope (unless the owner changes this)
 
-Blog, newsletter, analytics, cookie banner (none needed: no cookies), light theme, translations, a docs framework, a changelog page (GitHub Releases is the changelog).
+Blog, newsletter, analytics, cookie banner (none needed: no cookies), light theme, a docs framework, a changelog page (GitHub Releases is the changelog).
+
+**Languages:** English (default) and French (steps 11–12) only. The Cairn app itself is English-only, so the site doesn't promise more than that. Other languages are **open to contributors, native-reviewed only**: no language ships without a native-speaker reviewer (the owner reviews French), and nothing is published as unreviewed machine translation. No Arabic, Chinese, Spanish or German for now. In every language, the demo launcher, the "You type → Cairn finds" table, commands, code and keyboard shortcuts stay in English (they run the real English search and are what the app shows).

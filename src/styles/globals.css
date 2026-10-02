@@ -82,6 +82,13 @@ svg {
   padding-block: var(--section-pad);
 }
 
+/* Below-the-fold sections: the browser skips their layout and paint until they near the viewport
+   (faster first render). `auto` remembers each section's real size once it has rendered. */
+.section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 .section-title {
   font-size: clamp(32px, 4vw, 46px);
   line-height: 1.08;

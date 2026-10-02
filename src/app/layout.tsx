@@ -19,6 +19,9 @@ const geist = Geist({
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  // Not preloaded: the first screen's large text (the LCP) is Geist; the mono font isn't needed to
+  // paint it, so it shouldn't compete for bandwidth. It still loads with the CSS, with a metric-matched fallback.
+  preload: false,
 });
 
 // Defaults for every page; each page sets its own title, description, canonical URL and preview.

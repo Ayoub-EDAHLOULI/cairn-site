@@ -317,6 +317,9 @@
 /* ---------- Chapters ---------- */
 
 .chapter {
+  /* Skip layout and paint of chapters far from the viewport (see .section in globals.css). */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
   margin-bottom: 56px;
   padding-bottom: 56px;
   border-bottom: 1px solid var(--border);

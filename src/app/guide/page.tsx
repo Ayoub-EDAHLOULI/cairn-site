@@ -17,11 +17,11 @@ import s from "@/components/guide/guide.module.css";
 export const metadata: Metadata = {
   title: { absolute: guideMeta.title },
   description: guideMeta.description,
-  alternates: { canonical: "/guide" },
+  alternates: { canonical: "/guide/" },
   openGraph: {
     siteName: SITE_NAME,
     type: "article",
-    url: "/guide",
+    url: "/guide/",
     title: guideMeta.title,
     description: guideMeta.description,
     images: [guideImage],
