@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_NAME, guideImage, guideMeta } from "@/content/meta";
 import { GuideHero } from "@/components/guide/GuideHero";
 import { GuideTrail } from "@/components/guide/GuideTrail";
 import { BeforeYouStart, FirstMinute, InstallCairn } from "@/components/guide/chapters/GettingStarted";
@@ -14,9 +15,18 @@ import {
 import s from "@/components/guide/guide.module.css";
 
 export const metadata: Metadata = {
-  title: "The Cairn Field Guide",
-  description:
-    "Everything Cairn does, in thirteen short chapters: install it, find what you saved by what you remember, save new entries, every shortcut, your data, and troubleshooting.",
+  title: { absolute: guideMeta.title },
+  description: guideMeta.description,
+  alternates: { canonical: "/guide" },
+  openGraph: {
+    siteName: SITE_NAME,
+    type: "article",
+    url: "/guide",
+    title: guideMeta.title,
+    description: guideMeta.description,
+    images: [guideImage],
+  },
+  twitter: { card: "summary_large_image", images: [guideImage] },
 };
 
 export default function GuidePage() {

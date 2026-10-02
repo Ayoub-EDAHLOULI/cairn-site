@@ -1,10 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MotionReady } from "@/components/layout/MotionReady";
 import { ScrollTopButton } from "@/components/layout/ScrollTopButton";
+import { SITE_URL } from "@/content/links";
+import { SITE_NAME, landingMeta } from "@/content/meta";
 import { motionHeadScript } from "@/lib/motion";
 import "@/styles/globals.css";
 
@@ -19,10 +21,22 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+// Defaults for every page; each page sets its own title, description, canonical URL and preview.
+// Absolute URLs (canonical, Open Graph) resolve against SITE_URL.
 export const metadata: Metadata = {
-  title: "Cairn",
-  description:
-    "Cairn keeps your commands, scripts and snippets with the reason you saved them, and finds them by what you remember. A keystroke away, fully offline.",
+  metadataBase: new URL(SITE_URL),
+  title: landingMeta.title,
+  description: landingMeta.description,
+  applicationName: SITE_NAME,
+  authors: [{ name: "Ayoub Edahlouli", url: "https://ayoubedahlouli.com" }],
+  openGraph: { siteName: SITE_NAME, type: "website", locale: "en_US" },
+  twitter: { card: "summary_large_image" },
+  icons: { icon: "/icon.svg", apple: "/apple-touch-icon.png" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#141414",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

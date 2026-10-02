@@ -65,25 +65,25 @@
   }
 }
 
-/* Motion: the mark's stones (bottom stone first in the SVG) drop into place, bottom-up. */
-.mark ellipse {
+/* Motion: the mark's stones drop into place, bottom-up. The SVG lists them top stone first. */
+.mark path {
   transform-box: fill-box;
   transform-origin: center;
 }
 
-:global(.motion-ok) [data-reveal] .mark ellipse {
+:global(.motion-ok) [data-reveal] .mark path {
   opacity: 0;
 }
 
-:global(.motion-ok) [data-reveal="play"] .mark ellipse {
+:global(.motion-ok) [data-reveal="play"] .mark path {
   animation: drop 450ms var(--ease) both;
 }
 
-:global(.motion-ok) [data-reveal="play"] .mark ellipse:nth-child(2) {
+:global(.motion-ok) [data-reveal="play"] .mark path:nth-child(2) {
   animation-delay: 150ms;
 }
 
-:global(.motion-ok) [data-reveal="play"] .mark ellipse:nth-child(3) {
+:global(.motion-ok) [data-reveal="play"] .mark path:nth-child(1) {
   animation-delay: 300ms;
 }
 

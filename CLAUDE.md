@@ -51,6 +51,10 @@ src/
     page.tsx            # landing page: composes the sections in order
     guide/page.tsx      # the Field Guide
     sitemap.ts, robots.ts
+    icon.svg            # favicon (small-size mark; static copy of lib/brand.ts)
+    og.png/route.tsx, guide/og.png/route.tsx, apple-touch-icon.png/route.tsx
+                        # build-time PNGs via next/og (route handlers keep the .png extension)
+  assets/fonts/         # Geist-Bold.ttf + OFL.txt: build-time only, for next/og; never served
   components/
     layout/             # Header, Footer, SkipLink, MotionReady, ScrollTopButton
     landing/            # Hero, TrailBackdrop, DemoLauncher, IntentSection, KindsSection,
@@ -62,6 +66,8 @@ src/
                         # links.ts (links, RELEASE/VERSION), guideChapters.ts
   lib/
     search.ts           # demo search (pure function, unit-tested)
+    brand.ts            # the mark: TILE_RADIUS, STONES (small sizes), STONES_DETAILED (large)
+    ogImage.tsx         # the link-preview image (shared by both pages)
   hooks/
     useInView.ts        # IntersectionObserver, fires once
   lib/motion.ts         # motion-ok head script, motionAllowed(), whenPageVisible()
@@ -69,7 +75,8 @@ src/
                         # (pure, tested), geometry, runner, topoField (the scene)
   styles/
     tokens.css, globals.css
-design/                 # design reference (see design/README.md); not shipped
+design/                 # design reference (see design/README.md); not shipped. Also logo-source.png
+                        # (the original logo) and cairn-app-icon-1024.png (export for the app repo)
 ```
 
 Copy that may change (FAQ, roadmap, links, demo entries) lives in `src/content/`, never hardcoded inside components.
@@ -202,10 +209,13 @@ Rules:
 
 ## SEO and metadata
 
-- Per-page `metadata`: title, description, canonical, Open Graph and Twitter card.
-- Favicon and app icon from the Cairn mark (three stacked stones, white on Majorelle).
-- Open Graph image 1200×630: dark background, mark, "Find the command you already figured out." (design it in the SEO step).
-- `sitemap.ts` and `robots.ts`. The production domain is still **undecided**: keep it in one constant in `src/content/links.ts`.
+- **Per-page `metadata`** (copy in `src/content/meta.ts`): absolute title, description, canonical, Open Graph and a `summary_large_image` Twitter card. The layout sets `metadataBase` from `SITE_URL`, `theme-color` #141414 and the icons.
+- **The mark** (`src/lib/brand.ts`) was traced from `design/logo-source.png`: each stone's outline is fitted around its best-fit ellipse and smoothed (low-order Fourier series), drawn in a 0–100 tile with `--accent`. Two sets: `STONES` (bigger stones, wider gaps) for anything up to ~64px (favicon, header, footer, launcher, final CTA), because the original's narrow gaps vanish below that; `STONES_DETAILED` (faithful) for large sizes (iOS icon, Open Graph image). `CairnMark` uses `STONES`; `src/app/icon.svg` is a static copy of it.
+- **Icons:** `icon.svg` (favicon, all modern browsers; no `favicon.ico`), `apple-touch-icon.png` (180×180, full-bleed tile, detailed stones).
+- **Open Graph images** (1200×630, built at build time by `next/og` with Geist Bold from `src/assets/fonts`): `/og.png` and `/guide/og.png`: dark background, faint rings, mark + "Cairn", headline, subline. They're route handlers named `*.png` because `opengraph-image.tsx` exports files without an extension, which static hosts serve as `application/octet-stream`.
+- **`sitemap.ts` / `robots.ts`** (`force-static`).
+- **Domain:** `SITE_URL` in `src/content/links.ts` is still the placeholder (candidate: `cairn.ayoubedahlouli.com`, decided in step 10). `next.config.ts` warns on local builds and **fails CI builds** (`CI` is set on GitHub Actions and Vercel) while it contains "example", so the placeholder can't ship.
+- **App icon:** `design/cairn-app-icon-1024.png` is the site's favicon mark (small-size stones, transparent corners) at 1024×1024, for `npm run tauri icon` in the app repo, so the app and the site share one logo.
 
 ## Roadmap
 
@@ -218,7 +228,7 @@ Rules:
 - [x] **6** Mobile pass (≤ 700px), including the mobile download behavior. Hero and final CTA buttons have class hooks (`.download`/`.github`, `.download`/`.guide`); decide whether the final CTA's Field Guide becomes primary on phones.
 - [x] **7** Motion (the five moments + transitions + reduced motion).
 - [x] **8** `/guide` from `design/field-guide.html`, using the site's header and footer.
-- [ ] **9** SEO: metadata, icons, OG image, sitemap, robots.
+- [x] **9** SEO: metadata, icons, OG image, sitemap, robots.
 - [ ] **10** Deploy + audit: hosting choice (GitHub Pages or Vercel), domain, Lighthouse run, fixes. Decide `basePath` and `trailingSlash` together with hosting.
 
 ## Out of scope (unless the owner changes this)
