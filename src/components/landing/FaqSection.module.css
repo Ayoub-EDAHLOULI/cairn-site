@@ -54,6 +54,16 @@
   font-size: 16px;
 }
 
+@media (max-width: 700px) {
+  .question {
+    font-size: 17px;
+  }
+
+  .answer {
+    padding-right: 0;
+  }
+}
+
 /* Smooth open/close where supported; other browsers open instantly. */
 .item::details-content {
   block-size: 0;

@@ -45,6 +45,13 @@
   width: 220px;
 }
 
+/* 140px (not the design's 160px) so Alt + Space still fits a 320px screen. */
+@media (max-width: 700px) {
+  .space {
+    width: 140px;
+  }
+}
+
 .plus {
   color: var(--faint);
   font-size: 22px;

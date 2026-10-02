@@ -64,6 +64,22 @@
   font-size: 16px;
 }
 
+@media (max-width: 700px) {
+  .table th,
+  .table td {
+    padding-inline: 14px;
+  }
+
+  .table th:first-child,
+  .table td:first-child {
+    padding-right: 6px;
+  }
+
+  .table td:last-child {
+    padding-left: 6px;
+  }
+}
+
 .found {
   color: var(--accent-text);
   font-size: 13px;

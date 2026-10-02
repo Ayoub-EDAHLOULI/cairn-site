@@ -34,11 +34,33 @@
   margin-top: 32px;
 }
 
-/* Hooks for the phone layout (step 6). */
+/* Phones: Field Guide first. Styles swap via Button's phoneVariant. */
 .download {
   order: 0;
 }
 
 .guide {
   order: 1;
+}
+
+@media (max-width: 700px) {
+  .card {
+    padding: 48px 20px;
+  }
+
+  .download {
+    order: 1;
+  }
+
+  .guide {
+    order: 0;
+  }
+}
+
+/* Narrow phones: full-width stacked buttons. */
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column;
+    align-self: stretch;
+  }
 }

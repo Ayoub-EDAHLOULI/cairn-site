@@ -47,8 +47,11 @@ a {
   transition: color var(--dur-ui) var(--ease);
 }
 
-a:hover {
-  color: var(--text);
+/* Hover styles only where a real pointer hovers, so taps don't leave a stuck highlight. */
+@media (hover: hover) {
+  a:hover {
+    color: var(--text);
+  }
 }
 
 :focus-visible {
@@ -88,6 +91,20 @@ svg {
 .lead {
   margin-top: 22px;
   color: var(--text-2);
+}
+
+/* One HTML for everyone; CSS picks what shows at ≤ 700px (no user-agent sniffing).
+   These only ever hide, so an element keeps its own display where it shows. */
+@media (min-width: 701px) {
+  .phone-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .desktop-only {
+    display: none !important;
+  }
 }
 
 .visually-hidden {

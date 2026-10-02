@@ -19,18 +19,21 @@ export function Hero() {
           Cairn keeps your commands, scripts and snippets with the reason you saved them, and finds them by what
           you remember. A keystroke away, fully offline.
         </p>
-        {/* Both buttons carry class hooks so step 6 can swap their order and style on phones with CSS only. */}
+        {/* On phones (CSS only), GitHub becomes primary and comes first: the installer is Windows-only. */}
         <div className={styles.actions}>
-          <Button href={links.download} variant="primary" className={styles.download}>
+          <Button href={links.download} variant="primary" phoneVariant="secondary" className={styles.download}>
             <WindowsIcon />
             Download for Windows
           </Button>
-          <Button href={links.repo} variant="secondary" className={styles.github}>
+          <Button href={links.repo} variant="secondary" phoneVariant="primary" className={styles.github}>
             <GitHubIcon />
             View on GitHub
           </Button>
         </div>
-        <p className={styles.smallPrint}>Windows 10 and 11. No account needed.</p>
+        <p className={styles.smallPrint}>
+          <span className="desktop-only">Windows 10 and 11. No account needed.</span>
+          <span className="phone-only">Cairn runs on Windows 10 and 11.</span>
+        </p>
 
         <div className={styles.demo}>
           <DemoLauncher />

@@ -4,6 +4,12 @@
   padding: 96px 0 var(--section-pad);
 }
 
+@media (max-width: 700px) {
+  .hero {
+    padding-top: 56px;
+  }
+}
+
 .inner {
   position: relative;
   display: flex;
@@ -35,8 +41,17 @@
   inset: -7px 0;
 }
 
-.pill:hover {
-  color: var(--text);
+/* On narrow phones the pill text wraps to two lines: a fully round shape would look like a lozenge. */
+@media (max-width: 380px) {
+  .pill {
+    border-radius: 14px;
+  }
+}
+
+@media (hover: hover) {
+  .pill:hover {
+    color: var(--text);
+  }
 }
 
 .pillDot {
@@ -69,13 +84,31 @@
   margin-top: 36px;
 }
 
-/* Hooks for the phone layout (step 6), which swaps their order and style. */
+/* Phones: GitHub first. Styles swap via Button's phoneVariant. */
 .download {
   order: 0;
 }
 
 .github {
   order: 1;
+}
+
+@media (max-width: 700px) {
+  .download {
+    order: 1;
+  }
+
+  .github {
+    order: 0;
+  }
+}
+
+/* Narrow phones: full-width stacked buttons. */
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column;
+    align-self: stretch;
+  }
 }
 
 .smallPrint {
@@ -90,6 +123,12 @@
   align-items: center;
   width: 100%;
   margin-top: 64px;
+}
+
+@media (max-width: 700px) {
+  .demo {
+    margin-top: 48px;
+  }
 }
 
 .caption {

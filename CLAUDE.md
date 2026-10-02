@@ -105,6 +105,8 @@ Entry kinds (glyph, color): Command `>_` #6FB3E0 · Script `#!` #FFA95E · Code 
 
 Type: headings Geist 700 with tight tracking (≈ −0.03em to −0.04em); hero H1 `clamp(42px, 7vw, 76px)`; section H2 `clamp(32px, 4vw, 46px)`; body 17px / 1.6. Radii: buttons 11, launcher 16, cards 14, rows 8. Content max-width 1120px, side padding 24px. Section vertical padding 120px (64px on phones).
 
+Breakpoints (repeated as literals in each CSS module; CSS Modules can't share media-query variables without a PostCSS plugin): **700px** = phone layout; **900px** = kinds strip and roadmap switch from stacked/vertical to five columns; **480px** = CTA buttons stack; **380px** = hero pill gets a normal radius (it wraps). Check every layout at 320, 390 and 768px.
+
 ## The landing page, section by section
 
 1. **Header** (sticky, blurred): Cairn mark + name; links Features, Privacy, Roadmap, FAQ, GitHub; Download button. Phones: logo + one button only.
@@ -124,13 +126,18 @@ A working miniature of Cairn, using the entries in `src/content/demoEntries.ts`.
 - **Search** (`src/lib/search.ts`, pure and unit-tested): accent-insensitive; query and content are split into words the same way (on anything that isn't a letter or digit, like Cairn's FTS5 tokenizer); words prefix-match (1-letter words match exactly), every word must match somewhere in title, why, tags or content; if nothing matches all words, fall back to entries matching any, ranked by matches (title matches weigh more). Same rules as the real app.
 - **Keyboard:** ↑/↓ move (wrapping), Esc clears the query (like the app's first Esc), Enter copies the selected entry with the Clipboard API and shows "Copied to clipboard" in the footer (if the API fails, say nothing; never claim it copied). Keys are ignored while an IME is composing (`isComposing`). Handlers live on the input only, never on `window`: page scrolling keys must keep working.
 - **Accessibility:** combobox + listbox pattern (`role="combobox"`, `aria-controls`, `aria-activedescendant`, `role="option"` with `aria-selected`); a polite live region announces the result count (after typing pauses) and "Copied to clipboard". Options are `<li role="option">`, not buttons: focus stays in the input. This is the **one exception** to the button/link rule below.
-- **Phones (≤ 700px):** results list only, no detail pane.
+- **Phones (≤ 700px):** results list only, no detail pane; body height 280px (still fixed).
 - Initial query "start database" with `Start-Service postgresql-x64-18` selected (see Motion for the autoplay).
 - **Fixed height:** the launcher body has a fixed height whatever the query (no layout shift while typing); the results list scrolls inside it. When the selection moves out of view, scroll only the list (set its `scrollTop`), never `scrollIntoView`, which can scroll the page.
 
 ### Mobile download behavior
 
-Cairn is Windows-only, so a phone visitor can't use the installer. At ≤ 700px: the header button becomes **GitHub**, and in the hero **View on GitHub** becomes the primary button with Download secondary and the note "Cairn runs on Windows 10 and 11." CSS only, no user-agent sniffing, so the static HTML is identical for everyone and nothing shifts after load.
+Cairn is Windows-only, so a phone visitor can't use the installer. At ≤ 700px: the header button becomes **GitHub**, and in the hero **View on GitHub** becomes the primary button with Download secondary and the note "Cairn runs on Windows 10 and 11." In the final CTA, **Read the Field Guide** becomes primary and comes first. CSS only, no user-agent sniffing, so the static HTML is identical for everyone and nothing shifts after load.
+
+How it's built:
+- `Button`'s `phoneVariant` prop swaps the style at ≤ 700px; section CSS swaps `order`.
+- The global `.phone-only` / `.desktop-only` classes only ever hide (`display: none`), so elements keep their own display where they show.
+- Below 480px, the hero and final CTA buttons stack at full width.
 
 ## Motion
 
@@ -141,6 +148,8 @@ Few, deliberate moments that show the product working. Every one plays **once**.
 3. **You type → Cairn finds:** on entering view, each row's query types out and its result fades in, rows staggered ~250ms.
 4. **Keyboard section:** the Alt then Space keycaps press down (translateY + border change), then the action panel opens with a quick scale (0.96 → 1) + fade, like in the app.
 5. **Roadmap:** the solid line fills up to the "Available now" stone on entering view.
+
+Hover styles (links, buttons, demo rows) live inside `@media (hover: hover)`, so taps on touchscreens never leave a stuck highlight.
 
 Everyday transitions: button and link hover/press 150ms; FAQ answer expand/collapse animated with `interpolate-size: allow-keywords` + a `block-size` transition on `::details-content` (browsers without support open instantly; none under reduced motion); demo selection highlight 120ms.
 
@@ -173,7 +182,7 @@ Rules:
 - [x] **3** Demo launcher: `lib/search.ts` + tests, keyboard, copy, accessibility. Include a test that `search("start database")` returns exactly the Start-Service command then the "won't start" note, so the static hero markup and `search()` can't drift apart.
 - [x] **4** Sections: search by intent, five kinds, keyboard, offline.
 - [x] **5** Roadmap, FAQ, final CTA, content files.
-- [ ] **6** Mobile pass (≤ 700px), including the mobile download behavior. Hero and final CTA buttons have class hooks (`.download`/`.github`, `.download`/`.guide`); decide whether the final CTA's Field Guide becomes primary on phones.
+- [x] **6** Mobile pass (≤ 700px), including the mobile download behavior. Hero and final CTA buttons have class hooks (`.download`/`.github`, `.download`/`.guide`); decide whether the final CTA's Field Guide becomes primary on phones.
 - [ ] **7** Motion (the five moments + transitions + reduced motion).
 - [ ] **8** `/guide` from `design/field-guide.html`, using the site's header and footer.
 - [ ] **9** SEO: metadata, icons, OG image, sitemap, robots.

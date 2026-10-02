@@ -34,8 +34,12 @@ export function Header() {
             ),
           )}
         </nav>
-        <Button href={links.download} size="sm" className={styles.cta}>
+        {/* Cairn is Windows-only: phones get GitHub instead of the installer. */}
+        <Button href={links.download} size="sm" className={`${styles.cta} desktop-only`}>
           Download
+        </Button>
+        <Button href={links.repo} size="sm" className={`${styles.cta} phone-only`}>
+          GitHub
         </Button>
       </div>
     </header>

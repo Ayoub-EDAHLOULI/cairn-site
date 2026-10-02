@@ -1,10 +1,13 @@
+/* Each variant sets the --btn-* variables; `phoneVariant` swaps them at ≤ 700px. */
+
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border: 1px solid transparent;
+  border: 1px solid var(--btn-border);
   border-radius: var(--radius-button);
+  background: var(--btn-bg);
   font-family: inherit;
   font-weight: 500;
   line-height: 1;
@@ -17,8 +20,21 @@
     transform var(--dur-ui) var(--ease);
 }
 
+/* Two classes, so the global `a:hover` color never applies to buttons. */
+.button,
+.button:hover {
+  color: var(--btn-fg);
+}
+
 .button:active {
   transform: translateY(1px);
+}
+
+@media (hover: hover) {
+  .button:hover {
+    border-color: var(--btn-hover-border);
+    background: var(--btn-hover-bg);
+  }
 }
 
 .md {
@@ -34,34 +50,53 @@
   font-size: 14.5px;
 }
 
-.primary,
-.primary:hover {
-  background: var(--accent);
-  color: #ffffff;
+.primary {
+  --btn-bg: var(--accent);
+  --btn-fg: #ffffff;
+  --btn-border: transparent;
+  --btn-hover-bg: color-mix(in srgb, var(--accent) 88%, #ffffff);
+  --btn-hover-border: transparent;
 }
 
-.primary:hover {
-  background: color-mix(in srgb, var(--accent) 88%, #ffffff);
+.secondary {
+  --btn-bg: var(--panel);
+  --btn-fg: var(--text);
+  --btn-border: var(--border);
+  --btn-hover-bg: var(--raised);
+  --btn-hover-border: var(--border);
 }
 
-.secondary,
-.secondary:hover {
-  background: var(--panel);
-  border-color: var(--border);
-  color: var(--text);
+.outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--text);
+  --btn-border: var(--stone);
+  --btn-hover-bg: transparent;
+  --btn-hover-border: var(--stone-edge);
 }
 
-.secondary:hover {
-  background: var(--raised);
-}
+/* Same values as above, applied on phones only. Kept after the variants so they win. */
+@media (max-width: 700px) {
+  .phonePrimary {
+    --btn-bg: var(--accent);
+    --btn-fg: #ffffff;
+    --btn-border: transparent;
+    --btn-hover-bg: color-mix(in srgb, var(--accent) 88%, #ffffff);
+    --btn-hover-border: transparent;
+  }
 
-.outline,
-.outline:hover {
-  background: transparent;
-  border-color: var(--stone);
-  color: var(--text);
-}
+  .phoneSecondary {
+    --btn-bg: var(--panel);
+    --btn-fg: var(--text);
+    --btn-border: var(--border);
+    --btn-hover-bg: var(--raised);
+    --btn-hover-border: var(--border);
+  }
 
-.outline:hover {
-  border-color: var(--stone-edge);
+  .phoneOutline {
+    --btn-bg: transparent;
+    --btn-fg: var(--text);
+    --btn-border: var(--stone);
+    --btn-hover-bg: transparent;
+    --btn-hover-border: var(--stone-edge);
+  }
 }

@@ -101,6 +101,12 @@
   background: var(--accent-soft);
 }
 
+@media (hover: hover) {
+  .row:not(.selected):hover {
+    background: color-mix(in srgb, var(--text) 5%, transparent);
+  }
+}
+
 .glyph {
   display: flex;
   flex-shrink: 0;
@@ -204,6 +210,21 @@
   margin-top: 6px;
   font-size: 15px;
   line-height: 1.55;
+}
+
+/* Phones: results list only, and a shorter (still fixed) body. */
+@media (max-width: 700px) {
+  .body {
+    height: 280px;
+  }
+
+  .listWrap {
+    border-right: 0;
+  }
+
+  .detail {
+    display: none;
+  }
 }
 
 /* Footer */
