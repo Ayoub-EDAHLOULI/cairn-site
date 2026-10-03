@@ -139,7 +139,7 @@ Breakpoints (repeated as literals in each CSS module; CSS Modules can't share me
 
 ## The landing page, section by section
 
-1. **Header** (sticky, blurred): Cairn mark + name; links Features, Privacy, Roadmap, FAQ, Guide, GitHub; Download button. Phones: logo + one button only.
+1. **Header** (sticky, blurred): Cairn mark + name; links Features, Privacy, Roadmap, FAQ, Guide, GitHub; the EN · FR switch; Download button. Phones: logo + one button only.
 2. **Hero** (`#top`): pill linking to the roadmap ("Version 0.1 is out. Free and open source."), H1 "Find the command you already figured out.", subtitle, **Download for Windows** + **View on GitHub**, small print "Windows 10 and 11. No account needed.", then the **demo launcher**. Behind it, `TrailBackdrop`: faint topographic contour lines, a dotted accent trail, two small cairns (decorative SVG, `aria-hidden`).
 3. **Search by what you remember** (`#features`): text + the "You type → Cairn finds" table (4 rows, from `intentExamples.ts`; tests check each query really finds that entry first in the demo).
 4. **Five kinds**: one bordered strip of 5 columns (stacks on phones).
@@ -214,10 +214,11 @@ Rules:
 - Animate only `transform` and `opacity` (plus `stroke-dashoffset` for the trail). No layout-affecting animation.
 - Durations: UI 150–250ms, reveals 400–700ms. One shared easing: `cubic-bezier(0.2, 0.8, 0.2, 1)` as `--ease`.
 - **`prefers-reduced-motion: reduce`** → no autoplay typing, no reveals; everything is shown in its final state.
-- No parallax, no scroll-jacking, no loops, no generic fade-up on every section.
-- **`motion-ok` is the single source of truth** (`src/lib/motion.ts`). An inline `<head>` script adds it to `<html>` before first paint unless `prefers-reduced-motion: reduce`. Pre-animation states are styled **only** under `.motion-ok`, so there is no load flash and content is never invisible without JavaScript or with reduced motion.
+- No parallax, no scroll-jacking, no generic fade-up on every section.
+- **No loops, with one approved exception: the hero's ambient comets** (see "Cursor-reactive backdrop"). They are allowed because they are (1) **mouse users only** (`(hover: hover) and (pointer: fine)`), (2) **never shown under `prefers-reduced-motion: reduce`** (no canvas at all; the static SVG rings stay), (3) **pausable** at any time with the visible `BackdropPauseButton` (WCAG 2.2.2), which also stops the opening flight, and (4) idle between comets (no frames drawn). Any other looping or ambient motion needs the owner's approval first.
+- **`motion-ok` is the single source of truth** (`src/lib/motion.ts`). An inline script, the first thing in `<body>` (`RootDocument`), adds it to `<html>` before first paint unless `prefers-reduced-motion: reduce`. Pre-animation states are styled **only** under `.motion-ok`, so there is no load flash and content is never invisible without JavaScript or with reduced motion.
 - **Safety net:** if the app hasn't hydrated within 4s (`window.__cairnReady`, set by `MotionReady`), the head script removes `motion-ok` and everything snaps to its final state.
-- **Once per visit:** `MotionReady` removes `motion-ok` when the visitor leaves `/`, so returning via `next/link` shows final states (the hero autoplay also has its own module-level flag).
+- **Once per visit:** `MotionReady` removes `motion-ok` when the visitor leaves a landing page (`/` or `/fr/`), so returning via `next/link` shows final states (the hero autoplay also has its own module-level flag).
 - **Reveals:** `Reveal` (client) sets `data-reveal="wait"` → `"play"` when the element's top passes 75% of the viewport (rootMargin, not a visibility threshold, so tall elements on short screens still fire). Section CSS keys pre-states and animations on `:global(.motion-ok) [data-reveal…]`, so sections stay server components.
 
 ## Quality budgets
@@ -241,8 +242,9 @@ Rules:
 - **GitHub Pages**, custom domain **cairn.ayoubedahlouli.com** (`public/CNAME`; `public/.nojekyll` so `_next/` is never filtered). `SITE_URL` in `src/content/links.ts` matches it.
 - **`trailingSlash: true`**: every page exports as `<path>/index.html` and is linked as `<path>/` (e.g. `/guide/`); canonical URLs and the sitemap use the slash. Without it, `/guide` can hit the exported `guide/` data folder.
 - **Deploy:** `.github/workflows/deploy.yml` on push to `main` (or by hand): `npm ci` → lint → typecheck → test → build → upload `out/` → deploy (official `configure-pages`, `upload-pages-artifact`, `deploy-pages`; `pages: write` + `id-token: write`; one `pages` concurrency group). Node comes from `.nvmrc`. Any failure stops the deploy.
-- **404:** `src/app/not-found.tsx` exports `404.html` ("Off the trail."), which Pages serves for unknown paths.
+- **404:** `src/app/global-not-found.tsx` exports `404.html` ("Off the trail.", with a French line), which Pages serves for unknown paths.
 - **Limits of Pages:** no custom headers (no CSP/HSTS/cache control beyond GitHub's defaults). The host keeps ordinary access logs; the site itself adds no analytics, cookies or third-party requests.
+- **Known Next.js 16 bug on Windows builds only:** pages inside route groups get their prefetch files written as `__next.!…/__PAGE__.txt` (a subfolder) instead of `__next.!….__PAGE__.txt`, because the export converts only `/` (not Windows `\`) to dots (`next/dist/export/index.js`). A local Windows build therefore logs a 404 for that file (harmless: navigation still works). CI builds on Linux, so the deployed site is correct. Don't add a workaround; recheck when upgrading Next.
 - **Performance work:** sections below the fold use `content-visibility: auto` (landing `.section`, guide chapters); the mono font isn't preloaded (the LCP text is Geist). About 124 KB gzipped of the page's JS is React + the Next.js runtime; our own code is ~14 KB.
 
 ## Roadmap
@@ -260,6 +262,7 @@ Rules:
 - [ ] **10** Deploy + audit (moved after 11: the owner deploys once the French landing page is reviewed): hosting choice (GitHub Pages or Vercel), domain, Lighthouse run, fixes. Decide `basePath` and `trailingSlash` together with hosting.
 - [x] **11** i18n infrastructure + French landing page (built; French copy awaits the owner's review in `design/review-fr.md`): English stays at `/`, French at `/fr` (static routes, `lang` per page); typed dictionaries per language (no i18n library); a language switcher in the header and footer; `hreflang` alternates and both languages in the sitemap. During the refactor, convert the CSS to logical properties (`inline-start`/`inline-end`, `margin-inline`, `inset-inline`…) so a right-to-left language is possible later.
 - [ ] **12** French Field Guide, only once the guide content is stable (run the text check per language).
+- [ ] **13** App video (after the deploy). Source: **`cairn-blurred.mp4` only** (the GIF and the unblurred recording are never published), after the owner has scrubbed it for real data inside the app window (else re-record with the dev seed database). Encode with ffmpeg as a one-off: drop the silent audio, **strip metadata (`-map_metadata -1`)**, crop to the app window, H.264 MP4 + poster. (1) A ~20s clip in a new **"See the real app"** section right after the hero: muted, loops only while on screen, with a visible pause button (WCAG 2.2.2); no autoplay under reduced motion (poster + play button); loaded only when the section nears the viewport. (2) The full ~2-minute tour in the Field Guide: native controls, never autoplays, poster, caption "Recorded with Cairn 0.1", plus a short text summary. Both on `/fr/` with French labels. Budget: clip < ~1.5 MB, tour ~3 MB.
 
 ## Out of scope (unless the owner changes this)
 

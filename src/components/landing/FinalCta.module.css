@@ -36,8 +36,8 @@
 
 /* "(en anglais)" after the guide link on translated pages: the guide is English-only for now. */
 .note {
+  margin-inline-start: 0.35em;
   font-weight: 400;
-  opacity: 0.75;
 }
 
 /* Phones: Field Guide first. Styles swap via Button's phoneVariant. */

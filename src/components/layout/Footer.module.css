@@ -43,7 +43,7 @@
 
 /* "(en anglais)" after the guide link on translated pages. */
 .note {
-  opacity: 0.75;
+  color: var(--faint);
 }
 
 @media (hover: hover) {
