@@ -10,8 +10,6 @@ if (SITE_URL.includes("example")) {
 }
 
 const nextConfig: NextConfig = {
-  // Pure static site: `next build` writes the whole site to `out/`.
-  output: "export",
   // Every page is exported as <path>/index.html and linked as "<path>/". Static hosts (GitHub Pages)
   // then serve /guide/ correctly; without it, /guide can hit the exported guide/ data folder instead.
   trailingSlash: true,
