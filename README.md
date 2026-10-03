@@ -19,7 +19,7 @@ Project conventions, design tokens and the roadmap are in [CLAUDE.md](CLAUDE.md)
 
 ## Deploy
 
-Pushing to `main` deploys to GitHub Pages (`.github/workflows/deploy.yml`): lint, typecheck, tests and the static build must pass first. The site is served at https://cairn.ayoubedahlouli.com (`public/CNAME`). Node version: `.nvmrc`.
+Self-hosted on a VPS with Docker (`Dockerfile`), served at https://cairn.ayoubedahlouli.com. Build and start the container on the server; the reverse proxy forwards to the container's port.
 
 ## License
 
