@@ -173,5 +173,6 @@ export const fr: Dictionary = {
     github: "GitHub",
     releases: "Versions",
     guide: "Guide",
+    privacy: "Confidentialité",
   },
 };

@@ -142,5 +142,6 @@ export const en: Dictionary = {
     github: "GitHub",
     releases: "Releases",
     guide: "Field Guide",
+    privacy: "Privacy policy",
   },
 };

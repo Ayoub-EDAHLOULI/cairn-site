@@ -24,6 +24,11 @@ export function Footer({ t }: { t: Dictionary }) {
             {t.footer.guide}
             {t.guideInEnglish && <span className={styles.note}> {t.guideInEnglish}</span>}
           </Link>
+          {/* The privacy policy is English only too, so it reuses the "(en anglais)" note. */}
+          <Link href={links.privacy} hrefLang={t.guideInEnglish ? "en" : undefined}>
+            {t.footer.privacy}
+            {t.guideInEnglish && <span className={styles.note}> {t.guideInEnglish}</span>}
+          </Link>
         </nav>
         <LanguageSwitch current={t.locale} label={t.a11y.languageNav} />
       </div>

@@ -6,10 +6,11 @@ This file is read at the start of every session. Keep it accurate: when a decisi
 
 The public website for **Cairn**, an open-source, offline, Raycast-style desktop launcher for Windows that keeps commands, scripts, code, notes and ideas with **the reason each was saved**, and finds them by what you remember.
 
-The site has three pages:
+The site has four pages:
 - `/` — the landing page. Its job: show Cairn working within five seconds, then get a download or a GitHub visit.
 - `/fr/` — the same landing page in French.
 - `/guide/` — the Cairn Field Guide (user manual), English only for now.
+- `/privacy/` — the privacy policy, English only. **It is the privacy URL in Microsoft Partner Center** (Store ID `9PD2ZVK1FD61`), so it must stay online and accurate to what the app does; bump its `updated` date (`src/content/privacy.ts`) on every change.
 
 Links:
 - Repo: `https://github.com/Ayoub-EDAHLOULI/cairn`
@@ -51,6 +52,7 @@ src/
     (en)/layout.tsx     # English root layout (<html lang="en">) → RootDocument
     (en)/page.tsx       # "/": LandingPage locale="en"
     (en)/guide/page.tsx # "/guide/": the Field Guide (English only)
+    (en)/privacy/page.tsx # "/privacy/": the privacy policy (English only; reuses /og.png)
     (fr)/layout.tsx     # French root layout (<html lang="fr">) → RootDocument
     (fr)/fr/page.tsx    # "/fr/": LandingPage locale="fr"
     global-not-found.tsx # the 404 for every URL (two root layouts; experimental.globalNotFound)
@@ -66,9 +68,11 @@ src/
                         # KeyboardSection, OfflineSection, RoadmapSection, FaqSection, FinalCta
     guide/              # GuideHero, GuideTrail, Chapter, Callout, Keys, figures, SavePdfButton,
                         # chapters/ (the 13 chapters as TSX); guide.module.css + figures.module.css
+    privacy/            # PrivacyPolicy + privacy.module.css (one reading column, no client JS)
     ui/                 # Button, Kbd, CairnMark, KindGlyph, icons
   content/              # typed data: demoEntries.ts, intentExamples.ts, actions.ts, roadmap.ts (statuses),
-                        # kinds.ts, links.ts (links, RELEASE/VERSION), guideChapters.ts, meta.ts (guide)
+                        # kinds.ts, links.ts (links, RELEASE/VERSION), guideChapters.ts, meta.ts (guide, privacy),
+                        # privacy.ts (the policy text)
     i18n/               # types.ts (Dictionary, locales), en.ts, fr.ts (all landing copy), index.ts (paths)
   lib/
     search.ts           # demo search (pure function, unit-tested)
@@ -148,7 +152,7 @@ Breakpoints (repeated as literals in each CSS module; CSS Modules can't share me
 7. **On the trail ahead** (`#roadmap`): horizontal trail; only "Version 0.1" is solid and marked available; the rest dashed and labelled Next / Then / Later.
 8. **Questions** (`#faq`): native `<details name="faq">` / `<summary>` (one open at a time, built in); the first has `open`. No client JS. The +/− sign is a CSS `::after`; the default marker is hidden (including `::-webkit-details-marker`).
 9. **Final CTA**: mark, "Leave a stone for your future self.", Download + Read the Field Guide.
-10. **Footer**: MIT, author link, GitHub, Releases, Field Guide.
+10. **Footer**: MIT, author link, GitHub, Releases, Field Guide, Privacy policy (the links wrap on narrow screens; on `/fr/` the guide and privacy links add "(en anglais)").
 
 On every page (from the layout): a floating **Back to top** button, bottom right, shown after 1.5 viewport heights of scrolling. It's a real `<button aria-label="Back to top">`, hidden with `visibility` (so it's out of the tab order) when not shown. It scrolls smoothly (instantly under reduced motion) and moves focus to `<main>`.
 

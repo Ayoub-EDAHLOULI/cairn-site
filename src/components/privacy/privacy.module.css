@@ -1,0 +1,86 @@
+/* The privacy policy (/privacy/): one narrow reading column on the site's tokens. */
+
+.page {
+  max-width: calc(720px + 2 * var(--gutter));
+  padding-block: 96px var(--section-pad);
+  color: var(--text-2);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.header h1 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.updated {
+  margin: 12px 0 0;
+  color: var(--faint);
+  font-size: 14px;
+}
+
+.intro {
+  margin: 40px 0 0;
+  color: var(--text);
+}
+
+.section {
+  margin-block-start: 40px;
+}
+
+.section h2 {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.section p {
+  margin: 0 0 12px;
+}
+
+.section code {
+  padding: 0.12em 0.4em;
+  border-radius: 5px;
+  background: var(--raised);
+  color: var(--text);
+  font-size: 0.86em;
+  overflow-wrap: anywhere;
+}
+
+.contact {
+  margin-block-start: 56px;
+  padding-block-start: 32px;
+  border-block-start: 1px solid var(--divider);
+}
+
+.contact p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch);
+  color: var(--accent-text);
+  text-underline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .contact a:hover {
+    color: var(--text);
+  }
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding-block-start: 48px;
+  }
+}

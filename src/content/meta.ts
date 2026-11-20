@@ -17,3 +17,9 @@ export const guideMeta = {
 };
 
 export const guideImage = ogImage("/guide/og.png", guideMeta.headline);
+
+export const privacyMeta = {
+  title: "Privacy policy · Cairn",
+  description:
+    "Cairn collects no personal information: no account, no telemetry, no network calls. What the app keeps on your device, and what this website does.",
+};

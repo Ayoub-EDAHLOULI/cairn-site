@@ -17,5 +17,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absolute("/"), changeFrequency: "monthly", priority: 1, alternates: { languages: landingLanguages } },
     { url: absolute("/fr/"), changeFrequency: "monthly", priority: 0.9, alternates: { languages: landingLanguages } },
     { url: absolute("/guide/"), changeFrequency: "monthly", priority: 0.8 },
+    { url: absolute("/privacy/"), changeFrequency: "yearly", priority: 0.3 },
   ];
 }

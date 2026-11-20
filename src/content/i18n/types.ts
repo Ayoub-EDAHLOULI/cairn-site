@@ -109,5 +109,6 @@ export type Dictionary = {
     github: string;
     releases: string;
     guide: string;
+    privacy: string;
   };
 };

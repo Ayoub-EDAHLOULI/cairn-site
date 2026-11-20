@@ -16,4 +16,6 @@ export const links = {
   author: "https://ayoubedahlouli.com",
   /** With `trailingSlash: true`, every page URL ends in "/". */
   guide: "/guide/",
+  /** English only; linked from Microsoft Partner Center as the app's privacy policy. */
+  privacy: "/privacy/",
 } as const;
